@@ -2,9 +2,9 @@
   "name": "JobTrackingSystem",
   "version": "0.0.0",
   "private": true,
-  "main": "bin/server.js",
+  "main": "bin/start.js",
   "scripts": {
-    "start": "node --use_strict bin/server.js"
+    "start": "node --use_strict bin/start.js"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
