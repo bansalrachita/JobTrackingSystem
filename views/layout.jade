@@ -8,5 +8,5 @@ html(ng-app='Test')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js')
     script(src='/javascripts/test.js')
-  body(ng-init="chart=[{value: 10},{value: 20},{value: 30}]")
+  body(ng-controller="chartCtrl")
     block content

@@ -52,6 +52,10 @@ app.directive('donutChart', function (){
     }
 });
 
-app.controller('chartCtrl', function ($scope) {
-    $scope.rangeValue = 50;
+app.controller('chartCtrl', function ($scope, $http) {
+    $http.get('data/chart.json').then(function(response){
+        $scope.chart = response.data;
+    }, function (err) {
+        throw err;
+    });
 });
