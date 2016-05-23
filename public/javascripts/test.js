@@ -5,7 +5,8 @@ var app = angular.module('Test', ['ngRoute']);
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-        .when('/', {templateUrl: 'pages/home.html'
+        .when('/', {templateUrl: 'pages/home.html',
+                    controller: 'chartCtrl'
         })
         .otherwise({
             redirectTo: '/'
@@ -29,17 +30,25 @@ app.directive('donutChart', function (){
         var g = svg.append('g')
             .attr('transform', 'translate(' + width/2+ ',' + height/2 + ')');
 
-        g.selectAll('path').data(pie(data))
+        var arcs = g.selectAll('path').data(pie(data))
             .enter().append('path')
             .style('stroke', 'white')
             .attr('d', arc)
-            .attr('fill', function (d,i) {
+            .attr('fill', function (d, i) {
                 return color(i)
             });
+
+        scope.$watch('data', function (data) {
+            arcs.data(pie(data)).attr('d',arc);
+        },true);
     }
     return{
         link:link,
         restrict: 'E',
-        scope:{data: '='}
+        scope: {data: '='}
     }
+});
+
+app.controller('chartCtrl', function ($scope) {
+    $scope.rangeValue = 50;
 });
