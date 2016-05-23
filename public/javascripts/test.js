@@ -30,16 +30,19 @@ app.directive('donutChart', function (){
         var g = svg.append('g')
             .attr('transform', 'translate(' + width/2+ ',' + height/2 + ')');
 
-        var arcs = g.selectAll('path').data(pie(data))
-            .enter().append('path')
-            .style('stroke', 'white')
-            .attr('d', arc)
-            .attr('fill', function (d, i) {
-                return color(i)
-            });
+        pie.value(function(d){return d.value;});
+
+        var arcs = g.selectAll('path');
 
         scope.$watch('data', function (data) {
-            arcs.data(pie(data)).attr('d',arc);
+            arcs = arcs.data(pie(data));
+            arcs.exit().remove();
+            arcs.enter().append('path')
+                .style('stroke', 'white')
+                .attr('fill', function (d,i) {
+                    return color(i)
+                });
+            arcs.attr('d',arc);
         },true);
     }
     return{

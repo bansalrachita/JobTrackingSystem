@@ -6,9 +6,9 @@
 </head>
 <body>
 <h1>Home Page</h1>
-<input type="range" ng-model="chart[0]"/>{{chart[0]}}
-<input type="range" ng-model="chart[1]"/>{{chart[1]}}
-<input type="range" ng-model="chart[2]"/>{{chart[2]}}
-<donut-chart data="chart"></donut-chart>
+<donut-chart style="float: right" data="chart"></donut-chart>
+<button ng-click="chart.push({value:50})">add slice</button>
+<input type="range" ng-model="slice.value" ng-repeat="slice in chart track by $index"/>
+
 </body>
 </html>
