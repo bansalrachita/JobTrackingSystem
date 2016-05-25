@@ -1,12 +1,16 @@
 doctype html
-html(ng-app='Test')
+//html(ng-app='Test')
+html(ng-app='Map')
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-resource.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular-route.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js')
-    script(src='/javascripts/test.js')
-  body(ng-controller="chartCtrl")
+    script(src='https://d3js.org/topojson.v1.min.js')
+    //script(src='/scripts/datamaps.world.min.js')
+    script(src='/maps/map.js')
+  body(ng-controller="mapCtrl")
     block content
