@@ -15,9 +15,17 @@ app.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 app.directive('myMap', function(){
-    console.log("hi");
+
     function link(scope,element,attr){
         console.log('here', scope);
+
+        var state_ids = [ 0 ];
+        var id_state_map = {
+            0: ""
+        };
+        var id_topo_map = {
+            0: null
+        };
 
         var width = 960,
             height = 500,
@@ -43,6 +51,7 @@ app.directive('myMap', function(){
         var g = svg.append("g");
         var land = g.append("g").attr("id", "states").selectAll("path");
         var boundary = g.append('path');
+        var text = g.selectAll('text');
 
         function clicked(d) {
             var x, y, k;
@@ -72,9 +81,37 @@ app.directive('myMap', function(){
         scope.$watch('land', function(geo){
             if(!geo) return;
 
-            land.data(geo).attr('class', 'land').enter().append("path").attr('d', path).attr("id", "states").on("click", clicked);
+            land.data(geo)
+                .attr("id", "states")
+                .attr('class', 'land')
+                .enter().append("path")
+                .attr('d', path)
+                .attr("id", function(d) {
+                    state_ids.push(+d.id);
+                    id_state_map[d.id] = scope.idnamemap[d.id].name;
+                    id_topo_map[d.id] = d;
+                    return "map-" + d.id;
+                }).text(function(d) {
+                    return id_state_map[d];
+                })
+                .on("click", clicked);
 
-        });
+                text.data(geo)
+                    .enter()
+                    .append("svg:text")
+                    .text(function(d){
+                        return id_state_map[d.id];
+                    })
+                    .attr("x", function(d){
+                        return  !isNaN(path.centroid(d)[0])?path.centroid(d)[0]:0;
+                    })
+                    .attr("y", function(d){
+                        return  !isNaN(path.centroid(d)[1])?path.centroid(d)[1]:0;
+                    })
+                    .attr("text-anchor","middle")
+                    .attr('font-size','6pt');
+            });
+
         scope.$watch('boundary', function(geo){
             if(!geo) return;
 
@@ -85,7 +122,7 @@ app.directive('myMap', function(){
     return{
         link:link,
         restrict: 'E',
-        scope: {land: '=', boundary: '='}
+        scope: {land: '=', boundary: '=', idnamemap: '=', shortnameidmap: '='}
     }
 });
 
@@ -94,10 +131,23 @@ app.controller('mapCtrl', function ($scope, $http) {
         // $scope.mapus = response.data;
         $scope.land = topojson.feature(response.data, response.data.objects.states).features;
         $scope.boundary = topojson.mesh(response.data, response.data.objects.states, function(a, b) { return a !== b; });
-        // console.log($scope.land);
-        // console.log($scope.boundary);
     }, function (err) {
         throw err;
+    });
+
+    $http.get('data/us-states.json').then(function(response){
+        $scope.idnamemap = {
+            // 0: null
+        };
+
+        $scope.shortnameidmap = {
+            // 0: null
+        };
+        angular.forEach(response.data, function(value, key){
+            $scope.idnamemap[value.id] = value;
+            $scope.shortnameidmap[value.code] = value.id;
+        })
+
     });
 
     $scope.layout = 'maps/mapstyle';
