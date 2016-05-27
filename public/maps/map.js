@@ -38,7 +38,7 @@ app.directive('myMap', function(){
         var path = d3.geo.path()
             .projection(projection);
 
-        var svg = d3.select(element[0]).append("svg")
+        var svg = d3.select("#usaMap").append("svg")
             .attr("width", width)
             .attr("height", height);
 
@@ -126,6 +126,39 @@ app.directive('myMap', function(){
     }
 });
 
+app.directive('regionChart', function(){
+    function link(scope, element, attr) {
+        nv.addGraph(function() {
+            var chart = nv.models.pieChart()
+                    .x(function(d) { return d.label })
+                    .y(function(d) { return d.value })
+                    .showLabels(true)     //Display pie labels
+                    .labelThreshold(.05)  //Configure the minimum slice size for labels to show up
+                    .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+                    .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
+                    .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
+                ;
+
+           // var pie = function(d){return d};
+
+            console.log(scope.data);
+            scope.$watch('data', function(data){
+                d3.select("#regionDiv")
+                    .datum(data)
+                    .transition().duration(350)
+                    .call(chart);
+            });
+
+
+            // return chart;
+        });
+    }return{
+        link: link,
+        restrict: 'E',
+        scope: {data: '='}
+    }
+});
+
 app.controller('mapCtrl', function ($scope, $http) {
     $http.get('data/usdata.json').then(function(response){
         // $scope.mapus = response.data;
@@ -150,7 +183,28 @@ app.controller('mapCtrl', function ($scope, $http) {
 
     });
 
+    $http.get('data/chart.json').then(function(response){
+        $scope.chart = {
+            value: response.data
+        }
+        // console.log("chart", $scope.chart.value);
+    }, function (err) {
+        throw err;
+    });
+
     $scope.layout = 'maps/mapstyle';
 
 });
+
+// app.controller('chartCtrl', function ($scope, $http) {
+//     $http.get('data/chart.json').then(function(response){
+//         $scope.chart = {
+//             value: response.data
+//         }
+//         console.log("chart", $scope.chart.value);
+//     }, function (err) {
+//         throw err;
+//     });
+// });
+
 

@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/scripts', express.static(__dirname + '/node_modules/datamaps/dist/'));
+app.use('/scripts', express.static(__dirname + '/node_modules/nvd3/build/'));
 
 app.use('/', routes);
 app.use('/users', users);
