@@ -10,14 +10,12 @@
     <div class="col-md-8" id="usaMap" ng-controller="mapCtrl">
         <my-map land="land" boundary="boundary" shortnameidmap="shortnameidmap" idnamemap="idnamemap"></my-map>
     </div>
-    <svg  id="regionDiv" style="display:block"; ng-controller="mapCtrl">
-        <region-chart data="chart.value"></region-chart>
-        <h3>State</h3>
-        <dl>
-            <dt>
-            </dt>
-        </dl>
-    </svg>
+    <div id="regionDiv" class="col-md-4" ng-controller="donutchartController">
+        <svg>
+            <region-chart data="chart.value"></region-chart>
+        </svg>
+    </div>
+
 </div>
 </body>
 </html>

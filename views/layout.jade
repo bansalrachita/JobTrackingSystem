@@ -1,5 +1,4 @@
 doctype html
-//html(ng-app='Test')
 html(ng-app='Map')
   head
     title= title
@@ -12,7 +11,16 @@ html(ng-app='Map')
     script(src='https://d3js.org/topojson.v1.min.js')
     link(href='/scripts/nv.d3.css' rel='stylesheet')
     script(src='/scripts/nv.d3.js')
+    //appjs
     script(src='/maps/map.js')
+    //controllers
+    script(src='/maps/mapController.js')
+    script(src='/maps/donutChartController.js')
+    //config
+    script(src='/maps/mapConfig.js')
+    //directives
+    script(src='/maps/mapDirective.js')
+    script(src='/maps/DonutChartDirective.js')
     link(rel='stylesheet',href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
   body(ng-controller="mapCtrl")
     block content

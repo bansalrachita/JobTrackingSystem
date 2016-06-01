@@ -8,7 +8,7 @@
 }
 
 #states .active {
-    fill: rgb(229,243,249);
+    fill: #00ccff;
 }
 
 #state-borders {
