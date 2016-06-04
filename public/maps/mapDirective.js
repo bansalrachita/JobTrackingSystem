@@ -6,7 +6,7 @@
         .module("Map")
         .directive("myMap", myMap);
 
-    function myMap() {
+    function myMap(mapService, $rootScope) {
         function link(scope, element, attr) {
             console.log('here', scope);
 
@@ -37,14 +37,16 @@
                 .attr("class", "background")
                 .attr("width", width)
                 .attr("height", height)
-                .on("click", clicked);
+                .on("click", function (d) {
+                    return clicked(d, state)
+                });
 
             var g = svg.append("g");
             var land = g.append("g").attr("id", "states").selectAll("path");
             var boundary = g.append('path');
             var text = g.selectAll('text');
 
-            function clicked(d) {
+            function clicked(d, state) {
                 var x, y, k;
 
                 if (d && centered !== d) {
@@ -69,6 +71,15 @@
                     .duration(750)
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
                     .style("stroke-width", 1.5 / k + "px");
+
+                if (centered === null) {
+                    mapService.getCount();
+                }else{
+                    console.log("state: " + state);
+                    var serviceObj = mapService.clickMap(state);
+                    console.log("serviceObj " + serviceObj);
+                }
+
             }
 
             scope.$watch('land', function (geo) {
@@ -87,7 +98,9 @@
                     }).text(function (d) {
                     return id_state_map[d];
                 })
-                    .on("click", clicked);
+                    .on("click", function (d) {
+                        return clicked(d, id_state_map[d.id])
+                    });
 
                 text.data(geo)
                     .enter()

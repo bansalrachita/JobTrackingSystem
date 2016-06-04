@@ -11,7 +11,8 @@
         $routeProvider
             .when('/', {
                 templateUrl: 'maps/map.html',
-                controller: 'mapCtrl'
+                controller: 'mapCtrl',
+                controllerAs: "model"
             })
             .otherwise({
                 redirectTo: '/'
