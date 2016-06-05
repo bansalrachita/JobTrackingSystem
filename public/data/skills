@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Hadoop",
+    "value" : 30
+  } ,
+  {
+    "label": "Java",
+    "value" : 10
+  } ,
+  {
+    "label": "C++",
+    "value" : 2
+  }
+]

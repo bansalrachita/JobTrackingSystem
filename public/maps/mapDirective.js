@@ -73,7 +73,8 @@
                     .style("stroke-width", 1.5 / k + "px");
 
                 if (centered === null) {
-                    mapService.getCount();
+                    mapService.getChart();
+                    mapService.getChart1();
                 }else{
                     console.log("state: " + state);
                     var serviceObj = mapService.clickMap(state);

@@ -3,7 +3,7 @@
         .module("Map")
         .controller("mapCtrl", mapCtrl);
 
-    function mapCtrl($scope, $http) {
+    function mapCtrl($scope, $http,$window) {
         $http.get('data/usdata.json').then(function (response) {
             // $scope.mapus = response.data;
             $scope.land = topojson.feature(response.data, response.data.objects.states).features;
@@ -29,7 +29,6 @@
 
         });
         $scope.layout = 'maps/mapStyle';
-
     };
 
 })();

@@ -11,13 +11,13 @@
             nv.addGraph(function () {
                 var width = 100;
                 var height = 100;
-                var svg = d3.select("#regionDiv").append("svg")
+                var svg = d3.select("#" + scope.id).append("svg")
                     .attr("width", width)
                     .attr("height", height);
 
                 var chart = nv.models.pieChart()
                         .x(function (d) {
-                            return d.degree
+                            return d.label
                         })
                         .y(function (d) {
                             return d.value
@@ -30,32 +30,27 @@
                     ;
 
                 scope.$watch('data', function (data) {
-                    console.log('redraw', data);
+                    console.log('redraw :', data);
                     if (data) {
                         svg.datum(data)
                             .transition().duration(350)
                             .call(chart);
                     }
-                });
+                }, true);
 
-                scope.$on("chart-updated", function (event, data) {
-                    if (data) {
-                        svg.datum(data)
-                            .transition().duration(350)
-                            .call(chart);
-                    }
-                    console.log('trying to update!');
-                });
+                console.log(attr);
+
 
             });
+
         }
 
         return {
             link: link,
             restrict: 'E',
-            scope: {data: "="}
+            scope: {data: "=", id: "@"}
         }
 
-    };
+    }
 
 })();

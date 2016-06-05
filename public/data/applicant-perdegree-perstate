@@ -2,46 +2,46 @@
   {
     "State": "Massachusetts",
     "City": "Boston",
-    "degree": "Masters",
+    "label": "Masters",
     "value": 4
   },
   {
-    "degree": "Masters of Science",
+    "label": "Masters of Science",
     "State": "Massachusetts",
     "City": "Cambridge",
     "value": 3
   },
   {
-    "degree": "Bachelor of science",
+    "label": "Bachelor of science",
     "State": "California",
     "City": "San Fransico",
     "value": 1
   },
   {
-    "degree": "Bachelor of science",
+    "label": "Bachelor of science",
     "State": "Wisconsin",
     "value": 0
   },
   {
     "State": "Massachusetts",
     "City": "Boston",
-    "degree": "Masters",
+    "label": "Masters",
     "value": 4
   },
   {
-    "degree": "Masters of Science",
+    "label": "Masters of Science",
     "State": "Massachusetts",
     "City": "Cambridge",
     "value": 3
   },
   {
-    "degree": "Bachelor of commerse",
+    "label": "Bachelor of commerse",
     "State": "California",
     "City": "San Fransico",
     "value": 4
   },
   {
-    "degree": "Bachelor of science",
+    "label": "Bachelor of science",
     "University": "University of Wisconsin Maddison",
     "State": "Wisconsin",
     "value": 0

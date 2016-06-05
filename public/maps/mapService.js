@@ -7,84 +7,147 @@
         .module("Map")
         .factory("mapService", MapService);
 
-    var applicantData;
+    var applicantData, skillsData;
     //getting static data for application for 1 ID
     applicantData = [
         {
             "State": "Massachusetts",
             "City": "Boston",
-            "degree": "Masters",
+            "label": "Masters",
             "value": 4
         },
         {
-            "degree": "Masters of Science",
+            "label": "Masters of Science",
             "State": "Massachusetts",
             "City": "Cambridge",
             "value": 3
         },
         {
-            "degree": "Bachelor of science",
-            "University": "California State University",
+            "label": "Bachelor of science",
             "State": "California",
             "City": "San Fransico",
             "value": 1
         },
         {
-            "degree": "Bachelor of science",
+            "label": "Master of science",
             "State": "Wisconsin",
-            "value": 0
+            "value": 20
         },
         {
-            "State": "Massachusetts",
+            "label": "Massachusetts",
             "City": "Boston",
             "degree": "Masters",
             "value": 4
         },
         {
-            "degree": "Masters of Science",
+            "label": "Masters of Science",
             "State": "Massachusetts",
             "City": "Cambridge",
             "value": 3
         },
         {
-            "degree": "Bachelor of science",
+            "label": "Bachelor of science",
             "State": "California",
             "City": "San Fransico",
             "value": 1
         },
         {
-            "degree": "Bachelor of science",
-            "University": "University of Wisconsin Maddison",
+            "label": "Bachelor of science",
             "State": "Wisconsin",
-            "value": 0
+            "value": 4
+        }
+    ];
+
+    skillsData = [
+        {
+            "State": "Massachusetts",
+            "City": "Boston",
+            "label": "Hadoop",
+            "value": 4
+        },
+        {
+            "label": "Java",
+            "State": "Massachusetts",
+            "City": "Cambridge",
+            "value": 3
+        },
+        {
+            "label": "Java",
+            "State": "California",
+            "City": "San Fransico",
+            "value": 1
+        },
+        {
+            "label": "C++",
+            "State": "Wisconsin",
+            "value": 20
+        },
+        {
+            "label": "Massachusetts",
+            "City": "Boston",
+            "degree": "C++",
+            "value": 4
+        },
+        {
+            "label": "MapReduce",
+            "State": "Massachusetts",
+            "City": "Cambridge",
+            "value": 3
+        },
+        {
+            "label": "Hadoop",
+            "State": "California",
+            "City": "San Fransico",
+            "value": 1
+        },
+        {
+            "label": "Hadoop",
+            "State": "Wisconsin",
+            "value": 4
         }
     ];
 
     function MapService(chartService, $rootScope) {
         var api = {
             clickMap: clickMap,
-            getCount: getCount
+            getChart: getChart,
+            getChart1: getChart1
         };
         return api;
-        
-        function getCount() {
+
+        function getChart() {
             chartService.getAggregate($rootScope);
+        }
+
+        function getChart1() {
+            chartService.getAggregate1($rootScope);
         }
 
         function clickMap(state, $scope) {
             var chartData = [];
-
+            var skillData = [];
             angular.forEach(applicantData, function (value, key) {
+                console.log("applicants");
                 console.log("key : " + key + ", value : " + value.State);
                 if (value.State == state) {
                     chartData.push(value);
                 }
-            })
+            });
 
-            console.log("map service completed : " + chartData);
+            angular.forEach(skillsData, function (value, key) {
+                console.log("skills");
+                console.log("key : " + key + ", value : " + value.State);
+                if (value.State == state) {
+                    skillData.push(value);
+                }
+            });
+
+            console.log(chartData);
+            console.log(skillData);
             chartService.setChart(chartData, $rootScope);
+            chartService.setChart1(skillData, $rootScope);
 
-            return {data: chartData, value: true};
+            return {chartData: chartData, chart1Data: skillData};
         }
     }
 })();

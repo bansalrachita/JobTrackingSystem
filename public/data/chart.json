@@ -1,14 +1,14 @@
 [
 {
-"degree": "Masters",
+"label": "Masters",
 "value" : 30
 } ,
 {
-"degree": "Bachelors",
+"label": "Bachelors",
 "value" : 10
 } ,
 {
-"degree": "PHD",
+"label": "PHD",
 "value" : 2
 }
 ]
