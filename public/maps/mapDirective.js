@@ -45,22 +45,20 @@
             var land = g.append("g").attr("id", "states").selectAll("path");
             var boundary = g.append('path');
             var text = g.selectAll('text');
-
             // points
             aa = [-122.490402, 37.786453];
             bb = [-122.389809, 37.72728];
 
-            var validStates = mapService.getPoints();
+            var validStates = mapService.getValidStates();
+            console.log(validStates);
 
-                // add circles to svg
-                // g.selectAll("circle")
-                //     .data([aa,bb]).enter()
-                //     .append("circle")
-                //     .attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
-                //     .attr("cy", function (d) { return projection(d)[1]; })
-                //     .attr("r", "4px")
-                //     .attr("fill", "red");
-
+            g.selectAll("circle")
+                .data([aa,bb]).enter()
+                .append("circle")
+                .attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
+                .attr("cy", function (d) { return projection(d)[1]; })
+                .attr("r", "4px")
+                .attr("fill", "red");
 
             function clicked(d, state) {
                 var x, y, k;
@@ -91,7 +89,7 @@
                 if (centered === null) {
                     mapService.getChart();
                     mapService.getChart1();
-                }else{
+                } else {
                     console.log("state: " + state);
                     var serviceObj = mapService.clickMap(state);
                     console.log("serviceObj " + serviceObj);
@@ -112,9 +110,10 @@
                         id_state_map[d.id] = scope.idnamemap[d.id].name;
                         id_topo_map[d.id] = d;
                         return "map-" + d.id;
-                    }).text(function (d) {
-                    return id_state_map[d];
-                })
+                    })
+                    //     .text(function (d) {
+                    //         return id_state_map[d];
+                    // })
                     .on("click", function (d) {
                         return clicked(d, id_state_map[d.id])
                     });
@@ -123,7 +122,10 @@
                     .enter()
                     .append("svg:text")
                     .text(function (d) {
-                        return id_state_map[d.id];
+                        // console.log(validStates + " " + id_state_map[d.id]);
+                        if (validStates.indexOf(id_state_map[d.id]) !== -1) {
+                            return id_state_map[d.id];
+                        }
                     })
                     .attr("x", function (d) {
                         return !isNaN(path.centroid(d)[0]) ? path.centroid(d)[0] : 0;

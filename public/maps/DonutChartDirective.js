@@ -30,19 +30,14 @@
                     ;
 
                 scope.$watch('data', function (data) {
-                    console.log('redraw :', data);
+                    // console.log('redraw :', data);
                     if (data) {
                         svg.datum(data)
                             .transition().duration(350)
                             .call(chart);
                     }
                 }, true);
-
-                console.log(attr);
-
-
             });
-
         }
 
         return {

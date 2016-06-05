@@ -112,7 +112,7 @@
             clickMap: clickMap,
             getChart: getChart,
             getChart1: getChart1,
-            getPoints: getPoints
+            getValidStates: getValidStates
         };
         return api;
 
@@ -124,12 +124,12 @@
             chartService.getAggregate1($rootScope);
         }
 
-        function getPoints() {
+        function getValidStates() {
             var state = [];
             angular.forEach(applicantData, function (value, key) {
                 console.log("key : " + key + ", value : " + value.State);
                 if (value.State) {
-                    state.push(value);
+                    state.push(value.State);
                 }
             });
             return state;
