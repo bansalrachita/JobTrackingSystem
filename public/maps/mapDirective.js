@@ -19,7 +19,7 @@
             };
 
             var width = 800,
-                height = 800,
+                height = 600,
                 centered;
 
             var projection = d3.geo.albersUsa()
@@ -45,6 +45,22 @@
             var land = g.append("g").attr("id", "states").selectAll("path");
             var boundary = g.append('path');
             var text = g.selectAll('text');
+
+            // points
+            aa = [-122.490402, 37.786453];
+            bb = [-122.389809, 37.72728];
+
+            var validStates = mapService.getPoints();
+
+                // add circles to svg
+                // g.selectAll("circle")
+                //     .data([aa,bb]).enter()
+                //     .append("circle")
+                //     .attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
+                //     .attr("cy", function (d) { return projection(d)[1]; })
+                //     .attr("r", "4px")
+                //     .attr("fill", "red");
+
 
             function clicked(d, state) {
                 var x, y, k;

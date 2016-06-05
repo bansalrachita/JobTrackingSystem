@@ -111,7 +111,8 @@
         var api = {
             clickMap: clickMap,
             getChart: getChart,
-            getChart1: getChart1
+            getChart1: getChart1,
+            getPoints: getPoints
         };
         return api;
 
@@ -123,11 +124,21 @@
             chartService.getAggregate1($rootScope);
         }
 
+        function getPoints() {
+            var state = [];
+            angular.forEach(applicantData, function (value, key) {
+                console.log("key : " + key + ", value : " + value.State);
+                if (value.State) {
+                    state.push(value);
+                }
+            });
+            return state;
+        }
+
         function clickMap(state, $scope) {
             var chartData = [];
             var skillData = [];
             angular.forEach(applicantData, function (value, key) {
-                console.log("applicants");
                 console.log("key : " + key + ", value : " + value.State);
                 if (value.State == state) {
                     chartData.push(value);
@@ -135,7 +146,6 @@
             });
 
             angular.forEach(skillsData, function (value, key) {
-                console.log("skills");
                 console.log("key : " + key + ", value : " + value.State);
                 if (value.State == state) {
                     skillData.push(value);
