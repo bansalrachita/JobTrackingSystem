@@ -7,22 +7,25 @@
 </head>
 <body>
 <div class="container">
-    <div class="col-md-7" id="usaMap" ng-controller="mapCtrl">
+    <div class="col-md-9" style="border:solid" id="usaMap" ng-controller="mapCtrl">
         <my-map land="land" boundary="boundary" shortnameidmap="shortnameidmap" idnamemap="idnamemap">
-
         </my-map>
+    </div>
+    <div class="col-md-3" style="border:solid">
+        <div class="row">
+            <div class="col-md-12" style="border:solid" id="regionDiv" ng-controller="donutChartController">
+                <region-chart id="regionDiv" data="chart.value">
+                </region-chart>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="border:solid" id="regionDiv1" ng-controller="donutChartController">
+                <region-chart id="regionDiv1" data="chart1.value">
+                </region-chart>
+            </div>
+        </div>
 
     </div>
-    <div class="col-md-5" id="regionDiv" ng-controller="donutChartController">
-        <region-chart id="regionDiv" data="chart.value">
-        </region-chart>
-    </div>
-    <div class="col-md-5" id="regionDiv1" ng-controller="donutChartController">
-        <region-chart id="regionDiv1" data="chart1.value">
-        </region-chart>
-    </div>
-
-
 </div>
 </body>
 </html>

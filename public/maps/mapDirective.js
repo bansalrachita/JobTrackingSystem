@@ -18,8 +18,8 @@
                 0: null
             };
 
-            var width = 960,
-                height = 500,
+            var width = 800,
+                height = 800,
                 centered;
 
             var projection = d3.geo.albersUsa()
