@@ -5,10 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Home Page</h1>
-<donut-chart style="float: right" data="chart"></donut-chart>
-<button ng-click="chart.push({value:50})">add slice</button>
-<input type="range" ng-model="slice.value" ng-repeat="slice in chart track by $index"/>
+<!--<h1>Home Page</h1>-->
+<!--<donut-chart style="float: right" data="chart"></donut-chart>-->
+<!--<button ng-click="chart.push({value:50})">add slice</button>-->
+<!--<input type="range" ng-model="slice.value" ng-repeat="slice in chart track by $index"/>-->
+<h1>welcome</h1>
+<div class="col-md-2">
+    <a ng-click="model.displaymap()" class="btn btn-primary btn-block">Map View</a><br/>
+    <a ng-click="model.displaytree()" class="btn btn-primary btn-block">Tree View</a>
+</div>
 
 </body>
 </html>
