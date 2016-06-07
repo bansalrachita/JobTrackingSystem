@@ -7,7 +7,21 @@
 </head>
 <body>
 <div class="container">
-    <div class="col-md-9" style="border:solid" id="treeLayout">
+    <div class="col-md-9" style="border:solid 1px">
+        Filtered Search
+    </div>
+    <div class="col-md-9" style="border:solid 1px">
+        Select State : <select ng-model="model.selected"
+                               ng-options="s.name for s in model.states"
+                               ng-change="model.selectcity(model.selected)"></select>
+        Select City : <select ng-model="model.selectedCity"
+                              ng-options="c.name for c in model.cities track by c.name"
+                              ng-change="model.selectskill(model.selectedCity)"></select>
+        Select Skills : <select ng-model="model.selectedSkills"
+                                ng-options="skill.name for skill in model.skills track by skill.name"></select>
+        <div class="btn btn-primary" ng-click="model.submit(model.selected, model.selectedCity, model.selectedSkills)">Search</div>
+    </div>
+    <div class="col-md-9" style="border:solid 1px" id="treeLayout">
         <tree-graph treedata="model.treeData">
         </tree-graph>
     </div>
