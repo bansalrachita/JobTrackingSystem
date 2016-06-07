@@ -4,10 +4,20 @@
 (function () {
     angular
         .module("Map")
-        .controller("treeController", treeController);
-    
-    function treeController() {
-        
+        .controller("treeCtrl", ['$http', treeController]);
+
+    function treeController($http) {
+        var vm = this;
+
+        $http.get('data/treedata.json').then(function (response) {
+            vm.treeData = response.data;
+            console.log(vm.treeData);
+        }, function (err) {
+            throw err;
+        });
+
+        vm.style = "treegraph/treeStyle";
     }
+
 })();
 

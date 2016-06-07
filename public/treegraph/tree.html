@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" ng-href="{{ model.style }}.css">
 </head>
 <body>
-Tree
+<div class="container">
+    <div class="col-md-9" style="border:solid" id="treeLayout">
+        <tree-graph treedata="model.treeData">
+        </tree-graph>
+    </div>
+</div>
 </body>
 </html>

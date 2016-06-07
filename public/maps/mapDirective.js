@@ -6,7 +6,7 @@
         .module("Map")
         .directive("myMap", myMap);
 
-    function myMap(mapService, $rootScope) {
+    function myMap(mapService) {
         function link(scope, element, attr) {
             console.log('here', scope);
 
