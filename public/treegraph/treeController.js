@@ -65,14 +65,13 @@
                 console.log(state && state.name);
                 angular.forEach(vm.treeData.children, function (vState, key) {
                     if (vState.name == state.name) {
-                        //add states
-                        vm.smalltreeData.children.push({
-                            "name": vState.name,
-                            "_children": []
-                        });
                         if (city && city.name) {
+                            //add states
                             console.log(city.name);
-                            console.log(vState);
+                            vm.smalltreeData.children.push({
+                                "name": vState.name,
+                                "_children": []
+                            });
                             angular.forEach(vState._children, function (vCity, cKey) {
                                 if (vCity.name == city.name) {
                                     var countState = 0;
@@ -81,9 +80,9 @@
                                         "name": vCity.name,
                                         "_children": []
                                     });
+                                    var countCity = 0;
                                     if (univ && univ.name) {
                                         console.log(univ.name);
-                                        var countCity = 0;
                                         angular.forEach(vCity._children, function (vUniv, uKey) {
                                             if (vUniv.name == univ.name) {
                                                 vm.smalltreeData.children[countState]._children[countCity]._children.push(vUniv);
@@ -100,8 +99,16 @@
                                             }
                                         });
                                     } else {
-                                        vm.smalltreeData.children.push(vState);
-                                        vm.subArray = vm.applicantsData;
+                                        angular.forEach(vCity._children, function (vUniv, uKey) {
+                                            vm.smalltreeData.children[countState]._children[countCity]._children.push(vUniv);
+                                        });
+                                        angular.forEach(vm.applicantsData, function (value, key) {
+                                            // console.log(value.State + " :");
+                                            if (null != value.City && value.State.toLowerCase() == state.name.toLowerCase()
+                                                && value.City.toLowerCase() == city.name.toLowerCase()) {
+                                                vm.subArray.push(value);
+                                            }
+                                        });
                                     }
                                 }
                                 countState++;
@@ -109,7 +116,11 @@
 
                         } else {
                             vm.smalltreeData.children.push(vState);
-                            vm.subArray = vm.applicantsData;
+                            angular.forEach(vm.applicantsData, function (value, key) {
+                                if (value.State.toLowerCase() == state.name.toLowerCase()) {
+                                    vm.subArray.push(value);
+                                }
+                            });
                         }
                     }
                 });
@@ -146,6 +157,9 @@
             console.log(applicant);
         };
 
+        vm.getMaxLength = function () {
+            return 100;
+        }
         vm.selected = "no Selection";
         vm.selectedCity = "Select City";
         vm.selectedUniv = "Select University";

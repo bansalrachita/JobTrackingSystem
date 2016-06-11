@@ -13,12 +13,15 @@
     <div class="col-md-9" style="border:solid 1px">
         Select State : <select ng-model="model.selected"
                                ng-options="s.name for s in model.states"
-                               ng-change="model.selectcity(model.selected)"></select>
+                               ng-change="model.selectcity(model.selected)"
+                               ng-style="{'width': model.getMaxLength() + 'px'}"></select>
         Select City : <select ng-model="model.selectedCity"
                               ng-options="c.name for c in model.cities track by c.name"
-                              ng-change="model.selectUniv(model.selectedCity)"></select>
+                              ng-change="model.selectUniv(model.selectedCity)"
+                              ng-style="{'width': model.getMaxLength() + 'px'}"></select>
         Select College : <select ng-model="model.selectedUniv"
-                                 ng-options="univ.name for univ in model.univs track by univ.name"></select>
+                                 ng-options="univ.name for univ in model.univs track by univ.name"
+                                 ng-style="{'width': model.getMaxLength() + 'px'}"></select>
         <div class="btn btn-primary" ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">
             Search
         </div>
