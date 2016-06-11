@@ -158,8 +158,8 @@
             }
 
             scope.$watch('treedata', function (treedata) {
-                console.log(treedata);
                 if (treedata) {
+                    console.log(treedata);
                     root = treedata;
                     root.x0 = height / 2;
                     root.y0 = 0;

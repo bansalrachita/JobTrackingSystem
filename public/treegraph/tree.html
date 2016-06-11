@@ -16,14 +16,38 @@
                                ng-change="model.selectcity(model.selected)"></select>
         Select City : <select ng-model="model.selectedCity"
                               ng-options="c.name for c in model.cities track by c.name"
-                              ng-change="model.selectskill(model.selectedCity)"></select>
-        Select Skills : <select ng-model="model.selectedSkills"
-                                ng-options="skill.name for skill in model.skills track by skill.name"></select>
-        <div class="btn btn-primary" ng-click="model.submit(model.selected, model.selectedCity, model.selectedSkills)">Search</div>
+                              ng-change="model.selectUniv(model.selectedCity)"></select>
+        Select College : <select ng-model="model.selectedUniv"
+                                 ng-options="univ.name for univ in model.univs track by univ.name"></select>
+        <div class="btn btn-primary" ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">
+            Search
+        </div>
+    </div>
+    <div class="col-md-3" style="border: solid">
+        <md-toolbar layout="row" class="md-hue-3">
+            <div class="md-toolbar-tools">
+                <span>Applicants List</span>
+            </div>
+        </md-toolbar>
     </div>
     <div class="col-md-9" style="border:solid 1px" id="treeLayout">
         <tree-graph treedata="model.treeData">
         </tree-graph>
+    </div>
+    <div class="col-md-3" style="border:solid">
+        <md-content>
+            <md-list>
+                <md-list-item class="md-3-line" ng-repeat="applicant in model.applicantsData"
+                              ng-click="model.profile(applicant)">
+                    <md-checkbox ng-model="applicant"></md-checkbox>
+                    <div class="md-list-item-text" layout="column">
+                        <h3>{{applicant.name}}</h3>
+                        <p>{{applicant.University}}</p>
+                    </div>
+                </md-list-item>
+                <md-divider></md-divider>
+            </md-list>
+        </md-content>
     </div>
 </div>
 </body>
