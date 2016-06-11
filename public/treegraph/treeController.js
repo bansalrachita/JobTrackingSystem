@@ -158,11 +158,8 @@
         };
 
         vm.getMaxLength = function () {
-            return 100;
+            return 130;
         }
-        vm.selected = "no Selection";
-        vm.selectedCity = "Select City";
-        vm.selectedUniv = "Select University";
         vm.style = "treegraph/treeStyle";
     }
 
