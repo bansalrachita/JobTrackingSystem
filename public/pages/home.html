@@ -1,19 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<!--<h1>Home Page</h1>-->
-<!--<donut-chart style="float: right" data="chart"></donut-chart>-->
-<!--<button ng-click="chart.push({value:50})">add slice</button>-->
-<!--<input type="range" ng-model="slice.value" ng-repeat="slice in chart track by $index"/>-->
-<h1>welcome</h1>
-<div class="col-md-2">
-    <a ng-click="model.displaymap()" class="btn btn-primary btn-block">Map View</a><br/>
-    <a ng-click="model.displaytree()" class="btn btn-primary btn-block">Tree View</a>
+<div class="col-md-12">
+    <div class="col-md-2">
+        <div class="col-md-12">
+            <h2>Views</h2>
+        </div>
+        <!--<a ng-click="model.displaymap()" class="btn btn-primary btn-block">Map View</a><br/>-->
+        <!--<a ng-click="model.displaytree()" class="btn btn-primary btn-block">Tree View</a>-->
+        <div class="col-md-12">
+            <a ui-sref=".map" class="btn btn-primary btn-block">Map View</a>
+        </div>
+        <div class="col-md-12">
+            <a ui-sref=".tree" class="btn btn-danger btn-block">Tree View</a>
+        </div>
+
+    </div>
+    <div class="col-md-10" style="border: solid 0.5px" ui-view></div>
 </div>
 
-</body>
-</html>

@@ -28,7 +28,7 @@
             })
 
         });
-        $scope.layout = 'maps/mapStyle';
+        // $scope.layout = 'maps/mapStyle';
     };
 
 })();

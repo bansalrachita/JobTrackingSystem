@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/scripts', express.static(__dirname + '/node_modules/nvd3/build/'));
 app.use('/material', express.static(__dirname + '/node_modules/angular-material/'));
+app.use('/route', express.static(__dirname + '/node_modules/angular-ui-router/release/'));
 
 app.use('/', routes);
 app.use('/users', users);

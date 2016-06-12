@@ -3,7 +3,7 @@
  */
 
 (function(){
-    angular.module('Map',['ngRoute']);
+    angular.module('Map',['ui.router']);
 })();
 
 
