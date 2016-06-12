@@ -18,12 +18,12 @@
                 0: null
             };
 
-            var width = 800,
+            var width = 700,
                 height = 600,
                 centered;
 
             var projection = d3.geo.albersUsa()
-                .scale(1070)
+                .scale(970)
                 .translate([width / 2, height / 2]);
 
             var path = d3.geo.path()
