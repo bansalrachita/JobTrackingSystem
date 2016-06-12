@@ -12,8 +12,8 @@
         $http.get('data/treedata.json').then(function (response) {
             vm.treeData = response.data;
             vm.treeDataOrig = response.data;
-            vm.states = vm.treeData.children;
-            console.log(vm.treeData);
+            vm.states = angular.copy(vm.treeDataOrig.children);
+            console.log(vm.states);
             return response.data;
         }, function (err) {
             throw err;
@@ -29,10 +29,10 @@
 
         vm.selectcity = function (s) {
             vm.cities = [];
-            console.log(s);
-            // console.log(s._children);
-            if (s._children) {
-                angular.forEach(s._children, function (value, key) {
+            // console.log(s);
+            // console.log(s.children);
+            if (s && s.children) {
+                angular.forEach(s.children, function (value, key) {
                     vm.cities.push(value);
                 });
             }
@@ -42,9 +42,9 @@
         vm.selectUniv = function (s) {
             vm.univs = [];
             // console.log(s);
-            // console.log(s._children);
-            if (s != null && s._children) {
-                angular.forEach(s._children, function (value, key) {
+            // console.log(s.children);
+            if (s != null && s.children) {
+                angular.forEach(s.children, function (value, key) {
                     vm.univs.push(value);
                 });
                 console.log(vm.univs);
@@ -61,7 +61,7 @@
             vm.applicantsData = angular.copy(vm.applicantsDataOrig);
             vm.treeData = angular.copy(vm.treeDataOrig);
 
-            if (state.name) {
+            if (state && state.name) {
                 console.log(state && state.name);
                 angular.forEach(vm.treeData.children, function (vState, key) {
                     if (vState.name == state.name) {
@@ -124,15 +124,15 @@
                         }
                     }
                 });
+                console.log(vm.smalltreeData);
+                vm.treeData = angular.copy(vm.smalltreeData);
+                vm.applicantsData = angular.copy(vm.subArray);
             }
 
-            console.log(vm.smalltreeData);
-            vm.treeData = angular.copy(vm.smalltreeData);
-            vm.applicantsData = angular.copy(vm.subArray);
         };
 
         vm.profile = function (applicant) {
-            
+
             console.log(applicant);
         };
 
