@@ -11,9 +11,9 @@
 
         $http.get('data/treedata.json').then(function (response) {
             vm.treeData = response.data;
-            vm.treeDataOrig = response.data;
+            vm.treeDataOrig = angular.copy(vm.treeData);
             vm.states = angular.copy(vm.treeDataOrig.children);
-            console.log(vm.states);
+            console.log(vm.treeDataOrig);
             return response.data;
         }, function (err) {
             throw err;
@@ -22,7 +22,7 @@
         $http.get('data/applicant-data.json').then(function (response) {
             vm.applicantsData = response.data;
             vm.applicantsDataOrig = angular.copy(vm.applicantsData);
-            console.log(vm.applicantsData);
+            // console.log(vm.applicantsData);
         }, function (err) {
             throw err;
         });
@@ -62,28 +62,29 @@
             vm.treeData = angular.copy(vm.treeDataOrig);
 
             if (state && state.name) {
-                console.log(state && state.name);
+                console.log(state.name);
                 angular.forEach(vm.treeData.children, function (vState, key) {
                     if (vState.name == state.name) {
                         if (city && city.name) {
                             //add states
                             console.log(city.name);
                             vm.smalltreeData.children.push({
-                                "name": vState.name,
+                                "name": state.name,
                                 "_children": []
                             });
-                            angular.forEach(vState._children, function (vCity, cKey) {
+                            console.log(vState);
+                            angular.forEach(vState.children, function (vCity, cKey) {
                                 if (vCity.name == city.name) {
                                     var countState = 0;
                                     console.log(vm.smalltreeData.children[0].name);
                                     vm.smalltreeData.children[countState]._children.push({
-                                        "name": vCity.name,
+                                        "name": city.name,
                                         "_children": []
                                     });
                                     var countCity = 0;
                                     if (univ && univ.name) {
                                         console.log(univ.name);
-                                        angular.forEach(vCity._children, function (vUniv, uKey) {
+                                        angular.forEach(vCity.children, function (vUniv, uKey) {
                                             if (vUniv.name == univ.name) {
                                                 vm.smalltreeData.children[countState]._children[countCity]._children.push(vUniv);
                                             }
@@ -99,7 +100,7 @@
                                             }
                                         });
                                     } else {
-                                        angular.forEach(vCity._children, function (vUniv, uKey) {
+                                        angular.forEach(vCity.children, function (vUniv, uKey) {
                                             vm.smalltreeData.children[countState]._children[countCity]._children.push(vUniv);
                                         });
                                         angular.forEach(vm.applicantsData, function (value, key) {
