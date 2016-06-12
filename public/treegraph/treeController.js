@@ -36,7 +36,7 @@
                     vm.cities.push(value);
                 });
             }
-            console.log(vm.cities);
+            // console.log(vm.cities);
         };
 
         vm.selectUniv = function (s) {
@@ -47,89 +47,86 @@
                 angular.forEach(s.children, function (value, key) {
                     vm.univs.push(value);
                 });
-                console.log(vm.univs);
+                // console.log(vm.univs);
             }
 
         };
 
         vm.submit = function (state, city, univ) {
             vm.subArray = [];
-            vm.smalltreeData = {
-                "name": vm.treeData.name,
-                "children": []
-            };
+            vm.smalltreeData = {};
             vm.applicantsData = angular.copy(vm.applicantsDataOrig);
             vm.treeData = angular.copy(vm.treeDataOrig);
 
-            if (state && state.name) {
-                console.log(state.name);
+            if (state && state.name && city && city.name && univ && univ.name) {
                 angular.forEach(vm.treeData.children, function (vState, key) {
-                    if (vState.name == state.name) {
-                        if (city && city.name) {
-                            //add states
-                            console.log(city.name);
-                            vm.smalltreeData.children.push({
-                                "name": state.name,
-                                "_children": []
-                            });
-                            console.log(vState);
-                            angular.forEach(vState.children, function (vCity, cKey) {
-                                if (vCity.name == city.name) {
-                                    var countState = 0;
-                                    console.log(vm.smalltreeData.children[0].name);
-                                    vm.smalltreeData.children[countState]._children.push({
-                                        "name": city.name,
-                                        "_children": []
-                                    });
-                                    var countCity = 0;
-                                    if (univ && univ.name) {
-                                        console.log(univ.name);
-                                        angular.forEach(vCity.children, function (vUniv, uKey) {
-                                            if (vUniv.name == univ.name) {
-                                                vm.smalltreeData.children[countState]._children[countCity]._children.push(vUniv);
-                                            }
-                                            countCity++;
-                                        });
-                                        angular.forEach(vm.applicantsData, function (value, key) {
-                                            console.log(value.State + " :");
-                                            if (null != value.City && value.State.toLowerCase() == state.name.toLowerCase()
-                                                && value.City.toLowerCase() == city.name.toLowerCase()
-                                                && value.University.toLowerCase() == univ.name.toLowerCase()) {
-                                                vm.subArray.push(value);
-                                                console.log(vm.treeData);
-                                            }
-                                        });
-                                    } else {
-                                        angular.forEach(vCity.children, function (vUniv, uKey) {
-                                            vm.smalltreeData.children[countState]._children[countCity]._children.push(vUniv);
-                                        });
-                                        angular.forEach(vm.applicantsData, function (value, key) {
-                                            // console.log(value.State + " :");
-                                            if (null != value.City && value.State.toLowerCase() == state.name.toLowerCase()
-                                                && value.City.toLowerCase() == city.name.toLowerCase()) {
-                                                vm.subArray.push(value);
-                                            }
-                                        });
+                    if (vState.name.toLowerCase() == state.name.toLowerCase()) {
+                        angular.forEach(vState.children, function (vCity, cKey) {
+                            if (vCity.name.toLowerCase() == city.name.toLowerCase()) {
+                                angular.forEach(vCity.children, function (vUniv, uKey) {
+                                    if (vUniv.name.toLowerCase() == univ.name.toLowerCase()) {
+                                        vm.smalltreeData = angular.copy(vUniv);
                                     }
-                                }
-                                countState++;
-                            });
+                                });
 
-                        } else {
-                            vm.smalltreeData.children.push(vState);
-                            angular.forEach(vm.applicantsData, function (value, key) {
-                                if (value.State.toLowerCase() == state.name.toLowerCase()) {
-                                    vm.subArray.push(value);
-                                }
-                            });
-                        }
+                                //applicants data
+                                angular.forEach(vm.applicantsData, function (value, key) {
+                                    if (null != value.City && value.State.toLowerCase() == state.name.toLowerCase()
+                                        && value.City.toLowerCase() == city.name.toLowerCase()
+                                        && value.University.toLowerCase() == univ.name.toLowerCase()) {
+                                        vm.subArray.push(value);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
-                console.log(vm.smalltreeData);
-                vm.treeData = angular.copy(vm.smalltreeData);
-                vm.applicantsData = angular.copy(vm.subArray);
+            }
+            else if (state && state.name && city && city.name) {
+                angular.forEach(vm.treeData.children, function (vState, key) {
+                    if (vState.name.toLowerCase() == state.name.toLowerCase()) {
+                        angular.forEach(vState.children, function (vCity, cKey) {
+                            if (vCity.name.toLowerCase() == city.name.toLowerCase()) {
+                                vm.smalltreeData = angular.copy(vCity);
+                            }
+                        });
+
+                        //applicants data
+                        angular.forEach(vm.applicantsData, function (value, key) {
+                            if (null != value.City && null != value.State
+                                && value.State.toLowerCase() == vState.name.toLowerCase()
+                                && value.City.toLowerCase() == city.name.toLowerCase()) {
+                                vm.subArray.push(value);
+                            }
+                        });
+                    }
+                });
+            }
+            else if (state && state.name) {
+                angular.forEach(vm.treeData.children, function (vState, key) {
+                    if (vState.name.toLowerCase() == state.name.toLowerCase()) {
+                        console.log(vState);
+                        vm.smalltreeData = angular.copy(vState);
+                    }
+                });
+
+                //applicants data
+                angular.forEach(vm.applicantsData, function (value, key) {
+                    if (null != value.State
+                        && value.State.toLowerCase() == state.name.toLowerCase()) {
+                        vm.subArray.push(value);
+                    }
+                });
+
+            } else {
+                vm.smalltreeData = angular.copy(vm.treeData);
+                vm.subArray = angular.copy(vm.applicantsData);
             }
 
+            console.log(vm.smalltreeData);
+            vm.treeData = angular.copy(vm.smalltreeData);
+            vm.applicantsData = angular.copy(vm.subArray);
+            
         };
 
         vm.profile = function (applicant) {
