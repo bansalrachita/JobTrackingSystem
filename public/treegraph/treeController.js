@@ -128,32 +128,11 @@
 
             console.log(vm.smalltreeData);
             vm.treeData = angular.copy(vm.smalltreeData);
-
-            // if (city.name) {
-            //     console.log(city.name);
-            //     if (univ.name) {
-            //         console.log(univ.name);
-            //         angular.forEach(vm.applicantsData, function (value, key) {
-            //             console.log(value.State + " :");
-            //             if (null != value.City && value.State.toLowerCase() == state.name.toLowerCase()
-            //                 && value.City.toLowerCase() == city.name.toLowerCase()
-            //                 && value.University.toLowerCase() == univ.name.toLowerCase()) {
-            //                 vm.subArray.push(value);
-            //                 console.log(vm.treeData);
-            //             }
-            //         });
-            //     } else {
-            //         vm.subArray = vm.applicantsData;
-            //     }
-            // }
-            // else {
-            //     vm.subArray = vm.applicantsData;
-            // }
             vm.applicantsData = angular.copy(vm.subArray);
         };
 
-
         vm.profile = function (applicant) {
+            
             console.log(applicant);
         };
 

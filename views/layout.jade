@@ -11,6 +11,7 @@ html(ng-app='Map')
     script(src='https://d3js.org/topojson.v1.min.js')
     link(href='/scripts/nv.d3.css' rel='stylesheet')
     script(src='/scripts/nv.d3.js')
+    script(src='/material/angular-material.js')
     //appjs
     script(src='/maps/map.js')
     //controllers
@@ -27,6 +28,8 @@ html(ng-app='Map')
     //services
     script(src='/maps/mapService.js')
     script(src='/maps/chartService.js')
+    //css
     link(rel='stylesheet',href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/material/angular-material.css')
   body(ng-controller="homeCtrl")
     block content

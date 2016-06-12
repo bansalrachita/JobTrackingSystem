@@ -7,57 +7,52 @@
 </head>
 <body>
 <div class="container">
-    <div class="col-md-9" style="border:solid 1px">
-        Filtered Search
+    <div class="row" style="border:solid 1px">
+        <h3>Filtered Search</h3>
     </div>
-    <div class="col-md-9" style="border:solid 1px">
-        Select State : <select ng-model="model.selected"
-                               ng-options="s.name for s in model.states"
-                               ng-change="model.selectcity(model.selected)"
-                               ng-style="{'width': model.getMaxLength() + 'px'}">
-        <option value="">---Please select---</option>
-    </select>
-        Select City : <select ng-model="model.selectedCity"
-                              ng-options="c.name for c in model.cities track by c.name"
-                              ng-change="model.selectUniv(model.selectedCity)"
-                              ng-style="{'width': model.getMaxLength() + 'px'}">
-        <option value="">---Please select---</option>
-    </select>
-        Select College : <select ng-model="model.selectedUniv"
-                                 ng-options="univ.name for univ in model.univs track by univ.name"
-                                 ng-style="{'width': model.getMaxLength() + 'px'}">
-        <option value="">---Please select---</option>
-    </select>
-        <div class="btn btn-primary" ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">
-            Search
+    <div class="row" style="border:solid 1px">
+        <div class="col-md-9" style="border:solid 1px">
+            Select State : <select ng-model="model.selected"
+                                   ng-options="s.name for s in model.states"
+                                   ng-change="model.selectcity(model.selected)"
+                                   ng-style="{'width': model.getMaxLength() + 'px'}">
+            <option value="">---Please select---</option>
+        </select>
+            Select City : <select ng-model="model.selectedCity"
+                                  ng-options="c.name for c in model.cities track by c.name"
+                                  ng-change="model.selectUniv(model.selectedCity)"
+                                  ng-style="{'width': model.getMaxLength() + 'px'}">
+            <option value="">---Please select---</option>
+        </select>
+            Select College : <select ng-model="model.selectedUniv"
+                                     ng-options="univ.name for univ in model.univs track by univ.name"
+                                     ng-style="{'width': model.getMaxLength() + 'px'}">
+            <option value="">---Please select---</option>
+        </select>
+            <div class="btn btn-primary"
+                 ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">
+                Search
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h3>Applicants List</h3>
         </div>
     </div>
-    <div class="col-md-3" style="border: solid">
-        <md-toolbar layout="row" class="md-hue-3">
-            <div class="md-toolbar-tools">
-                <span>Applicants List</span>
-            </div>
-        </md-toolbar>
+    <div class="row">
+        <div class="col-md-9" style="border:solid 1px" id="treeLayout">
+            <tree-graph treedata="model.treeData">
+            </tree-graph>
+        </div>
+        <div class="col-lg-3 list-group">
+            <a href="#" class="list-group-item" ng-repeat="applicant in model.applicantsData"
+               ng-click="model.profile(applicant)">
+                <h4>{{applicant.name}}</h4>
+                <p>{{applicant.University}}</p>
+                <!--<h6 ng-repeat="skill in applicant.skills">{{skill}}</h6>-->
+            </a>
+        </div>
     </div>
-    <div class="col-md-9" style="border:solid 1px" id="treeLayout">
-        <tree-graph treedata="model.treeData">
-        </tree-graph>
-    </div>
-    <div class="col-md-3" style="border:solid">
-        <md-content>
-            <md-list>
-                <md-list-item class="md-3-line" ng-repeat="applicant in model.applicantsData"
-                              ng-click="model.profile(applicant)">
-                    <md-checkbox ng-model="applicant"></md-checkbox>
-                    <div class="md-list-item-text" layout="column">
-                        <h3>{{applicant.name}}</h3>
-                        <p>{{applicant.University}}</p>
-                    </div>
-                </md-list-item>
-                <md-divider></md-divider>
-            </md-list>
-        </md-content>
-    </div>
+</div>
 </div>
 </body>
 </html>
