@@ -1,0 +1,76 @@
+<div id="doc2" class="yui-t7">
+    <div id="inner">
+
+        <div id="hd" class="row">
+            <div class="col-md-12">
+                <div class="col-md-8">
+                    <h1>{{model.userprofile.firstName}} {{model.userprofile.lastName}}</h1>
+                    <h2>{{model.userprofile.about}}</h2>
+                </div>
+                <div class="col-md-3">
+                    <div class="contact-info">
+                        <h3><a id="pdf" href="">Download PDF</a></h3>
+                        <h3><a href="mailto:{{model.userprofile.email}}">{{model.userprofile.email}}</a></h3>
+                        <h3 ng-if="model.userprofile.github != null">Website: <a href="{{model.userprofile.github}}">{{model.userprofile.github}}</a></h3>
+                        <h3>{{model.userprofile.phone}}</h3>
+                    </div><!--// .contact-info -->
+                </div>
+            </div>
+        </div><!--// hd -->
+
+        <div id="bd" class="row">
+            <div class="container">
+                <div class="first col-md-12">
+                    <h2>Profile</h2>
+                </div>
+                <div class="col-md-12">
+                    <p class="enlarge">
+                        {{model.userprofile.summary}}
+                    </p>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="first">
+                        <h2>Technical Skills</h2>
+                    </div>
+                    <div class="row" ng-repeat="skill in model.userprofile.skills">
+                        <ul class="talent">
+                            <li>{{skill}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="first">
+                        <h2>Experience</h2>
+                    </div>
+                    <div class="yui-u" ng-repeat="work in model.userprofile.workEx">
+                        <div class="job">
+                            <h2>{{work.company}}</h2>
+                            <h3>{{work.position}}</h3>
+                            <h4>{{work.duration}}</h4>
+                            <p>{{work.desc}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="last col-md-12">
+                    <div class="first">
+                        <h2>Education</h2>
+                    </div>
+                    <div class="yui-u" ng-repeat="edu in model.userprofile.education">
+                        <h2>{{edu.university}}, {{edu.city}} - {{edu.state}}</h2>
+                        <h3>{{edu.major}} &mdash; <strong>{{edu.gpa}} GPA</strong></h3>
+                    </div>
+                </div>
+            </div>
+        </div><!--// bd -->
+
+        <div id="ft">
+            <p>{{model.userprofile.firstName}} {{model.userprofile.lastName}} &mdash; <a
+                    href="mailto:{{model.userprofile.email}}">{{model.userprofile.email}}</a> &mdash;
+                {{model.userprofile.phone}}</p>
+        </div><!--// footer -->
+    </div><!-- // inner -->
+</div><!--// doc -->
+

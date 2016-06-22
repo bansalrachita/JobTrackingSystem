@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Project Home Page</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link href="css/login.css" rel="stylesheet"/>
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/map.style.css" rel="stylesheet">
+    <link href="css/tree.style.css" rel="stylesheet">
+    <link href="css/jobs.style.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+    <link href="css/db.style.css" rel="stylesheet">
+    <link href="css/resume.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <!-- angular  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+    <script src="/route/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.css" rel="stylesheet"/>
+
+    <script src="app.js"></script>
+    <script src="config.js"></script>
+
+
+
+    <!-- JS services  -->
+    <script src="services/application.service.client.js"></script>
+    <script src="services/job.service.client.js"></script>
+    <script src="services/user.service.client.js"></script>
+    <script src="services/map.view.service.js"></script>
+    <script src="services/donutchart.view.service.js"></script>
+    <script src="services/tree.view.service.js"></script>
+
+    <!-- JS directive  -->
+    <script src="directives/map.view.directive.js"></script>
+    <script src="directives/donutchart.map.view.directive.js"></script>
+    <script src="directives/tree.view.directive.js"></script>
+
+    <!-- JS controllers  -->
+    <script src="views/user/login.controller.client.js"></script>
+    <script src="views/user/register.controller.client.js"></script>
+    <script src="views/user/profile.controller.client.js"></script>
+
+    <script src="views/job/donutchart.map.controller.client.js"></script>
+    <script src="views/job/job.controller.client.js"></script>
+    <script src="views/job/specific.job.controller.client.js"></script>
+    <script src="views/job/tree.controller.client.js"></script>
+    <script src="views/job/map.controller.client.js"></script>
+    <script src="views/job/job-edit.controller.client.js"></script>
+    <script src="views/job/job-new.controller.client.js"></script>
+
+    <script src="views/dashboard/dashboard.controller.client.js"></script>
+    <script src="views/dashboard/home.controller.client.js"></script>
+    <script src="views/dashboard/search.controller.client.js"></script>
+    <script src="views/dashboard/db.controller.client.js"></script>
+    <script src="views/dashboard/UserprofileController.client.js"></script>
+
+</head>
+<body ng-app="JobTracker">
+    <div ui-view=""></div>
+</body>
+</html>

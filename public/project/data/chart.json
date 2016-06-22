@@ -1,0 +1,14 @@
+[
+{
+"label": "Masters",
+"value" : 30
+} ,
+{
+"label": "Bachelors",
+"value" : 10
+} ,
+{
+"label": "PHD",
+"value" : 3
+}
+]

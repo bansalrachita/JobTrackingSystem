@@ -1,0 +1,118 @@
+table {
+    background-color: #ffffff;
+    align-self: center;
+}
+
+.jobstable{
+    align-self: center;
+    padding-left: 10%;
+    padding-right: 15%;
+}
+
+.jobview {
+    background-color: #ffffff;
+}
+
+
+.applyjob{
+    border-radius: 1%;
+    background-color: #ffffff;
+    padding: 20px 30px 20px 30px;
+    display: block;
+    margin-right: 20%;
+    margin-left: 20%;
+}
+
+.applyjob .submit{
+    float: right;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+    /* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    .jobstable {
+        padding: 0 0 0 0;
+    }
+
+    .applyjob{
+        border-radius: 1%;
+        background-color: #ffffff;
+        padding: 20px 30px 20px 30px;
+        display: block;
+        margin-right:0;
+        margin-left: 0;
+    }
+    }
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid #ccc;
+    }
+
+    td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    .jobview{
+    background-color: #ffffff;
+}
+
+fieldset{
+    background: #efefef;
+    padding: 16px;
+    border: 1px solid #D5D5D5;
+}
+.addfields{
+    margin: 10px 0;
+}
+
+#choicesDisplay {
+    padding: 10px;
+    background: rgb(227, 250, 227);
+    /*border: 1px solid rgb(171, 239, 171);*/
+    color: rgb(9, 56, 9);
+}
+.remove{
+    background: #C76868;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 21px;
+    border: 0;
+    cursor: pointer;
+    display: inline-block;
+    padding: 4px 9px;
+    vertical-align: top;
+    line-height: 100%;
+}
+input[type="text"],
+select{
+    padding:5px;
+}
+
+

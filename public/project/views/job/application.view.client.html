@@ -1,0 +1,54 @@
+<div class="applyjob">
+    <div ng-if="model.error" class="alert alert-danger alert-dismissible">
+        {{model.error}}
+    </div>
+    <form class="form-group">
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="degree">Enter Highest Degree</label>
+                <input type="text" class="form-control" id="degree"
+                       placeholder="Enter Degree" ng-model="model.userApplication.degree">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="university">University</label>
+                <input type="text" class="form-control" id="university"
+                       placeholder="Enter University" ng-model="model.userApplication.university">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" id="address"
+                       placeholder="city" ng-model="model.userApplication.address">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="state">State</label>
+                <select id="state" class="form-control"
+                        ng-model="model.userApplication.state"
+                        ng-options="state.name for state in model.states">
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city"
+                       placeholder="City" ng-model="model.userApplication.city">
+            </div>
+        </div>
+        <div class="row">
+            <div ng-if="model.applied == false" class="submit col-md-5">
+                <a ng-click="model.apply()" class="btn btn-primary btn-block">Submit</a>
+            </div>
+            <div ng-if="model.applied == true" class="submit col-md-5">
+                <a class="btn btn-block btn-success">Submitted</a>
+            </div>
+        </div>
+    </form>
+</div>
+

@@ -1,0 +1,41 @@
+<div class="jobstable">
+    <h1>Search Jobs</h1>
+
+    <td ng-if="model.role == 'guest'">
+        <a ui-sref="register">Register</a>
+    </td>
+
+
+    <table class="table table-filter">
+        <tbody class="table-responsive">
+        <td ng-show="model.role == 'company'">
+            <a ui-sref="newJob">New Job</a>
+        </td>
+        <tr ng-repeat="job in model.jobs">
+            <td ng-show="model.role == 'company'">
+                <a class="glyphicon glyphicon-edit pull-right" ui-sref="editJob({ jid : {{job.jid}} })"></a>
+            </td>
+            <td>
+
+                <span class="pull-right">{{job.city}} , {{job.state}}</span>
+                <h4 class="title">
+                    <a ng-if="model.role == 'user'" ui-sref="jobsSpecific({ jid : {{job.jid}} })">
+                    Job Id-{{job.jid}}, {{job.title}}
+                </a></h4>
+                <h3 class="title"> {{job.cname}} </h3>
+                <h4 class="title"><a ng-if="model.role == 'company'" ui-sref="jobsSpecific({jid : {{job.jid}} })">
+                    Job Id-{{job.jid}}, {{job.title}}
+                </a></h4>
+
+                <h4 ng-show="model.role == 'guest'"><a>
+                    Job Id-{{job.jid}}, {{job.title}}
+                </a></h4>
+
+                <p class="summary">{{job.desc}}</p>
+                <div class="span4" ng-repeat="item in job.skills">{{item}}</div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

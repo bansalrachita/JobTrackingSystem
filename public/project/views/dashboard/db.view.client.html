@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="row">
+        <h1>
+            Applicants Database
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-2" ng-repeat="user in model.userList">
+            <div class="card">
+                <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                <div ng-if="user.img != null" class="avatar">
+                    <img src={{user.img}} alt=""/>
+                </div>
+                <div ng-if="user.img == null" class="avatar">
+                    <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
+                </div>
+                <div class="content">
+                    <p>{{user.firstName}} {{user.lastName}}<br>
+                    <p>{{user.about}}<br>
+                        {{user.experience}}</p>
+                    <p>
+                        <button type="button" class="btn btn-default" ng-click="model.getProfile(user._id)">View Profile
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

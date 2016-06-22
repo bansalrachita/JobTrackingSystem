@@ -1,0 +1,78 @@
+<div class="applyjob">
+    <div ng-if="model.success" class="alert alert-success alert-dismissible">
+        {{model.success}}
+    </div>
+
+    <div ng-if="model.error" class="alert alert-danger alert-dismissible">
+        {{model.error}}
+    </div>
+    <div class="form-group">
+        <label for="title">Job Edit</label>
+        <input ng-model="model.job.title"
+               type="text"
+               class="form-control"
+               id="title"
+               placeholder="Job Title">
+    </div>
+    <div class="form-group">
+        <label for="desc">Description</label>
+                <textarea ng-model="model.job.desc"
+                          rows="4"
+                          id="desc"
+                          class="form-control"
+                          placeholder="Description"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="state">State</label>
+        <input ng-model="model.job.state"
+               rows="4"
+               id="state"
+               class="form-control"
+               placeholder="Description"/>
+    </div>
+
+    <div class="form-group">
+        <label for="dept">city</label>
+        <input ng-model="model.job.city"
+               rows="4"
+               id="city"
+               class="form-control"
+               placeholder="Description"/>
+    </div>
+
+    <div class="form-group">
+        <label for="dept">Dept</label>
+        <input ng-model="model.job.dept"
+               rows="4"
+               id="dept"
+               class="form-control"
+               placeholder="Description"/>
+    </div>
+
+
+    <div class="col-md-12">
+        <h3><b>Skills</b></h3>
+    </div>
+    <div class="input-group col-md-12">
+        <div class="form-group">
+            <div class="form-group col-md-5" ng-repeat="choice in model.choices">
+                <input type="text"
+                       class="form-control"
+                       ng-model="choice"
+                       placeholder="">
+                <div class="col-md-1">
+                    <a class="glyphicon glyphicon-minus" ng-show="$last"
+                       ng-click="model.removeChoice()"
+                    ></a>
+                </div>
+            </div>
+            <div class="glyphicon glyphicon-plus"
+                 ng-click="model.addNewChoice()"
+            ></div>
+        </div>
+    </div>
+    {{model.job}}
+    <a ng-click="model.updateJob(model.job)"
+       class="btn btn-danger btn-success">Update</a>
+
+</div>

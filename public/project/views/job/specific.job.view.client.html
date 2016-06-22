@@ -1,0 +1,44 @@
+JID: {{model.jobId}}
+UID : {{model.userId}}
+user : {{model.role}}
+applied : {{model.applied}}
+<div class="row mapcontainer">
+
+    <!--<div class="col-md-9"></div>-->
+
+    <div ng-if="model.role == 'company'">
+        <a ui-sref="tree({ jid: {{model.jobId}} })" class="btn btn-primary btn-sm">Find Who has applied to this job?</a>
+    </div>
+    <div ng-if="model.role == 'user'">
+        <a ng-model="model.applied" ng-if="model.applied == true" ng-change="model.applied" class="btn btn-success btn-sm">Applied</a>
+        <a ng-if="model.applied == false || model.applied == '' || angular.isObject(model.applied)"
+           ui-sref="apply({ jid: {{model.jobId}} })"
+           class="btn btn-primary btn-sm">Apply</a>
+    </div>
+    <h1>Application ID - {{model.jobId}}, {{model.application.title}}</h1>
+    <div class="mapview">
+        <div class="col-md-4">
+            <div class="col-md-12" id="regionDiv" ng-controller="donutChartController">
+                <region-chart id="regionDiv" data="chart.value">
+                </region-chart>
+            </div>
+            <div class="col-md-12" id="regionDiv1" ng-controller="donutChartController">
+                <region-chart id="regionDiv1" data="chart1.value">
+                </region-chart>
+            </div>
+        </div>
+        <div id="usaMap" class="col-md-8" ng-controller="mapController">
+            <svg>
+            </svg>
+            <my-map land="land" boundary="boundary" shortnameidmap="shortnameidmap" idnamemap="idnamemap"
+                    jobid="jobid">
+            </my-map>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 jobview" ui-view=""></div>
+
+</div>
+
