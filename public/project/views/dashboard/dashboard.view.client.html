@@ -46,46 +46,41 @@
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
             <div ng-if="model.role == 'company'">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a ui-sref="home">Home<span style="font-size:16px;"
-                                                                       class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
+                    <li class="active"><a ui-sref="home">Home<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
                     </li>
 
-                    <li><a ui-sref="profile">Profile<span style="font-size:16px;"
-                                                class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+                    <li><a ui-sref="profile">Profile<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
                     </li>
-                    <li><a ui-sref="jobs">Jobs<span style="font-size:16px;"
-                                                      class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a>
+                    <li><a ui-sref="jobs">Jobs<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a>
                     </li>
-                    <li><a href="#"><span style="font-size:16px;"
-                                          class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    <li><a href="#"><span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </div>
             <div ng-if="model.role == 'user'">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a ui-sref="home">Overview<span style="font-size:16px;"
-                                                                           class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
+                    <li class="active"><a ui-sref="home">Overview<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
                     </li>
 
-                    <li><a ui-sref="profile">Profile<span style="font-size:16px;"
-                                                class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
+                    <li><a ui-sref="profile">Profile<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
                     </li>
-                    <li><a ui-sref="jobs">Jobs<span style="font-size:16px;"
-                                                    class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a>
+
+                    <li><a ui-sref="follow">Followings<i class="fa fa-users pull-right hidden-xs showopacity" aria-hidden="true"></i>
+                        </a>
+
                     </li>
-                    <li><a href="#"><span style="font-size:16px;"
-                                          class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
+
+                    <li><a ui-sref="jobs">Jobs<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a>
+                    </li>
+                    <li><a href="#"><span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </div>
             <div ng-if="model.role == 'guest'">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a ui-sref="home">Overview<span style="font-size:16px;"
-                                                                       class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
+                    <li class="active"><a ui-sref="home">Overview<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
                     </li>
-                    <li><a ui-sref="jobs">Jobs<span style="font-size:16px;"
-                                                    class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
+                    <li><a ui-sref="jobs">Jobs<span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a>
                     </li>
-                    <li><a href="#"><span style="font-size:16px;"
-                                          class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    <li><a href="#"><span class="font-size-16 pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
             </div>
         </div>

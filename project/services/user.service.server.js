@@ -43,7 +43,9 @@ module.exports = function (app) {
                 city: "Boston",
                 gpa: 4.0,
                 major: "Dual Major, Economics and English"
-            }]
+            }],
+            following: [302, 303],
+            followers: []
         },
         {
             _id: 302,
@@ -68,7 +70,9 @@ module.exports = function (app) {
                 city: "Boston",
                 gpa: 4.0,
                 major: "Dual Major, Economics and English"
-            }]
+            }],
+            following: [],
+            followers: [301]
         },
 
         {
@@ -93,7 +97,9 @@ module.exports = function (app) {
                 city: "Boston",
                 gpa: 3.0,
                 major: "Dual Major, Economics and English"
-            }]
+            }],
+            following: [],
+            followers: [ 301 ]
         },
         {
             _id: 304,
@@ -117,7 +123,9 @@ module.exports = function (app) {
                 city: "Boston",
                 gpa: 4.0,
                 major: "Computer Science"
-            }]
+            }],
+            following: [],
+            followers: []
         },
         {
             _id: 305,
@@ -141,7 +149,9 @@ module.exports = function (app) {
                 city: "Cambridge",
                 gpa: 4.0,
                 major: "Computer Science"
-            }]
+            }],
+            following: [],
+            followers: []
         },
         {
             _id: 306,
@@ -163,7 +173,9 @@ module.exports = function (app) {
                 city: "Madison",
                 gpa: 4.0,
                 major: "Computer Science"
-            }]
+            }],
+            following: [],
+            followers: []
         },
         {
             _id: 307,
@@ -185,18 +197,29 @@ module.exports = function (app) {
                 city: "Madison",
                 gpa: 4.0,
                 major: "Computer Science"
-            }]
+            }],
+            following: [],
+            followers: []
         },
         {_id: 999,
             username: "c1",
             password: "c1",
             cname: "Sample Company Ltd.",
-            role: "company"},
+            role: "company",
+            location: "CA, Boston",
+            following: [],
+            followers: []
+
+        },
         {_id: 111,
             username: "c2",
             cname: "Sample Company2 Ltd.",
             password: "c2",
-            role: "company"}
+            role: "company",
+            location: "MA, Boston",
+            following: [],
+            followers: [301]
+        }
     ];
     var multer = require('multer');
     var upload = multer({dest: __dirname + '/../../public/uploads'});
@@ -207,6 +230,76 @@ module.exports = function (app) {
     app.put("/api/user/:uid", updateUser);
     // app.post('/api/register', registerUser);
     app.post('/api/user', createUser);
+    app.put("/api/user/:currentUserId/follows/:userId", followUser);
+    app.delete("/api/user/:currentUserId/unfollows/:userId", unFollowUser);
+
+
+    function followUser(req, res){
+        var currentUserId = parseInt(req.params.currentUserId);
+        var otherUserId = parseInt(req.params.userId);
+        var currentUser, otherUser;
+        var flag1 = false, flag2 = false;
+        for(var i in users){
+            if(users[i]._id == currentUserId){
+                currentUser = users[i];
+                flag1 = true;
+
+            }
+            if(users[i]._id == otherUserId){
+                otherUser = users[i];
+                flag2 = true;
+            }
+        }
+        console.log("UserService:Server follow service ", currentUserId, otherUserId, flag1, flag2);
+        // console.log("currentUser ", currentUser);
+        // console.log("otherUser ", otherUser);
+
+        if(flag1 == true && flag2 == true){
+            currentUser.following.push(otherUserId);
+            otherUser.followers.push(currentUserId);
+            res.send(200);
+        }
+        else{
+            res.send(404);
+        }
+    }
+
+    function unFollowUser(req, res){
+        var currentUserId = parseInt(req.params.currentUserId);
+        var otherUserId = parseInt(req.params.userId);
+        var currentUser, otherUser;
+        var flag1 = false, flag2 = false;
+        for(var i in users){
+            if(users[i]._id == currentUserId){
+                currentUser = users[i];
+                flag1 = true;
+
+            }
+            if(users[i]._id == otherUserId){
+                otherUser = users[i];
+                flag2 = true;
+            }
+        }
+        console.log("UserService:Server unfollow service ", currentUserId, otherUserId, flag1, flag2);
+        // console.log("currentUser ", currentUser);
+        // console.log("otherUser ", otherUser);
+        if(flag1 == true && flag2 == true){
+            var idx1 = currentUser.following.indexOf(otherUserId);
+            var idx2 = otherUser.followers.indexOf(currentUserId);
+            console.log("idx1 ", idx1, " idx2 ", idx2);
+            if(idx1 == -1 || idx2 == -1){
+                res.send(404); return;
+            }else{
+                currentUser.following.splice(idx1, 1);
+                otherUser.followers.splice(idx2, 1);
+                res.send(200);
+            }
+
+        }
+        else{
+            res.send(404);
+        }
+    }
 
     function createUser(req, res) {
         var newUser = req.body;

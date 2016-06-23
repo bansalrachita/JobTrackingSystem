@@ -12,9 +12,23 @@
             findUserRoleById: findUserRoleById,
             getUsers: getUsers,
             findUserByCredentials: findUserByCredentials,
-            findUserByRole: findUserByRole
+            findUserByRole: findUserByRole,
+            follow: follow,
+            unfollow: unfollow
         };
         return api;
+
+        function follow(currentUserId, userId){
+            console.log("UserService:Client currentUser=" + currentUserId + " follow userId=", userId);
+            var url = "/api/user/"+ currentUserId +"/follows/" + userId;
+            return $http.put(url);
+        }
+
+        function unfollow(currentUserId, userId){
+            console.log("UserService:Client currentUser=" + currentUserId + " unfollow userId=", userId);
+            var url = "/api/user/"+ currentUserId +"/unfollows/" + userId;
+            return $http.delete(url);
+        }
 
         function findUserByRole(role) {
             console.log("UserService:Client findUserByRole role=", role);

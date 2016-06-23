@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <h1>
+            Following Users
+        </h1>
+    </div>
+    <div class="inset pull-right" ng-cloak>
+
+<!--        <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="model.data.cb5">
+            Switch (md-primary): No Ink
+        </md-switch>-->
+    </div>
+    <div class="row">
+        <div class="col-sm-2" ng-repeat="user in model.userList">
+            <div class="card">
+                <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
+                <div ng-if="user.img != null" class="avatar">
+                    <img src={{user.img}} alt=""/>
+                </div>
+                <div ng-if="user.img == null" class="avatar">
+                    <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
+                </div>
+
+                <div class="content" ng-if="user.role == 'user'">
+                    <p>{{user.firstName}} {{user.lastName}}<br>
+                    <p>{{user.about}}<br>
+                        {{user.experience}}</p>
+
+                </div>
+                <div class="content" ng-if="user.role == 'company'">
+                    <p>{{user.cname}}</p>
+                    <p>{{user.location}}</p>
+                </div>
+                <p>{{user.followingFlag}}</p>
+                <div ng-show="user.followingFlag == true">
+                    <button type="button" class="btn btn-success" ng-click="model.unfollow(user)">Following</button>
+                </div>
+                <div ng-show="user.followingFlag == false">
+                    <button type="button" class="btn btn-warning" ng-click="model.follow(user)">Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

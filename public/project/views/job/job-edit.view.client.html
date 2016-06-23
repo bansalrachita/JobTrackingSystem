@@ -1,4 +1,5 @@
 <div class="applyjob">
+    {{model.job}}
     <div ng-if="model.success" class="alert alert-success alert-dismissible">
         {{model.success}}
     </div>
@@ -6,6 +7,12 @@
     <div ng-if="model.error" class="alert alert-danger alert-dismissible">
         {{model.error}}
     </div>
+    <!-- TODO remove br-->
+    <br>
+    <span class="fa fa-chevron-left">
+        <a ui-sref="jobs">Cancel</a>
+    </span>
+
     <div class="form-group">
         <label for="title">Job Edit</label>
         <input ng-model="model.job.title"
@@ -67,12 +74,14 @@
                 </div>
             </div>
             <div class="glyphicon glyphicon-plus"
-                 ng-click="model.addNewChoice()"
-            ></div>
+                 ng-click="model.addNewChoice()"></div>
+
         </div>
     </div>
-    {{model.job}}
-    <a ng-click="model.updateJob(model.job)"
-       class="btn btn-danger btn-success">Update</a>
+
+    <button ng-click="model.updateJob(model.job)"
+       class="btn btn-success">Update</button>
+    <button ng-click="model.deleteJob(model.job)" class="btn btn-danger">Delete</button>
+
 
 </div>

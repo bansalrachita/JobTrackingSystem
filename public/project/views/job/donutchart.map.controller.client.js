@@ -24,36 +24,36 @@
             .aggregateDegreesForJID(vm.jobId)
             .then(function (response) {
                 console.log("first time chart rendered : aggregateDegreesForJID success ");
-                $scope.chart.value = response.data;
-
+                var degreeAgg = response.data;
+                return degreeAgg;
             }, function (err) {
                 console.log("ApplicationService aggregateDegreesForJID error");
-            });
-        chartService.setChart($scope.chart.value);
-
-        console.log("chart", $scope.chart.value);
+            }).then(function (degreeAgg) {
+            $scope.chart.value = degreeAgg;
+            chartService.setChart($scope.chart.value);
+            console.log("chart : ", $scope.chart.value);
+        }, function (err) {
+            console.log("chartService aggregateDegreesForJID error");
+        });
 
 
         ApplicationService
             .aggregateSkillsForJID(vm.jobId)
             .then(function (response) {
-                console.log("first time skills rendered :  ApplicationService aggregateSkillsForJID error");
-                $scope.chart1.value = response.data;
+                console.log("first time skills rendered :  ApplicationService aggregateSkillsForJID");
+                var skillsAgg = response.data;
+                return skillsAgg;
             }, function (err) {
                 console.log("ApplicationService aggregateSkillsForJID error");
-            });
-
-        console.log("chart1", $scope.chart1.value);
+            }).then(function (skillsAgg) {
+            $scope.chart1.value = skillsAgg;
+            chartService.setChart1($scope.chart1.value);
+            console.log("setChart1 called : ", $scope.chart1.value);
+        });
 
         $scope.$on("chart-updated", function (event, data) {
             console.log(data);
             if (data && data === true) {
-                // $http.get("data/chart.json")
-                //     .then(function (response) {
-                //        $scope.chart.value = response.data;
-                //     });
-                // $scope.$apply($scope.chart.value = ApplicationService
-                //     .aggregateDegreesForJID(vm.jobId));
                 ApplicationService
                     .aggregateDegreesForJID(vm.jobId)
                     .then(function (response) {
@@ -66,7 +66,6 @@
 
             }
             else if (data) {
-                // console.log("hi i am in apply");
                 $scope.$apply($scope.chart.value = data);
             }
         });
@@ -74,25 +73,16 @@
         $scope.$on("chart1-updated", function (event, data) {
             console.log(data);
             if (data && data === true) {
-                // $http.get("data/skills")
-                //     .then(function (response) {
-                //         $scope.chart1.value = response.data;
-                //     });
-
-                // $scope.$apply($scope.chart1.value = ApplicationService
-                //     .aggregateSkillsForJID(vm.jobId));
-
                 ApplicationService
                     .aggregateSkillsForJID(vm.jobId)
                     .then(function (response) {
-                        console.log("ApplicationService aggregateSkillsForJID error");
+                        console.log("ApplicationService aggregateSkillsForJID");
                         $scope.chart1.value = response.data;
                     }, function (err) {
                         console.log("ApplicationService aggregateSkillsForJID error");
                     });
             }
             else if (data) {
-                // console.log("hi i am in apply 1");
                 $scope.$apply($scope.chart1.value = data);
             }
         });

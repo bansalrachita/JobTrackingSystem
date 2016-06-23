@@ -5,7 +5,7 @@
             <tree-graph treedata="model.treeData">
             </tree-graph>
         </div>
-        <div class="col-md-3" style="background-color: #00b0e8">
+        <div class="col-md-3">
             <label>State : </label>
             <select ng-model="model.selected"
                     ng-options="s.name for s in model.states"
@@ -31,11 +31,9 @@
             </select>
             <br/>
             <div class="btn btn-primary"
-                 ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">
-                Search
-            </div>
+                 ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">Search</div>
         </div>
-        <div class="col-md-3" style="background-color: #00b0e8">
+        <div class="col-md-3">
             <h3>Applicants List</h3>
             <div class="list-group">
                 <a class="list-group-item" ng-repeat="applicant in model.applicantsData"

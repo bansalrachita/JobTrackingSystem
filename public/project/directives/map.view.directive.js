@@ -3,7 +3,7 @@
         .module("JobTracker")
         .directive("myMap", myMap);
 
-    function myMap(mapService, $window) {
+    function myMap(mapService, $rootScope, chartService, ApplicationService) {
         function link(scope, element, attr) {
             // console.log('here', scope);
 
@@ -30,40 +30,55 @@
                 .attr("width", width)
                 .attr("height", height);
 
-            // //adding responsiveness
-            // svg.attr('viewBox','0 0 '+ width + ' ' + height)
-            //     .attr('preserveAspectRatio','xMinYMin');
-
             var g = svg.append("g");
-
             var land = g.append("g").attr("id", "states").selectAll("path");
             var boundary = g.append('path');
             var text = g.selectAll('text');
+            var tooltip = d3.select("#usaMap").append('div')
+                .attr('class', 'hidden tooltip');
+            var validStates = [];
+            var numberOfApplicants = [];
+            var legend_labels =  [];
+            var legendData = [];
 
-            // scope.validStates = mapService.getValidStates(scope.jobid);
+            function validState() {
+                ApplicationService
+                    .findApplicantDataForMap(scope.jobid)
+                    .then(function (response) {
+                        validStates = [];
+                        numberOfApplicants = [];
+                        legend_labels = [];
+                        legendData = [];
 
-            d3.select($window).on('resize', resize);
+                        console.log("MapDirective ApplicationService", scope.jobid);
+                        var applicantDataFromService = response.data;
+                        applicantData = applicantDataFromService["applicantData"];
+                        skillsData = applicantDataFromService["skillsData"];
+                        angular.forEach(applicantData, function (value, key) {
 
-            function resize() {
-                // adjust things when the window size changes
-                width = parseInt(svg.style('width'));
-                width = width;
-                height = width * .5;
+                            if (value.State && validStates.indexOf(value.State) == -1) {
+                                validStates.push(value.State);
+                                numberOfApplicants[value.State] = value.value;
+                            }
+                            else if (value.State in numberOfApplicants) {
+                                numberOfApplicants[value.State] += value.value;
+                            }
+                        });
 
-                // update projection
-                projection
-                    .translate([width / 2, height / 2])
-                    .scale(width);
+                        for (var i in numberOfApplicants) {
+                            legend_labels.push({state: i, value: numberOfApplicants[i]});
+                        }
 
-                // resize the map container
-                svg
-                    .style('width', width + 'px')
-                    .style('height', height + 'px');
+                        angular.forEach(legend_labels, function (value, key) {
+                            legendData.push(value.value);
+                        });
 
-                // resize the map
-                svg.select('land').attr('d', path);
-                svg.selectAll('state').attr('d', path);
+                    }, function (err) {
+                        console.log("MapDirective Service ApplicationService error", scope.jobid);
+                    });
             }
+
+            validState();
 
             function clicked(d, state) {
                 var x, y, k;
@@ -96,15 +111,69 @@
                     mapService.getChart1();
                 } else {
                     // console.log("state: " + state);
-                    // console.log("*jobId " + scope.jobid);
-                    var serviceObj = mapService.clickMap(state, scope.jobid);
+                    // console.log("*jobId " + scope.jobId);
+                    var serviceObj = clickMap(state, scope.jobid);
                     // console.log("serviceObj " + serviceObj);
                 }
 
             }
 
+
+            function clickMap(state, jid) {
+                // console.log("click map " + jid);
+                var chartData = [];
+                var skillData = [];
+                var applicantData, skillsData;
+
+                ApplicationService
+                    .findApplicantDataForMap(jid)
+                    .then(function (response) {
+                        console.log("MapService clickMap ApplicationService findApplicationDataForMap success", jid);
+                        var applicantDataFromService = response.data;
+                        applicantData = applicantDataFromService["applicantData"];
+                        console.log(applicantData);
+                        angular.forEach(applicantData, function (value, key) {
+                            if (value.State == state) {
+                                chartData.push(value);
+                            }
+                        });
+                        skillsData = applicantDataFromService["skillsData"];
+                        angular.forEach(skillsData, function (value, key) {
+                            if (value.State == state) {
+                                skillData.push(value);
+                            }
+                        });
+
+                        // console.log(chartData);
+                        // console.log(skillData);
+                    }, function (err) {
+                        console.log("MapService clickMap ApplicationService findApplicationDataForMap error", jid);
+                    }).then(function (chartData, skillData) {
+                    chartService
+                        .setChart1(skillData, $rootScope);
+                    chartService
+                        .setChart(chartData, $rootScope);
+                }, function (err) {
+                    console.log("char service faulted");
+                });
+
+                if (skillData.length == 0 || chartData.length == 0) {
+                    chartService
+                        .setChart1(skillData, $rootScope);
+                    chartService
+                        .setChart(chartData, $rootScope);
+                }
+
+
+                return {chartData: chartData, chart1Data: skillData};
+            }
+
+
             scope.$watch('land', function (geo) {
                 if (!geo) return;
+
+                validState();
+
                 land.data(geo)
                     .attr("id", "states")
                     .attr('class', 'land')
@@ -116,20 +185,38 @@
                         id_topo_map[d.id] = d;
                         return "map-" + d.id;
                     })
-                    //     .text(function (d) {
-                    //         return id_state_map[d];
-                    // })
+                    .attr("fill", function (d) {
+                        if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
+                            return d3.rgb("#" + (numberOfApplicants[scope.idnamemap[d.id].name] + 700));
+                        }
+                    })
                     .on("click", function (d) {
                         return clicked(d, id_state_map[d.id].name)
+                    })
+                    .on('mousemove', function (d) {
+                        var mouse = d3.mouse(g.node()).map(function (d) {
+                            return parseInt(d);
+                        });
+                        tooltip.classed('hidden', false)
+                            .attr('style', 'left:' + (mouse[0] + 15) +
+                                'px; top:' + (mouse[1] - 35) + 'px')
+                            .html(scope.idnamemap[d.id].name)
+                        ;
+                    })
+                    .on('mouseout', function () {
+                        tooltip.classed('hidden', true);
                     });
 
                 text.data(geo)
                     .enter()
                     .append("svg:text")
                     .text(function (d) {
-                        // console.log(validStates + " " + id_state_map[d.id]);
-                        // if (scope.validStates && scope.validStates.indexOf(id_state_map[d.id]) !== -1) {
-                        return id_state_map[d.id].code;
+                        if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
+                            // console.log("valid states : ", validStates, id_state_map[d.id]);
+                            return id_state_map[d.id].code;
+                        }
+                        // else {
+                        //     return id_state_map[d.id].code;
                         // }
                     })
                     .attr("x", function (d) {
@@ -141,14 +228,34 @@
                     .attr("text-anchor", "middle")
                     .attr('font-size', '6pt')
                     .attr('fill', 'white');
+
+
+                var ls_w = 30, ls_h = 30;
+
+                var legend = svg.selectAll("g.legend")
+                    .data(legendData)
+                    .enter().append("g")
+                    .attr("class", "legend");
+
+                legend.append("rect")
+                    .attr("x", 30)
+                    .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+                    .attr("width", ls_w)
+                    .attr("height", ls_h)
+                    .style("fill", function(d, i) { return d3.rgb("#" + (legend_labels[i].value + 700)); })
+                    .style("opacity", 0.8);
+
+                legend.append("text")
+                    .attr("x", 70)
+                    .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+                    .text(function(d, i){ return legend_labels[i].value; });
+
             });
 
             scope.$watch('boundary', function (geo) {
                 if (!geo) return;
-
                 boundary.datum(geo).attr("class", "boundary").attr("id", "state-borders").attr("d", path);
             });
-
 
         }
 

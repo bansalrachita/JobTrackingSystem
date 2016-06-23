@@ -10,10 +10,17 @@
             addJob: addJob,
             findJobByRole: findJobByRole,
             findJobByJId: findJobByJId,
-            updateJob: updateJob
+            updateJob: updateJob,
+            deleteJob: deleteJob
         };
         return api;
 
+
+        function deleteJob(jid){
+            console.log("JobService:Client deleteJob ", jid);
+            var url = "/api/job/" + jid;
+            return $http.delete(url);
+        }
 
         function updateJob(newJob){
             console.log("JobService:Client updateJob ", newJob);

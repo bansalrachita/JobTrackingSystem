@@ -1,41 +1,44 @@
 <div class="jobstable">
-    <h1>Search Jobs</h1>
+    <div ng-show="model.role == 'company'">
+        <a class="pull-right btn glyphicon glyphicon-plus" ui-sref="newJob"></a>
+    </div>
+    <div ng-show="model.role=='guest'" >
+        <button class="pull-right btn btn-success" ui-sref="register">Register</button>
+    </div>
+    <h1>Jobs</h1>
 
-    <td ng-if="model.role == 'guest'">
-        <a ui-sref="register">Register</a>
-    </td>
+
+    <div ng-if="model.register" class="alert alert-danger alert-dismissible">
+        {{model.register}}
+    </div>
+
+    <div ng-repeat="job in model.jobs">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+            <!-- edit for company -->
+            <div ng-show="model.role == 'company'">
+                <a ui-sref="editJob({ jid : {{job.jid}} })"
+                   class="pull-right spl-margin-right">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+            </div>
+            <h3 class="panel-title">{{job.cname}}</h3>
+        </div>
+        <div class="panel-body">
+            <a ui-sref="jobsSpecific({ jid : {{job.jid}} })"
+               class="pull-right">
+                <span class="glyphicon glyphicon-play"></span>
+            </a>
 
 
-    <table class="table table-filter">
-        <tbody class="table-responsive">
-        <td ng-show="model.role == 'company'">
-            <a ui-sref="newJob">New Job</a>
-        </td>
-        <tr ng-repeat="job in model.jobs">
-            <td ng-show="model.role == 'company'">
-                <a class="glyphicon glyphicon-edit pull-right" ui-sref="editJob({ jid : {{job.jid}} })"></a>
-            </td>
-            <td>
 
-                <span class="pull-right">{{job.city}} , {{job.state}}</span>
-                <h4 class="title">
-                    <a ng-if="model.role == 'user'" ui-sref="jobsSpecific({ jid : {{job.jid}} })">
-                    Job Id-{{job.jid}}, {{job.title}}
-                </a></h4>
-                <h3 class="title"> {{job.cname}} </h3>
-                <h4 class="title"><a ng-if="model.role == 'company'" ui-sref="jobsSpecific({jid : {{job.jid}} })">
-                    Job Id-{{job.jid}}, {{job.title}}
-                </a></h4>
+            <p>{{job.title}}</p>
+            <p>Desc for Job ID: {{job.jid}}</p>
+            <p class="summary">{{job.desc}}</p>
+            <div class="span4" ng-repeat="item in job.skills">{{item}}</div>
+        </div>
+    </div>
 
-                <h4 ng-show="model.role == 'guest'"><a>
-                    Job Id-{{job.jid}}, {{job.title}}
-                </a></h4>
 
-                <p class="summary">{{job.desc}}</p>
-                <div class="span4" ng-repeat="item in job.skills">{{item}}</div>
-
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+</div></div>

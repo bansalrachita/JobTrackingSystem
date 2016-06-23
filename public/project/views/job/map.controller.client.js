@@ -6,10 +6,10 @@
     function mapController($scope, $http, $stateParams) {
         var vm = this;
         vm.userId = $stateParams.uid;
-       $scope.jobid = $stateParams.jid;
+        $scope.jobId = $stateParams.jid;
 
         console.log("inside mapController for userId=" +
-            vm.userId + " and jobId=" + $scope.jobid);
+            vm.userId + " and jobId=" + $scope.jobId);
 
         $http.get('data/usdata.json').then(function (response) {
             console.log("inside mapController");

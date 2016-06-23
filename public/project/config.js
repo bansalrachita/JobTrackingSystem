@@ -40,6 +40,13 @@
                 controller: 'HomeController',
                 controllerAs: 'model'
             })
+            .state('follow', {
+                url : '/follow',
+                templateUrl: 'views/dashboard/follow.view.client.html',
+                parent: 'dashboard',
+                controller: 'FollowingController',
+                controllerAs: 'model'
+            })
             .state('database',{
                 url: '/db',
                 templateUrl: 'views/dashboard/db.view.client.html',

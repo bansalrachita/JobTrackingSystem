@@ -3,21 +3,21 @@
         .module("JobTracker")
         .controller("JobEditController", JobEditController);
 
-    function JobEditController($scope, $http, $stateParams, $location, JobService) {
+    function JobEditController($scope, $http, $stateParams, $location, JobService, ApplicationService) {
         var vm = this;
         vm.userId = $stateParams.uid;
 
-        vm.jobid = $stateParams.jid;
+        vm.jobId = $stateParams.jid;
 
         console.log("inside JobEditController for userId=" +
-            vm.userId + " and jobId=" + $scope.jobid);
+            vm.userId + " and jobId=" + $scope.jobId);
 
 
         function init(){
             JobService
-                .findJobByJId(vm.jobid)
+                .findJobByJId(vm.jobId)
                 .then(function (response){
-                    console.log("JobService findJobByJID ", vm.jobid);
+                    console.log("JobService findJobByJID ", vm.jobId);
                     vm.job = response.data;
                     vm.choices = vm.job.skills;
                 }, function (err){
@@ -47,6 +47,31 @@
                 }, function (err){
                     vm.error = "error";
                 });
+        }
+
+        vm.deleteJob = function (job){
+            console.log("delete jobId=", vm.jobId);
+
+            JobService
+                .deleteJob(vm.jobId)
+                .then(function (success){
+                   console.log("JobEditController JobService deleteJob success");
+                    return vm.jobId;
+                }, function (err){
+                    console.log("JobEditController JobService deleteJob err");
+                }).then(function (jid){
+                ApplicationService
+                    .deleteApplication(vm.jobId)
+                    .then(function (success){
+                        console.log("JobEditController ApplicationService deleteApplication success");
+                        $location.path('/dashboard/' + vm.userId + '/jobs');
+                    }, function (err){
+                        console.log("JobEditController ApplicationService deleteApplication err");
+                    });
+
+            });
+
+
         }
     };
 

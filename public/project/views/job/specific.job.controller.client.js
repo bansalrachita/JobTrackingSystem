@@ -72,7 +72,13 @@
                     .then(function (response) {
                         var application = response.data;
                         console.log("ApplicationService findApplied application=", application);
-                        vm.applied = application.foreignUserId.includes(parseInt(vm.userId));
+                        var flag;
+                        if(application.foreignUserId){
+                            flag = application.foreignUserId.includes(parseInt(vm.userId));
+                        }else{
+                            flag = false;
+                        }
+                        vm.applied = flag;
                     }, function (err) {
                         console.log("ApplicationService findApplied error");
                     });
@@ -89,7 +95,9 @@
             console.log("SpecificJobController Apply to jid=" + vm.jobId + " uid=" + vm.userId);
             if(vm.user && vm.userApplication){
                 vm.userApplication.skills = vm.user.skills;
+                vm.userApplication.state = vm.userApplication.state.name;
             }else{
+
                 vm.error = "Application cannot be submitted.";
                 return;
             }
@@ -108,7 +116,13 @@
                     .then(function (response) {
                         var application = response.data;
                         console.log("ApplicationService findApplied application=", application);
-                        vm.applied = application.foreignUserId.includes(parseInt(vm.userId));
+                        var flag;
+                        if(application.foreignUserId){
+                            flag = application.foreignUserId.includes(parseInt(vm.userId));
+                        }else{
+                            flag = false;
+                        }
+                        vm.applied = flag;
                     }, function (err) {
                         vm.error ="Please fill required fields";
                         console.log("ApplicationService findApplied error");

@@ -30,6 +30,20 @@ module.exports = function (app) {
     // app.get("/api/job/:cid", getJobs);
     app.post('/api/job', addJob);
     app.put("/api/job/:jid", updateJob);
+    app.delete("/api/job/:jid", deleteJob);
+
+    function deleteJob(req, res){
+        var jid =  req.params.jid;
+        console.log("JobService:Server deleteJob " + jid);
+        for(var i in lstJobs){
+            if(lstJobs[i]._id == jid){
+                lstJobs.splice(i, 1);
+                res.send(200);
+                return;
+            }
+        }
+        res.send(404);
+    }
 
     function updateJob(req, res){
         var jid =  req.params.jid;
@@ -88,11 +102,13 @@ module.exports = function (app) {
         var id = -1;
         unique_lst_jobid += 1;
         id = unique_lst_jobid.toString();
-        console.log("UserService:Server addJob jid, " + id);
+        var cid = newJob.cid;
+        console.log("UserService:Server addJob jid, " + id + " for cid=" + cid);
         newJob._id = id;
         newJob.jid = id;
         lstJobs.push(newJob);
         res.send(newJob);
+
     }
 
 }

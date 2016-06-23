@@ -84,7 +84,7 @@ only screen and (max-width: 760px),
 }
 
 fieldset{
-    background: #efefef;
+    /*background: #efefef;*/
     padding: 16px;
     border: 1px solid #D5D5D5;
 }
@@ -115,4 +115,8 @@ select{
     padding:5px;
 }
 
+.noborder {
+    border-style: none;
+    background: #efefef;
+}
 

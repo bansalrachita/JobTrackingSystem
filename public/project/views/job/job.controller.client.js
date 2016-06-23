@@ -62,6 +62,11 @@
         }
         init();
 
+
+        vm.showRegister = function (){
+            console.log("JobController show register");
+           vm.register = "Please register to continue!";
+        }
     }
 
 })();

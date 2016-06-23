@@ -10,7 +10,9 @@
     <div ng-if="model.role=='company'" class="col-md-12">
         <a class="circle-text col-md-4 btn" ui-sref="database"><div>Applicant Database</div></a>
         <a class="circle-text col-md-4 btn"ui-sref="jobs"><div>Manage Applications</div></a>
-        <a class="circle-text col-md-4 btn" ui-sref="dashboard"><div>Short-listed Candidates</div></a>
+        <div ng-if="model.donotshow">
+            <a class="circle-text col-md-4 btn" ui-sref="dashboard"><div>Short-listed Candidates</div></a>
+        </div>
     </div>
     <div ng-if="model.role == 'guest'" class="col-md-12">
         For More access <a ui-sref="register">Register</a> and Join us!.

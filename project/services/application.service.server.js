@@ -67,8 +67,8 @@ module.exports = function (app) {
             _id: 112, jobId: 234, cid: 999,
             lstApplications: [
                 {
-                    userId: 303, username: "bob",
-                    name: "bob",
+                    userId: 303, username: "builder",
+                    name: "builder",
                     university: "Northeastern University",
                     state: "Massachusetts",
                     city: "Boston",
@@ -86,14 +86,42 @@ module.exports = function (app) {
         }
     ];
 
+
+    app.post('/api/application', addApplication);
+    app.post("/api/:jid/application", createApplication);
+    app.delete("/api/:jid/application", deleteApplication);
+
     // app.get("/api/application/:appid", getApplicationById);
     app.get("/api/application", getApplications);
-    app.post('/api/application', addApplication);
     app.get("/api/application/degree/:jid", aggregateDegreesForJID);
     app.get("/api/application/skills/:jid", aggregateSkillsForJID);
     app.get("/api/application/map/:jid", findApplicantDataForMap);
     app.get("/api/application/tree/:jid", getApplicantsDyn);
     app.get("/api/application/applicants/:jid", getApplicants);
+
+    function deleteApplication(req, res){
+        var jid = req.params.jid;
+        console.log("ApplicationService:Server deleteApplication for Job jid=", jid);
+        for(var i in applications){
+            if(applications[i].jobId == jid){
+                applications.splice(i, 1);
+                res.send(200);
+                return;
+            }
+        }
+        res.send(404);
+    }
+
+    function createApplication(req, res){
+        var jid = req.params.jid;
+        var application = req.body;
+        unique_applications_id += 1;
+        application._id = unique_applications_id;
+        console.log("ApplicationService:Server createApplication for NewJob jid=", jid);
+
+        applications.push(application);
+        res.send(application);
+    }
 
     function findApplicantDataForMap(req, res) {
         var jid = req.params.jid;
@@ -110,6 +138,9 @@ module.exports = function (app) {
         }
 
         var application;
+
+        // TODO : check for currentApplication is not valid
+
         // console.log("applications# " + currentApplication.length);
         for (var i in currentApplication.lstApplications) {
             application = currentApplication.lstApplications[i];
@@ -352,7 +383,9 @@ module.exports = function (app) {
                 break;
             }
         }
-
+        if(!currentApplicationByJID){
+            res.send(404);return;
+        }
         function group(application, grouper) {
             var targetVariable = [];
             var groupedAlready = [];

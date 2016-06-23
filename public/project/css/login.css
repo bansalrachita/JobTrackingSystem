@@ -1,6 +1,6 @@
 html,
 body {
-    background: #efefef;
+    /*background: #efefef;*/
     /*padding: 10px;*/
     font-family: 'Varela Round';
 }
@@ -50,7 +50,7 @@ a:hover {
 }
 .login-form-1 .form-group {
     margin-bottom: 0;
-    border-bottom: 2px solid #efefef;
+    /*border-bottom: 2px solid #efefef;*/
     padding-right: 20px;
     position: relative;
 }
@@ -77,7 +77,7 @@ a:hover {
     width: 50px;
     height: 50px;
     margin-top: -25px;
-    border: 5px solid #efefef;
+    /*border: 5px solid #efefef;*/
     border-radius: 50%;
     transition: all ease-in-out 500ms;
 }
@@ -281,4 +281,10 @@ label:hover:before {
     -moz-border-radius: 50%;
     border-radius: 50%;
     border: 5px solid rgba(255, 255, 255, 0.5);
+}
+.padding-50{
+    padding : 50px;
+}
+.margin-left-15{
+    margin-left: 15px;
 }

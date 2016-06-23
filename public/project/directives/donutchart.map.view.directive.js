@@ -7,8 +7,8 @@
     function regionChart($http, chartService) {
         function link(scope, element, attr) {
             nv.addGraph(function () {
-                var width = 100;
-                var height = 100;
+                var width = 80;
+                var height = 80;
                 var svg = d3.select("#" + scope.id).append("svg")
                     .attr("width", width)
                     .attr("height", height);
@@ -27,7 +27,7 @@
                         })
                         .showLabels(true)     //Display pie labels
                         .labelThreshold(.05)  //Configure the minimum slice size for labels to show up
-                        .labelType("key") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+                        .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
                         .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
                         .donutRatio(0.25)
                         .color(d3.scale.myColors().range())//Configure how big you want the donut hole size to be.

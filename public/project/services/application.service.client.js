@@ -7,14 +7,33 @@
     
     function ApplicationService($http){
         var api = {
-            findApplicationById: findApplicationById,
             applyJobIdWithApplication: applyJobIdWithApplication,
+            createJobApplication: createJobApplication,
+            findApplicationById: findApplicationById,
             findApplied: findApplied,
             findApplicantDataForMap: findApplicantDataForMap,
             aggregateDegreesForJID: aggregateDegreesForJID,
-            aggregateSkillsForJID: aggregateSkillsForJID
+            aggregateSkillsForJID: aggregateSkillsForJID,
+            deleteApplication: deleteApplication
         };
         return api;
+
+        function deleteApplication(jid){
+            console.log("ApplicationService:Client deleteApplication for jid=", jid);
+            var url = "/api/"+ jid +"/application";
+            return $http.delete(url);
+        }
+
+
+        function createJobApplication(application){
+            var jid = application.jobId;
+            console.log("ApplicationService:Client createJobApplication" +
+                " ", application, " for jid=", jid);
+
+            var url = "/api/"+ jid +"/application";
+            return $http.post(url, application);
+
+        }
 
         function findApplicationById(applicationId){
             console.log("ApplicationService:Client findApplicationById jid=", applicationId);
@@ -23,7 +42,7 @@
         }
 
         function applyJobIdWithApplication(jobId, userId, applicationDetails){
-            console.log("ApplicationService:Client applyJobIdWithApplication to jobid=" + jobId + " for uid=" + userId);
+            console.log("ApplicationService:Client applyJobIdWithApplication to jobId=" + jobId + " for uid=" + userId);
             console.log(applicationDetails);
             //
             // for(var i in applications){
