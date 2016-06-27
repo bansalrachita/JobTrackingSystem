@@ -5,6 +5,13 @@
         border-bottom: 1px solid #e0dedb;}
 }
 
+
+@media only screen and (max-width: 768px){
+    .container{
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
 .mar-user-top{
     margin: 5px;
 }
@@ -14,6 +21,6 @@
 }
 
 .col-sm-5.col-xs-5{
-    /*padding-right: 15px;*/
-     padding-left: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
