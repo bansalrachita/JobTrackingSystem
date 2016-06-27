@@ -21,9 +21,14 @@
                     else if(job.location.toLowerCase().indexOf(searchString) !== -1){
                         result.push(job);
                     }
-                    else for(var i in job.skills){
-                        if(job.skills[i].toLowerCase().indexOf(searchString) !== -1){
-                            result.push(job);
+                    else if(job.cname.toLowerCase().indexOf(searchString) !== -1){
+                        result.push(job);
+                    }
+                    else {
+                        for(var i in job.skills){
+                            if(job.skills[i].toLowerCase().indexOf(searchString) !== -1){
+                                result.push(job);
+                            }
                         }
                     }
                 });
