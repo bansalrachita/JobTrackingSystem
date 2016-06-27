@@ -1,44 +1,142 @@
 <div class="container">
     <div class="row">
-        <h1>
-            Following Users
-        </h1>
-    </div>
-    <div class="inset pull-right" ng-cloak>
-
-<!--        <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="model.data.cb5">
-            Switch (md-primary): No Ink
-        </md-switch>-->
+        <h2>Followers</h2>
     </div>
     <div class="row">
-        <div class="col-sm-2" ng-repeat="user in model.userList">
-            <div class="card">
-                <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
-                <div ng-if="user.img != null" class="avatar">
-                    <img src={{user.img}} alt=""/>
-                </div>
-                <div ng-if="user.img == null" class="avatar">
-                    <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
-                </div>
+        <div class="row col-xs-12 col-sm-12 text-right">
+            <h3 class="row hidden-xs hidden-sm">
+                <a class="btn" ng-click="model.changeFilterTo('follower')">Followers</a>
+                <strong>{{model.currentUserFromList.followersNumber}}</strong>
+                <a class="btn" ng-click="model.changeFilterTo('following')">Following</a>
+                <strong>{{model.currentUserFromList.followingNumber}}</strong>
+            </h3>
+            <h1 class="row visible-xs visible-sm" text-right>
+                <a class="btn" ng-click="model.changeFilterTo('follower')">Followers</a>
+                <strong>{{model.currentUserFromList.followersNumber}}</strong>
+                <a class="btn" ng-click="model.changeFilterTo('following')">Following</a>
+                <strong>{{model.currentUserFromList.followingNumber}}</strong>
+            </h1>
+        </div>
+    </div>
 
-                <div class="content" ng-if="user.role == 'user'">
-                    <p>{{user.firstName}} {{user.lastName}}<br>
-                    <p>{{user.about}}<br>
-                        {{user.experience}}</p>
+    <div class="row row col-xs-12 col-sm-12">
+        <div class="row hidden-xs hidden-sm">
+            <button class="btn btn-sm btn-primary-outline" ng-click="model.changeFilterTo('all')">All</button>
+            <button class="btn btn-sm btn-info" ng-click="model.changeFilterTo('company')"><i class="fa fa-building"
+                                                                                              aria-hidden="true"></i>
+                Companies
+            </button>
+            <button class="btn btn-sm btn-info" ng-click="model.changeFilterTo('user')"><i
+                    class="fa fa-user" aria-hidden="true"></i> Users
+            </button>
+            <button class="btn btn-sm btn-success" ng-click="model.changeFilterTo('following')">following</button>
+            <button type="button" class="btn btn-sm btn-warning" ng-click="model.changeFilterTo('notfollowing')">Follow
+            </button>
+        </div>
+        <div class="row visible-xs visible-sm">
+            <button class="btn btn-sm btn-primary-outline" ng-click="model.changeFilterTo('all')">All</button>
+            <button class="btn btn-sm btn-info" ng-click="model.changeFilterTo('company')"><i class="fa fa-building"
+                                                                                              aria-hidden="true"></i>
+                Companies
+            </button>
+            <button class="btn btn-sm btn-info" ng-click="model.changeFilterTo('user')"><i
+                    class="fa fa-user" aria-hidden="true"></i> Users
+            </button>
+            <button class="btn btn-sm btn-success" ng-click="model.changeFilterTo('following')">following</button>
+            <button type="button" class="btn btn-sm btn-warning" ng-click="model.changeFilterTo('notfollowing')"> Follow
+            </button>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-xs-12 col-sm-12" ng-repeat="user in model.userList | filter: model.getFilter()">
+            <hr/>
+            <div class="col-xs-3 img-center col-sm-2 text-center">
+                <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                     height="80" width="80"
+                     class="avatar img-circle hidden-sm hidden-xs" alt="avatar">
+                <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                     height="80" width="80"
+                     class="avatar img-circle visible-sm" alt="avatar">
+                <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                     height="70" width="70"
+                     class="avatar img-circle visible-xs" alt="avatar">
+
+                <img ng-if="user.img != null" ng-src="{{user.img}}"
+                     height="80" width="80"
+                     class="avatar img-circle hidden-sm hidden-xs" alt="avatar">
+                <img ng-if="user.img != null" ng-src="{{user.img}}"
+                     height="80" width="80"
+                     class="avatar img-circle visible-sm" alt="avatar">
+                <img ng-if="user.img != null" ng-src="{{user.img}}"
+                     height="70" width="70"
+                     class="avatar img-circle visible-xs" alt="avatar">
+            </div>
+
+            <div class="col-xs-5 content col-sm-5" ng-if="user.role == 'user'">
+                <div class="row mar-user-top hidden-xs hidden-sm">
+                    <p class="lead">{{user.firstName}} {{user.lastName}}</p>
+                    <p>Followers: <strong>{{user.followersNumber}}</strong>, Following:
+                        <strong>{{user.followingNumber}}</strong></p>
                 </div>
-                <div class="content" ng-if="user.role == 'company'">
-                    <p>{{user.cname}}</p>
-                    <p>{{user.location}}</p>
-                </div>
-                <p>{{user.followingFlag}}</p>
-                <div ng-show="user.followingFlag == true">
-                    <button type="button" class="btn btn-success" ng-click="model.unfollow(user)">Following</button>
-                </div>
-                <div ng-show="user.followingFlag == false">
-                    <button type="button" class="btn btn-warning" ng-click="model.follow(user)">Follow</button>
+                <div class="row mar-user-top visible-xs visible-sm">
+                    <p class="lead">{{user.firstName}} {{user.lastName}}</p>
+                    <p>Following: <strong>{{user.followingNumber}}</strong>, Followers:
+                        <strong>{{user.followersNumber}}</strong></p>
                 </div>
             </div>
+            <div class="row col-xs-5 content col-sm-5" ng-if="user.role == 'company'">
+                <div class="row mar-user-top hidden-xs hidden-sm">
+                    <p class="lead">{{user.cname}}, {{user.location}}</p>
+                    <p>Followers: <strong>{{user.followersNumber}}</strong>, Following:
+                        <strong>{{user.followingNumber}}</strong></p>
+                </div>
+                <div class="row mar-user-top visible-xs visible-sm">
+                    <p class="lead">{{user.cname}}, {{user.location}}</p>
+                    <p>Following: <strong>{{user.followingNumber}}</strong>, Followers:
+                        <strong>{{user.followersNumber}}</strong></p>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-2" ng-show="user.followingFlag == true">
+                <button ng-if="user.role == 'user'" type="button" class="btn btn-block btn-sm btn-success hidden-xs hidden-sm"
+                        ng-click="model.unfollow(user)"><i
+                        class="fa fa-user" aria-hidden="true"></i> Unfollow
+                </button>
+                <button ng-if="user.role == 'company'" type="button" class="btn btn-block btn-sm btn-success hidden-xs hidden-sm"
+                        ng-click="model.unfollow(user)"><i
+                        class="fa fa-building" aria-hidden="true"></i> Unfollow
+                </button>
+                <button ng-if="user.role == 'user'" type="button" class="btn btn-block btn-sm btn-success visible-xs visible-sm"
+                        ng-click="model.unfollow(user)"><i
+                        class="fa fa-user" aria-hidden="true"></i> Unfollow
+                </button>
+                <button ng-if="user.role == 'company'" type="button" class="btn btn-block btn-sm btn-success visible-xs visible-sm"
+                        ng-click="model.unfollow(user)"><i
+                        class="fa fa-building" aria-hidden="true"></i> Unfollow
+                </button>
+            </div>
+            <div class="col-xs-4 col-sm-2" ng-show="user.followingFlag == false">
+                <button ng-if="user.role == 'user'" type="button" class="btn btn-block btn-sm btn-warning hidden-xs hidden-sm"
+                        ng-click="model.follow(user)"><i
+                        class="fa fa-user"
+                        aria-hidden="true"></i>
+                    Follow
+                </button>
+                <button ng-if="user.role == 'company'" type="button" class="btn btn-block btn-sm btn-warning hidden-xs hidden-sm"
+                        ng-click="model.follow(user)"><i
+                        class="fa fa-building" aria-hidden="true"></i>
+                    Follow
+                </button>
+                <button ng-if="user.role == 'user'" type="button" class="btn btn-block btn-sm btn-warning visible-xs visible-sm"
+                        ng-click="model.follow(user)"><i
+                        class="fa fa-user" aria-hidden="true"></i> Follow
+                </button>
+                <button ng-if="user.role == 'company'" type="button" class="btn btn-block btn-sm btn-warning visible-xs visible-sm"
+                        ng-click="model.follow(user)"><i
+                        class="fa fa-building" aria-hidden="true"></i> Follow
+                </button>
+            </div>
         </div>
+
     </div>
 </div>

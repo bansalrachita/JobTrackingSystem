@@ -1,15 +1,23 @@
 {
-  "name": "JobTrackingSystem",
+  "name": "web-dev",
   "version": "1.0.0",
-  "description": "Northeastern University",
+  "description": "Web Dev at Northeastern University",
   "main": "server.js",
   "dependencies": {
     "angular-ui-router": "^0.3.1",
     "body-parser": "^1.15.1",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "less": "^2.7.1",
     "mongoose": "^4.4.15",
+    "mongoose-text-search": "0.0.2",
     "multer": "^1.1.0",
+    "passport": "^0.3.2",
+    "passport-linkedin": "^1.0.0",
+    "passport-linkedin-oauth2": "^1.4.1",
+    "passport-local": "^1.0.0",
     "textangular": "^1.5.1",
     "type-is": "^1.6.13",
     "ui-router": "^1.0.0-alpha.3"
@@ -19,6 +27,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Rachita Bansal",
+  "author": "Dixit Keshavbhai Patel",
   "license": "ISC"
 }

@@ -1,44 +1,90 @@
 <div class="jobstable">
-    <div ng-show="model.role == 'company'">
-        <a class="pull-right btn glyphicon glyphicon-plus" ui-sref="newJob"></a>
-    </div>
-    <div ng-show="model.role=='guest'" >
-        <button class="pull-right btn btn-success" ui-sref="register">Register</button>
-    </div>
-    <h1>Jobs</h1>
-
-
-    <div ng-if="model.register" class="alert alert-danger alert-dismissible">
-        {{model.register}}
-    </div>
-
-    <div ng-repeat="job in model.jobs">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-
-            <!-- edit for company -->
-            <div ng-show="model.role == 'company'">
-                <a ui-sref="editJob({ jid : {{job.jid}} })"
-                   class="pull-right spl-margin-right">
-                    <span class="glyphicon glyphicon-cog"></span>
-                </a>
+    <div class="row">
+        <div ng-if="model.role == 'guest'" class="content text-center">
+            <div class="row alert alert-info hidden-xs hidden-sm">
+                <span class="glyphicon glyphicon-info-sign"></span> <strong> For more access and jobs
+                <i class="fa fa-lg fa-hand-o-right glyphicon" aria-hidden="true"></i><a ui-sref="register">
+                    Register</a>
+                and Join us!</strong>
+                <hr class="message-inner-separator">
             </div>
-            <h3 class="panel-title">{{job.cname}}</h3>
+            <div class="row alert alert-info visible-xs visible-sm">
+                <span class="glyphicon glyphicon-info-sign"></span> <strong> For more access and jobs
+                <i class="fa fa-lg fa-hand-o-right glyphicon" aria-hidden="true"></i><a ui-sref="register">
+                    Register</a>
+                and Join us!</strong>
+            </div>
         </div>
-        <div class="panel-body">
-            <a ui-sref="jobsSpecific({ jid : {{job.jid}} })"
-               class="pull-right">
-                <span class="glyphicon glyphicon-play"></span>
-            </a>
+        <div class="col-md-2">
+            <h2>Jobs</h2>
+        </div>
+        <div class="col-md-10" ng-show="model.role == 'company'">
+            <a class="pull-right btn glyphicon glyphicon-plus blue" ui-sref="newJob"></a>
+        </div>
 
+        <div ng-if="model.role == 'user'" class="input-group col-md-3 pull-right" id="custom-search-input">
+            <input type="text" class="  search-query form-control" ng-model="model.searchText" placeholder="Search"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button">
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+        </div>
 
-
-            <p>{{job.title}}</p>
-            <p>Desc for Job ID: {{job.jid}}</p>
-            <p class="summary">{{job.desc}}</p>
-            <div class="span4" ng-repeat="item in job.skills">{{item}}</div>
+        <div ng-if="model.register" class="col-md-10 alert alert-danger alert-dismissible">
+            {{model.register}}
         </div>
     </div>
 
+    <div ng-repeat="job in model.jobs | searchJob:model.searchText">
+        <div class="panel panel-default">
+            <div class="panel-heading">
 
-</div></div>
+                <!-- edit for company -->
+                <div ng-show="model.role == 'company'">
+                    <a ui-sref="editJob({ jid : '{{job._id}}' })"
+                       class="pull-right spl-margin-right">
+                        <span class="glyphicon glyphicon-cog blue"></span>
+                    </a>
+                </div>
+                <h3 class="panel-title">{{job.cname}}</h3>
+            </div>
+            <div class="panel-body">
+                <a ui-sref="jobsSpecific({ jid : '{{job._id}}' })" class="pull-right">
+                    <span class="glyphicon fa fa-pie-chart blue" aria-hidden="true"></span>
+                </a>
+
+
+                <h5>Position Title:
+                    <small> {{job.title}}</small>
+                </h5>
+                <h5>Job ID:
+                    <small>{{job._id}}</small>
+                </h5>
+                <h5>Location:
+                    <small>{{job.location}} - {{job.city}}, {{job.state}}</small>
+                </h5>
+                <h5>Description:
+                    <small>{{job.desc}}</small>
+                </h5>
+                <h5>Requirements:
+                    <small ng-repeat="item in job.skills"><i class="fa fa-dot-circle-o red" aria-hidden="true"></i>
+                        {{item}}
+                    </small>
+                </h5>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="model.role=='user' || model.role=='company'">
+        <div class="col-md-6">
+            <a class="pull-right black footer btn" ng-disable="model.disable"
+               ng-click="model.findJobByPageNumber(model.pageNum, 'previous')">Previous <i
+                    class="fa fa-lg fa-chevron-circle-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="col-md-6">
+            <a class="pull-left black footer btn" ng-disable="model.disable"
+               ng-click="model.findJobByPageNumber(model.pageNum, 'next')"><i
+                    class="fa fa-lg fa-chevron-circle-right" aria-hidden="true"></i> Next</a>
+        </div>
+    </div>
+</div>

@@ -15,6 +15,8 @@
                 0: null
             };
 
+            var c10 = d3.scale.category10();
+
             var width = 700,
                 height = 600,
                 centered;
@@ -38,7 +40,7 @@
                 .attr('class', 'hidden tooltip');
             var validStates = [];
             var numberOfApplicants = [];
-            var legend_labels =  [];
+            var legend_labels = [];
             var legendData = [];
 
             function validState() {
@@ -170,6 +172,7 @@
 
 
             scope.$watch('land', function (geo) {
+                validState();
                 if (!geo) return;
 
                 validState();
@@ -187,7 +190,8 @@
                     })
                     .attr("fill", function (d) {
                         if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
-                            return d3.rgb("#" + (numberOfApplicants[scope.idnamemap[d.id].name] + 700));
+                            return c10(numberOfApplicants[scope.idnamemap[d.id].name]);
+                            // return d3.rgb("#" + (numberOfApplicants[scope.idnamemap[d.id].name] + 700));
                         }
                     })
                     .on("click", function (d) {
@@ -239,16 +243,25 @@
 
                 legend.append("rect")
                     .attr("x", 30)
-                    .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+                    .attr("y", function (d, i) {
+                        return height - (i * ls_h) - 2 * ls_h;
+                    })
                     .attr("width", ls_w)
                     .attr("height", ls_h)
-                    .style("fill", function(d, i) { return d3.rgb("#" + (legend_labels[i].value + 700)); })
+                    .style("fill", function (d, i) {
+                        return c10(legend_labels[i].value);
+                        // return d3.rgb("#" + (legend_labels[i].value + 700));
+                    })
                     .style("opacity", 0.8);
 
                 legend.append("text")
                     .attr("x", 70)
-                    .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
-                    .text(function(d, i){ return legend_labels[i].value; });
+                    .attr("y", function (d, i) {
+                        return height - (i * ls_h) - ls_h - 4;
+                    })
+                    .text(function (d, i) {
+                        return legend_labels[i].value + " Applications";
+                    });
 
             });
 

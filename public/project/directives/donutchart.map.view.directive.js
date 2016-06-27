@@ -7,31 +7,40 @@
     function regionChart($http, chartService) {
         function link(scope, element, attr) {
             nv.addGraph(function () {
-                var width = 80;
-                var height = 80;
+                var width = 100;
+                var height = 100;
                 var svg = d3.select("#" + scope.id).append("svg")
                     .attr("width", width)
                     .attr("height", height);
 
-                var myColors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"];
-                d3.scale.myColors = function() {
-                    return d3.scale.ordinal().range(myColors);
-                };
+                var c10 = d3.scale.category10();
 
+                var counter = 0;
+
+                var counterCheck = function(counter){
+                    counter += 1;
+                    return counter;
+                };
                 var chart = nv.models.pieChart()
                         .x(function (d) {
-                            return d.label
+                           return d.label;
                         })
                         .y(function (d) {
-                            return d.value
+                            return d.value;
                         })
-                        .showLabels(true)     //Display pie labels
-                        .labelThreshold(.05)  //Configure the minimum slice size for labels to show up
-                        .labelType("percent") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+                        .showLabels(true)//Display pie labels
+                        .showLegend(false)
+                        .labelThreshold(.15)  //Configure the minimum slice size for labels to show up
+                        .labelType("key") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
                         .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
-                        .donutRatio(0.25)
-                        .color(d3.scale.myColors().range())//Configure how big you want the donut hole size to be.
+                        .donutRatio(0.5)
+                        .color(function (d) {
+                            return c10(d.value);
+                        })//Configure how big you want the donut hole size to be.
                     ;
+
+                // d3.select(".nv-legendWrap")
+                //     .attr("transform", "translate(0,-100)");
 
                 scope.$watch('data', function (data) {
                     // console.log('redraw :', data);

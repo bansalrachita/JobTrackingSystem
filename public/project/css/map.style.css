@@ -3,8 +3,67 @@
     pointer-events: all;
 }
 
-.mapcontainer{
+.card.card-block{
     background-color: #ffffff;
+    margin: 10px;
+}
+
+.card-text{
+    text-align: justify;
+}
+
+.circle-text-sm {
+    width:100px;
+    margin-left: 50px;
+}
+.circle-text-sm:after {
+    content: "";
+    display: block;
+    width: 100px;
+    height:100px;
+    padding-bottom: 100%;
+    background: #4679BD;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.circle-text-sm div {
+    float:left;
+    width:100%;
+    padding-top:40%;
+    line-height:1.0em;
+    margin-top:-0.8em;
+    text-align:center;
+    font-size: 1.4em;
+    color:white;
+}
+
+.small-text-sm {
+    width:60px;
+    margin: 5%;
+}
+.small-text-sm:after {
+    content: "";
+    display: block;
+    width: 60px;
+    height:60px;
+    padding-bottom: 100%;
+    background: #9966ff;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
+
+.small-text-sm div {
+    float:left;
+    width:100%;
+    padding-top:50%;
+    line-height:0.5em;
+    margin-top:-0.5em;
+    text-align:center;
+    font-size: 0.7em;
+    color:white;
 }
 
 .mapview #states {
@@ -41,4 +100,13 @@ div.tooltip {
 
 .legend {
     font-size: 12px;
+    font-weight: bold;
 }
+
+@media (max-width: 768px){
+    #usaMap {
+        display: none;
+    }
+}
+
+

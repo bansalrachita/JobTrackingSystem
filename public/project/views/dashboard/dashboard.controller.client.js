@@ -3,16 +3,24 @@
         .module("JobTracker")
         .controller("DashboardController", DashboardController);
 
-    function DashboardController($location, $stateParams, UserService) {
-        var vm = this;
-        var id = $stateParams.uid;
+    function DashboardController($rootScope, $location, $stateParams, UserService) {
 
-        console.log("inside DashboardController login uid=", id);
+        var vm = this;
+        // var id = $stateParams.uid;
+
+
+        // TODO : check for others except linkedin
+        var id = $rootScope.currentUser._id;
+        vm.userId = $rootScope.currentUser._id;
+        console.log("DashboardController login uid=" + id);
+        console.log("DashboardController from rootScope ", vm.userId);
 
         function init(){
             if(id == "guest"){
                 console.log("GUEST");
                 vm.role = "guest";
+                vm.user = {};
+                vm.user.username = "Guest";
             }else {
                 UserService
                     .findUserById(id)
@@ -38,6 +46,25 @@
         }
         init();
 
+        vm.logout = function (){
+            console.log("LoginController logout");
+
+            UserService
+                .logout()
+                .then(function (response){
+                    console.log("LoginController received response from logout");
+                    $rootScope.currentUser = null;
+                    $location.url("/");
+                });
+        };
+
+        vm.toggleMenu = function(){
+            $('#bs-sidebar-navbar-collapse-1').on('click', function(){
+                $('.navbar-toggle').click()
+            });
+        }
+
     }
+
 
 })();

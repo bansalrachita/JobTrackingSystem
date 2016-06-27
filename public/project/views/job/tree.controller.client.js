@@ -1,15 +1,27 @@
 (function () {
     angular
         .module("JobTracker")
-        .controller("treeController", treeController);
+        .controller("TreeController", TreeController);
 
-    function treeController($stateParams, TreeService,$location) {
+    function TreeController($stateParams, TreeService,JobService) {
         var vm = this;
-
         vm.userId = $stateParams.uid;
         vm.jobId = $stateParams.jid;
 
         console.log("inside treeController for uid=" + vm.userId + " with " + vm.jobId);
+
+        function init(){
+            JobService
+                .findJobByJId(vm.jobId)
+                .then(function (response) {
+                    console.log("JobService findJobByJId success");
+                    vm.job = response.data;
+                    return vm.jobId;
+                }, function (err) {
+                    console.log("JobService error", err);
+                });
+        }
+        init();
 
         TreeService.drawTree(vm.jobId).then(
             function (response) {
@@ -137,7 +149,7 @@
         };
 
         vm.getMaxLength = function () {
-            return 180;
+            return 200;
         };
     }
 

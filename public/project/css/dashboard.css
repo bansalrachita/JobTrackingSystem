@@ -1,20 +1,14 @@
-body,html{
-    height: 100%;
-}
-
 /* remove outer padding */
-.main .row{
+.main .row {
     padding: 0px;
     margin: 0px;
 }
-
-/*Remove rounded coners*/
 
 nav.sidebar.navbar {
     border-radius: 0px;
 }
 
-nav.sidebar, .main{
+nav.sidebar, .main {
     -webkit-transition: margin 200ms ease-out;
     -moz-transition: margin 200ms ease-out;
     -o-transition: margin 200ms ease-out;
@@ -22,8 +16,14 @@ nav.sidebar, .main{
 }
 
 /* Add gap to nav and right windows.*/
-.main{
+.main {
     padding: 10px 10px 0 10px;
+}
+
+#span-header {
+    padding: 10px;
+    text-align: center;
+    float: left
 }
 
 /* .....NavBar: Icon only with coloring/layout.....*/
@@ -32,7 +32,7 @@ nav.sidebar, .main{
 @media (min-width: 768px) {
 
     /*Allow main to be next to Nav*/
-    .main{
+    .main {
         position: absolute;
         width: calc(100% - 40px); /*keeps 100% minus nav size*/
         margin-left: 40px;
@@ -40,33 +40,34 @@ nav.sidebar, .main{
     }
 
     /*lets nav bar to be showed on mouseover*/
-    nav.sidebar:hover + .main{
+    nav.sidebar:hover + .main {
         /*margin-left: 200px;*/
     }
 
     /*Center Brand*/
-    nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
-        margin-left: 0px;
-    }
-    /*Center Brand*/
-    nav.sidebar .navbar-brand, nav.sidebar .navbar-header{
-        text-align: center;
-        width: 100%;
+    nav.sidebar.navbar.sidebar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
         margin-left: 0px;
     }
 
+    /*Center Brand*/
+    nav.sidebar .navbar-brand, nav.sidebar .navbar-header {
+        text-align: center;
+        width: 100%;
+        margin-left: 0;
+    }
+
     /*Center Icons*/
-    nav.sidebar a{
+    nav.sidebar a {
         padding-right: 13px;
     }
 
     /*adds border top to first nav box */
-    nav.sidebar .navbar-nav > li:first-child{
+    nav.sidebar .navbar-nav > li:first-child {
         border-top: 1px #e5e5e5 solid;
     }
 
     /*adds border to bottom nav boxes*/
-    nav.sidebar .navbar-nav > li{
+    nav.sidebar .navbar-nav > li {
         border-bottom: 1px #e5e5e5 solid;
     }
 
@@ -83,17 +84,17 @@ nav.sidebar, .main{
     }
 
     /*allows nav box to use 100% width*/
-    nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
+    nav.sidebar .navbar-collapse, nav.sidebar .container-fluid {
         padding: 0 0px 0 0px;
     }
 
     /*colors dropdown box text */
-    .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
         color: #777;
     }
 
     /*gives sidebar width/height*/
-    nav.sidebar{
+    nav.sidebar {
         width: 200px;
         height: 100%;
         margin-left: -160px;
@@ -108,14 +109,19 @@ nav.sidebar, .main{
     }
 
     /* Move nav to full on mouse over*/
-    nav.sidebar:hover{
-        margin-left: 0px;
+    nav.sidebar:hover {
+        margin-left: 0;
         opacity: 0.5;
         filter: alpha(opacity=50); /* For IE8 and earlier */
     }
+
     /*for hiden things when navbar hidden*/
-    .forAnimate{
+    .forAnimate {
         opacity: 0;
+    }
+
+    .header-website {
+        display: none;
     }
 }
 
@@ -124,31 +130,33 @@ nav.sidebar, .main{
 @media (min-width: 1330px) {
 
     /*Allow main to be next to Nav*/
-    .main{
+    .main {
         width: calc(100% - 200px); /*keeps 100% minus nav size*/
         margin-left: 200px;
     }
 
     /*Show all nav*/
-    nav.sidebar{
-        margin-left: 0px;
+    nav.sidebar {
+        margin-left: 0;
         float: left;
     }
+
     /*Show hidden items on nav*/
-    nav.sidebar .forAnimate{
+    nav.sidebar .forAnimate {
         opacity: 1;
     }
 }
 
-nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
+nav.sidebar .navbar-nav .open .dropdown-menu > li > a:hover, nav.sidebar .navbar-nav .open .dropdown-menu > li > a:focus {
     color: #CCC;
     background-color: transparent;
 }
 
-nav:hover .forAnimate{
+nav:hover .forAnimate {
     opacity: 1;
 }
-section{
+
+section {
     padding-left: 15px;
 }
 
@@ -157,10 +165,45 @@ section{
     border-radius: 0;
 }
 
-.navbar.navbar-header>h4{
+.font-size-16 {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+
+    .header-website {
+        color: #f8f8f8;
+        padding-left: 10px;
+        font-size: 1.4em;
+    }
+
+    .main-header {
+        display: none;
+    }
+
+}
+
+.navbar.navbar-inverse.main-header > h4 {
     color: #f8f8f8;
     padding-left: 10px;
+    font-size: 1.4em;
 }
-.font-size-16{
-    font-size:16px;
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+    cursor: pointer;
 }
+
+#image1{
+    background-image: url("../../images/capture_image1.png");
+}
+
+#image2{
+    background-image: url("../../images/capture_image2.png");
+}
+
+#image3{
+    background-image: url("../../images/capture_image3.png");
+}
+

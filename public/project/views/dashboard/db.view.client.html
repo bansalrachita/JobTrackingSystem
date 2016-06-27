@@ -1,29 +1,60 @@
 <div class="container">
     <div class="row">
         <h1>
-            Applicants Database
+            Student Database
         </h1>
     </div>
     <div class="row">
-        <div class="col-sm-2" ng-repeat="user in model.userList">
-            <div class="card">
-                <canvas class="header-bg" width="250" height="70" id="header-blur"></canvas>
-                <div ng-if="user.img != null" class="avatar">
-                    <img src={{user.img}} alt=""/>
+        <div class="col-xs-12 col-sm-12" ng-repeat="user in model.userList">
+            <hr/>
+            <div class="col-xs-3 img-center col-sm-2 text-center">
+                <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                     height="80" width="80"
+                     class="avatar img-circle hidden-sm hidden-xs" alt="avatar">
+                <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                     height="80" width="80"
+                     class="avatar img-circle visible-sm" alt="avatar">
+                <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                     height="70" width="70"
+                     class="avatar img-circle visible-xs" alt="avatar">
+
+                <img ng-if="user.img != null" ng-src="{{user.img}}"
+                     height="80" width="80"
+                     class="avatar img-circle hidden-sm hidden-xs" alt="avatar">
+                <img ng-if="user.img != null" ng-src="{{user.img}}"
+                     height="80" width="80"
+                     class="avatar img-circle visible-sm" alt="avatar">
+                <img ng-if="user.img != null" ng-src="{{user.img}}"
+                     height="70" width="70"
+                     class="avatar img-circle visible-xs" alt="avatar">
+            </div>
+
+            <div class="col-xs-5 content col-sm-5" ng-if="user.role == 'user'">
+                <div class="row mar-user-top hidden-xs hidden-sm">
+                    <p class="lead">{{user.firstName}} {{user.lastName}}</p>
+                    <p><strong>{{user.about}}, </strong>
+                        <strong>{{user.experience}}</strong></p>
                 </div>
-                <div ng-if="user.img == null" class="avatar">
-                    <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
+                <div class="row mar-user-top visible-xs visible-sm">
+                    <p class="lead">{{user.firstName}} {{user.lastName}}</p>
+                    <p><strong>{{user.about}}, </strong>
+                        <strong>{{user.experience}}</strong></p>
                 </div>
-                <div class="content">
-                    <p>{{user.firstName}} {{user.lastName}}<br>
-                    <p>{{user.about}}<br>
-                        {{user.experience}}</p>
-                    <p>
-                        <button type="button" class="btn btn-default" ng-click="model.getProfile(user._id)">View Profile
-                        </button>
-                    </p>
-                </div>
+            </div>
+            <div class="col-xs-4 col-sm-2">
+                <button type="button"
+                        class="btn btn-block btn-sm btn-success hidden-xs hidden-sm"
+                        ng-click="model.getProfile(user._id)"><i
+                        class="fa fa-user" aria-hidden="true"></i> View
+                </button>
+                <button type="button"
+                        class="btn btn-block btn-sm btn-success visible-xs visible-sm"
+                        ng-click="model.getProfile(user._id)"><i
+                        class="fa fa-user" aria-hidden="true"></i> View
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+

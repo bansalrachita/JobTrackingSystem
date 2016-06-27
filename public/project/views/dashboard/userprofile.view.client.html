@@ -1,6 +1,13 @@
 <div id="doc2" class="yui-t7">
     <div id="inner">
 
+        <div ng-if="model.flag == false" class="padding-margin-float-left text-center">
+            <a ui-sref="database"> <span class="fa fa-chevron-left fa-lg pull-left blue"></span></a>
+        </div>
+        <div ng-if="model.flag == true" class="padding-margin-float-left text-center">
+            <a ui-sref="tree({ jid: model.jobId })"> <span class="fa fa-chevron-left fa-lg pull-left blue"></span></a>
+        </div>
+
         <div id="hd" class="row">
             <div class="col-md-12">
                 <div class="col-md-8">

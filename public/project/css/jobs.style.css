@@ -1,34 +1,29 @@
-table {
-    background-color: #ffffff;
-    align-self: center;
-}
 
-.jobstable{
+.jobstable {
     align-self: center;
-    padding-left: 10%;
-    padding-right: 15%;
+    /*padding-left: 10%;*/
+    /*padding-right: 15%;*/
 }
 
 .jobview {
     background-color: #ffffff;
 }
 
-
-.applyjob{
+.applyjob {
     border-radius: 1%;
-    background-color: #ffffff;
+    /*background-color: #fcf8e3;*/
     padding: 20px 30px 20px 30px;
     display: block;
-    margin-right: 20%;
-    margin-left: 20%;
+    /*margin-right: 20%;*/
+    /*margin-left: 20%;*/
 }
 
-.applyjob .submit{
+.applyjob .submit {
     float: right;
+    margin: 1%;
 }
 
-@media
-only screen and (max-width: 760px),
+@media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
 
     /* Force table to not be like tables anymore */
@@ -40,55 +35,58 @@ only screen and (max-width: 760px),
         padding: 0 0 0 0;
     }
 
-    .applyjob{
+    .applyjob {
         border-radius: 1%;
-        background-color: #ffffff;
-        padding: 20px 30px 20px 30px;
+        /*background-color: #fcf8e3;*/
+        padding: 10px;
         display: block;
-        margin-right:0;
+        margin-right: 0;
         margin-left: 0;
     }
-    }
-    /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
 
-    tr {
-        border: 1px solid #ccc;
-    }
+}
 
-    td {
-        /* Behave  like a "row" */
-        border: none;
-        border-bottom: 1px solid #eee;
-        position: relative;
-        padding-left: 50%;
-    }
+/* Hide table headers (but not display: none;, for accessibility) */
+thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
 
-    td:before {
-        /* Now like a table header */
-        position: absolute;
-        /* Top/left values mimic padding */
-        top: 6px;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-    }
+tr {
+    border: 1px solid #ccc;
+}
 
-    .jobview{
+td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+}
+
+td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.jobview {
     background-color: #ffffff;
 }
 
-fieldset{
+fieldset {
     /*background: #efefef;*/
     padding: 16px;
     border: 1px solid #D5D5D5;
 }
-.addfields{
+
+.addfields {
     margin: 10px 0;
 }
 
@@ -98,7 +96,8 @@ fieldset{
     /*border: 1px solid rgb(171, 239, 171);*/
     color: rgb(9, 56, 9);
 }
-.remove{
+
+.remove {
     background: #C76868;
     color: #FFF;
     font-weight: bold;
@@ -110,13 +109,56 @@ fieldset{
     vertical-align: top;
     line-height: 100%;
 }
+
 input[type="text"],
-select{
-    padding:5px;
+select {
+    padding: 5px;
 }
 
 .noborder {
     border-style: none;
     background: #efefef;
+}
+
+.blue {
+    color: blue;
+}
+
+.red {
+    color: red;
+}
+
+.form-group {
+    margin-top: 15px;
+}
+
+.padding-margin-float-left {
+    padding: 5px;
+    margin: 5px;
+    float: left;
+}
+
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.input-group .form-control {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.footer{
+    margin:10px;
+}
+
+.black {
+    color: black;
+}
+
+.skill-input{
+    padding-top:10px;
+    padding-bottom: 10px;
+
 }
 

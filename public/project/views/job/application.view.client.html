@@ -1,22 +1,39 @@
 <div class="applyjob">
-    <div ng-if="model.error" class="alert alert-danger alert-dismissible">
-        {{model.error}}
+    <div ng-if="(myForm.$invalid && myForm.$submitted) || model.error" class="alert alert-danger alert-dismissible">
+        <label>There are errors in the form {{model.error}}</label>
     </div>
-    <form class="form-group">
+    <div class="text-center">
+        <a ui-sref="jobsSpecific({ jid : '{{model.jobId}}' })"> <span class="fa fa-chevron-left fa-lg pull-left blue"></span></a>
+        <strong>Apply Job</strong>
+        <button form="new-job" type=submit  ng-click="myForm.$valid && model.apply()"
+                class="fa fa-check pull-right blue fa-lg mysubmit">
+        </button>
+    </div>
+
+    <form id="new-job" class="form-group text-left" name="myForm" novalidate ng-class="{'submitted': submitted}">
+
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="degree">Enter Highest Degree</label>
                 <input type="text" class="form-control" id="degree"
+                       name="degree" required
                        placeholder="Enter Degree" ng-model="model.userApplication.degree">
             </div>
+             <span ng-show="myForm.$submitted && myForm.degree.$error.required" class="help-block">
+             Please enter Highest Degree
+            </span>
         </div>
 
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="university">University</label>
                 <input type="text" class="form-control" id="university"
+                       name="university" required
                        placeholder="Enter University" ng-model="model.userApplication.university">
             </div>
+            <span ng-show="myForm.$submitted && myForm.university.$error.required" class="help-block">
+                 Please enter University
+            </span>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
@@ -24,29 +41,57 @@
                 <input type="text" class="form-control" id="address"
                        placeholder="city" ng-model="model.userApplication.address">
             </div>
+
         </div>
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="state">State</label>
                 <select id="state" class="form-control"
                         ng-model="model.userApplication.state"
+                        name="state"
+                        required
                         ng-options="state.name for state in model.states">
                 </select>
             </div>
+            <span ng-show="myForm.$submitted && myForm.state.$error.required" class="help-block">
+                 Please enter State
+            </span>
         </div>
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="city">City</label>
                 <input type="text" class="form-control" id="city"
+                       name="city" required
                        placeholder="City" ng-model="model.userApplication.city">
+            </div>
+            <span ng-show="myForm.$submitted && myForm.city.$error.required" class="help-block">
+                 Please enter city
+            </span>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="skill">Skills</label>
+                <a class="btn glyphicon glyphicon-plus"
+                   ng-click="model.addNewChoice()"></a>
+            </div>
+            <div class="row">
+                <div class="col-md-6 skill-input" ng-repeat="choice in model.choices">
+                    <input id="skill"
+                           type="text"
+                           class="form-control"
+                           ng-model="choice.name"
+                           placeholder="">
+                    <div class="col-md-1">
+                        <a class="glyphicon glyphicon-minus" ng-show="$last"
+                           ng-click="model.removeChoice()"
+                        ></a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div ng-if="model.applied == false" class="submit col-md-5">
-                <a ng-click="model.apply()" class="btn btn-primary btn-block">Submit</a>
-            </div>
-            <div ng-if="model.applied == true" class="submit col-md-5">
-                <a class="btn btn-block btn-success">Submitted</a>
+            <div ng-if="model.applied == false">
+                <button ng-click="myForm.$valid && model.apply()" class="btn btn-primary submit">Submit</button>
             </div>
         </div>
     </form>

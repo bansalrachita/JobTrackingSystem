@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     <title>Project Home Page</title>
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link href="css/validation.css" rel="stylesheet"/>
     <link href="css/login.css" rel="stylesheet"/>
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,700,500" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
@@ -19,17 +20,21 @@
     <link href="css/home.css" rel="stylesheet">
     <link href="css/db.style.css" rel="stylesheet">
     <link href="css/resume.css" rel="stylesheet" media="all">
+    <link href="css/glyphs.css" rel="stylesheet" media="all">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="css/user.css">
 
     <!-- -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="http://code.ionicframework.com/0.9.26/css/ionic.min.css">-->
+
 
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
     <!-- angular  -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular-animate.js"></script>
@@ -54,6 +59,8 @@
     <script src="services/map.view.service.js"></script>
     <script src="services/donutchart.view.service.js"></script>
     <script src="services/tree.view.service.js"></script>
+    <script src="services/external.data.service.js"></script>
+
 
     <!-- JS directive  -->
     <script src="directives/map.view.directive.js"></script>
@@ -72,6 +79,7 @@
     <script src="views/job/map.controller.client.js"></script>
     <script src="views/job/job-edit.controller.client.js"></script>
     <script src="views/job/job-new.controller.client.js"></script>
+    <script src="views/job/apply.job.controller.client.js"></script>
 
     <script src="views/dashboard/dashboard.controller.client.js"></script>
     <script src="views/dashboard/home.controller.client.js"></script>
@@ -79,9 +87,13 @@
     <script src="views/dashboard/db.controller.client.js"></script>
     <script src="views/dashboard/follow.controller.client.js"></script>
     <script src="views/dashboard/UserprofileController.client.js"></script>
+    <script src="js/dashboard.header.toggle.js"></script>
+
+    <script src="filters/job.filter.client.js"></script>
 
 </head>
 <body ng-app="JobTracker">
-    <div ui-view=""></div>
+    <div class="wrapper" ui-view="">
+    </div>
 </body>
 </html>

@@ -1,45 +1,63 @@
-<div class="treeview">
+<div class="treeview card card-block">
     <div class="row">
-        <div class="col-md-9" id="treeLayout">
-            <h1>Application ID - {{model.jobId}}</h1>
-            <tree-graph treedata="model.treeData">
-            </tree-graph>
+        <div class="col-md-9">
+            <div class="row">
+                <a ui-sref="jobsSpecific({ jid: model.jobId })"> <span
+                        class="fa padding-margin-float-left fa-chevron-left fa-lg blue"></span></a>
+                <h3>Job ID ({{model.jobId}}) - {{model.job.title}}</h3>
+                <h3><i class="fa fa-industry" aria-hidden="true"></i> {{model.job.dept}} <i class="fa fa-globe"
+                                                                                            aria-hidden="true"></i>
+                    {{model.job.location}},
+                    {{model.job.state}}</h3>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-9" id="treeLayout">
+                    <tree-graph treedata="model.treeData">
+                    </tree-graph>
+                </div>
+            </div>
         </div>
         <div class="col-md-3">
-            <label>State : </label>
+            <label>State</label>
             <select ng-model="model.selected"
                     ng-options="s.name for s in model.states"
                     ng-change="model.selectcity(model.selected)"
-                    ng-style="{'width': model.getMaxLength() + 'px'}"
                     class="form-control">
                 <option value="">---Please select---</option>
             </select>
-            <label>City : </label>
+            <label>City</label>
             <select ng-model="model.selectedCity"
                     ng-options="c.name for c in model.cities track by c.name"
                     ng-change="model.selectUniv(model.selectedCity)"
-                    ng-style="{'width': model.getMaxLength() + 'px'}"
                     class="form-control">
                 <option value="">---Please select---</option>
             </select>
-            <label>College : </label>
+            <label>University/College</label>
             <select ng-model="model.selectedUniv"
                     ng-options="univ.name for univ in model.univs track by univ.name"
-                    ng-style="{'width': model.getMaxLength() + 'px'}"
                     class="form-control">
                 <option value="">---Please select---</option>
             </select>
             <br/>
-            <div class="btn btn-primary"
-                 ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">Search</div>
+            <div class="btn btn-block btn-sm btn-primary"
+                 ng-click="model.submit(model.selected, model.selectedCity, model.selectedUniv)">Search
+            </div>
         </div>
         <div class="col-md-3">
-            <h3>Applicants List</h3>
+            <div class="row text-center">
+                <h3><i class="fa fa-sitemap" aria-hidden="true"></i> Search Applicants</h3>
+            </div>
+
             <div class="list-group">
                 <a class="list-group-item" ng-repeat="applicant in model.applicantsData"
-                   ui-sref="userprofile({ userid: applicant.userId })">
-                    <h4>{{applicant.name}}</h4>
-                    <p>{{applicant.university}}</p>
+                   ui-sref="userprofile({ jid: model.jobId , userid: applicant.userId })">
+                    <h4 class="list-group-item-heading">{{applicant.name}}</h4>
+                    <p class="list-group-item-text"><i class="fa fa-university" aria-hidden="true"></i>
+                        {{applicant.university}}</p>
+                    <span class="list-group-item-text" ng-repeat="skill in applicant.skills"><i class="fa fa-circle"
+                                                                                                aria-hidden="true"></i> {{skill}} </span>
                 </a>
             </div>
         </div>

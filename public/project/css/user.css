@@ -1,0 +1,19 @@
+@media only screen and (min-device-width: 768px){
+    .user-row {
+        padding: 20px 0 20px 93px;
+        height: 75px;
+        border-bottom: 1px solid #e0dedb;}
+}
+
+.mar-user-top{
+    margin: 5px;
+}
+
+.col-xs-3.col-sm-2{
+    padding-left: 0;
+}
+
+.col-sm-5.col-xs-5{
+    padding-right: 15px;
+     padding-left: 15px;
+}

@@ -21,3 +21,9 @@
 .treeview{
 background-color: #ffffff;
 }
+
+@media (max-width: 768px){
+    #treeLayout {
+        display: none;
+    }
+}

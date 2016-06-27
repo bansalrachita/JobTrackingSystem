@@ -4,7 +4,7 @@
         .controller("SpecificJobController", SpecificJobController);
 
 
-    function SpecificJobController($http, $stateParams, UserService, JobService, ApplicationService) {
+    function SpecificJobController($http, $stateParams, UserService, JobService, ApplicationService, ExternalDataService) {
         var vm = this;
 
         vm.userId = $stateParams.uid;
@@ -12,19 +12,17 @@
 
         console.log("SpecificJobController login for uid=" + vm.userId + " with " + vm.jobId);
 
-        vm.choices = [{id: 'choice1'}, {id: 'choice2'}];
         function init() {
-            // var user = UserService.findUserById(vm.userId);
-            // vm.username = user.username;
-            // vm.role = user.role;
-            // vm.jobs = JobService.findJobByRole(vm.userId, vm.role);
-            // vm.applied = ApplicationService.findApplied(vm.jobId, vm.userId);
 
-            $http.get('data/us-states.json').then(function (response) {
+            ExternalDataService
+                .getStates()
+            // $http.get('data/us-states.json')
+                .then(function (response) {
                 vm.states = response.data;
             }, function (err) {
                 throw err;
             });
+
 
             UserService
                 .findUserById(vm.userId)
@@ -34,6 +32,7 @@
                     vm.user = user;
                     vm.username = user.username;
                     vm.role = user.role;
+                    console.log("user ", user);
                     return vm.role;
                 }, function (err) {
                     console.log("UserService findUserById error");
@@ -61,6 +60,45 @@
                     .then(function (response) {
                         console.log("JobService findJobByJId success");
                         vm.application = response.data;
+
+                        // find you match with application
+                        if(vm.user.role == "user"){
+                            var match = {
+                                skill:[],
+                                value:0,
+                                percent:0,
+                                locationMatch:0
+                            };
+                            if(vm.application && vm.application.skills && vm.application.skills != null){
+
+                                angular.forEach(vm.application.skills, function (key, value) {
+                                    for(var i in vm.user.skills){
+                                        if(key && key!=null && key.toLowerCase() == vm.user.skills[i].toLowerCase()){
+                                            match.skill.push(key);
+                                            match.value +=1;
+                                        }
+                                    }
+                                });
+
+                                match.percent = parseInt((match.value/vm.application.skills.length) * 100);
+                            }
+
+                            if(vm.application.state && vm.user.state && vm.user.state!=null){
+                                if(vm.application.state.toLowerCase() == vm.user.state.toLowerCase()){
+                                    match.locationMatch += 1;
+                                }
+                            }
+
+                            if(vm.application.city && vm.user.city && vm.application.city.toLowerCase() == vm.user.city.toLowerCase()){
+                                match.locationMatch += 1;
+                            }
+
+                            match.locationMatch = parseInt(match.locationMatch/2 * 100);
+                            vm.match = match;
+                        }
+
+                        //end of find match
+
                         return vm.jobId;
                     }, function (err) {
                         console.log("JobService findJobByJId error");
@@ -72,13 +110,31 @@
                     .then(function (response) {
                         var application = response.data;
                         console.log("ApplicationService findApplied application=", application);
-                        var flag;
-                        if(application.foreignUserId){
-                            flag = application.foreignUserId.includes(parseInt(vm.userId));
-                        }else{
-                            flag = false;
+
+                        if(vm.user.role == "user") {
+
+
+                            var flag, flag2;
+                            console.log("application.foreignUserId ", application.foreignUserId, "vm.userId ", vm.userId);
+                            console.log("application ", application);
+
+                            if (application.foreignUserId) {
+                                // flag = application.foreignUserId.includes(parseInt(vm.userId));
+                                console.log("application.foreignUserId ", application.foreignUserId, "vm.userId ", vm.userId);
+                                flag = application.foreignUserId.includes(vm.userId);
+                            } else {
+                                flag = false;
+                            }
+                            vm.applied = flag;
+
+                            if(vm.user.savedjobs && vm.user.savedjobs.includes(vm.jobId)){
+                                console.log("user.savedJobs ", vm.user.savedjobs, "vm.jobId ", vm.jobId);
+                                vm.savedJob = true;
+                            }else{
+                                vm.savedJob = false;
+                            }
+
                         }
-                        vm.applied = flag;
                     }, function (err) {
                         console.log("ApplicationService findApplied error");
                     });
@@ -86,49 +142,38 @@
         }
 
         init();
-        console.log(vm.role);
 
-        // vm.application = JobService.findJobByJId(vm.jobId);
+        vm.saveJob = function (){
+            console.log("ApplicationService save job");
 
-        vm.apply = function () {
-            vm.error="";
-            console.log("SpecificJobController Apply to jid=" + vm.jobId + " uid=" + vm.userId);
-            if(vm.user && vm.userApplication){
-                vm.userApplication.skills = vm.user.skills;
-                vm.userApplication.state = vm.userApplication.state.name;
-            }else{
+            UserService
+                .saveJob(vm.userId, vm.jobId)
+                .then(function (success){
+                    console.log("ApplicationService save job success ", vm.userId ,
+                        " for ", vm.jobId);
+                    vm.savedJob = true;
+                }, function (err){
+                    console.log("ApplicationService save job err ", vm.userId ,
+                        " for ", vm.jobId);
+                    vm.savedJob = false;
+                });
+        }
 
-                vm.error = "Application cannot be submitted.";
-                return;
-            }
+        vm.unsaveJob = function (){
+            console.log("ApplicationService save job");
 
-            ApplicationService
-                .applyJobIdWithApplication(vm.jobId, vm.userId, vm.userApplication)
-                .then(function (response) {
-                    console.log("ApplicationService applyJobIdWithApplication success");
-                    return vm.jobId;
-                }, function (err) {
-                    vm.error ="Please fill required fields";
-                    console.log("ApplicationService applyJobIdWithApplication error");
-                }).then(function (jobId) {
-                ApplicationService
-                    .findApplied(vm.jobId, vm.userId)
-                    .then(function (response) {
-                        var application = response.data;
-                        console.log("ApplicationService findApplied application=", application);
-                        var flag;
-                        if(application.foreignUserId){
-                            flag = application.foreignUserId.includes(parseInt(vm.userId));
-                        }else{
-                            flag = false;
-                        }
-                        vm.applied = flag;
-                    }, function (err) {
-                        vm.error ="Please fill required fields";
-                        console.log("ApplicationService findApplied error");
-                    });
-            });
-        };
+            UserService
+                .unsaveJob(vm.userId, vm.jobId)
+                .then(function (success){
+                    console.log("ApplicationService unsave job success ", vm.userId ,
+                        " for ", vm.jobId);
+                    vm.savedJob = false;
+                }, function (err){
+                    console.log("ApplicationService unsave job err ", vm.userId ,
+                        " for ", vm.jobId);
+                    vm.savedJob = true;
+                });
+        }
+                
     }
-
 })();

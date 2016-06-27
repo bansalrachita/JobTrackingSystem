@@ -9,9 +9,20 @@
 
         var id = $stateParams.uid;
         var userId = $stateParams.userid;
+        vm.jobId = $stateParams.jid;
+
+        vm.flag = true;
+        if(vm.jobId){
+            vm.flag = true;
+        }else{
+            vm.flag = false;
+        }
 
         function init() {
             console.log("UserprofileController calling UserService");
+
+
+            console.log("params jobId=", vm.jobId, " userId=", userId, " vmflag=", vm.flag);
             UserService
                 .findUserById(userId)
                 .then(function (response){

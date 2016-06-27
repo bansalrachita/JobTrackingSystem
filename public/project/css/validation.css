@@ -1,0 +1,32 @@
+.help-block {
+    color: red;
+}
+.mysubmit {
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: blue;
+    background-color: transparent;
+    /*text-decoration: underline;*/
+}
+
+button.mysubmit:focus{
+    outline:0;
+}
+.ng-submitted .ng-invalid{
+    border: 1px solid red;
+}
+a:hover{
+    text-decoration: none;
+}
+#file-upload::-webkit-file-upload-button {
+    background-color: transparent;
+    border-color: transparent;
+}
+.lowercase {
+    text-transform: lowercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}

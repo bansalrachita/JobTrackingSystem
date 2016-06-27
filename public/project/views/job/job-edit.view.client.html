@@ -1,25 +1,30 @@
 <div class="applyjob">
-    {{model.job}}
-    <div ng-if="model.success" class="alert alert-success alert-dismissible">
-        {{model.success}}
+    <!--{{model.job}}-->
+    <div ng-if="(myForm.$invalid && myForm.$submitted) || model.error" class="alert alert-danger alert-dismissible">
+        <label>There are errors in the form {{model.error}}</label>
+    </div>
+    <div class="text-center">
+        <a ui-sref="jobs"> <span class="fa fa-chevron-left fa-lg pull-left blue"></span></a>
+        <strong>Edit Job</strong>
+        <button form="edit-job" type=submit ng-click="myForm.$valid && model.updateJob(model.job)"
+           class="fa fa-check pull-right blue fa-lg mysubmit">
+        </button>
     </div>
 
-    <div ng-if="model.error" class="alert alert-danger alert-dismissible">
-        {{model.error}}
-    </div>
-    <!-- TODO remove br-->
-    <br>
-    <span class="fa fa-chevron-left">
-        <a ui-sref="jobs">Cancel</a>
-    </span>
+    <form id="edit-job" class="text-left" name="myForm" novalidate ng-class="{'submitted': submitted}">
 
     <div class="form-group">
-        <label for="title">Job Edit</label>
+        <label for="title">Job Title</label>
         <input ng-model="model.job.title"
                type="text"
                class="form-control"
                id="title"
+               name="title"
+               required
                placeholder="Job Title">
+        <span ng-show="myForm.$submitted && myForm.title.$error.required" class="help-block">
+             Please enter a Job Title
+        </span>
     </div>
     <div class="form-group">
         <label for="desc">Description</label>
@@ -29,43 +34,76 @@
                           class="form-control"
                           placeholder="Description"></textarea>
     </div>
+
     <div class="form-group">
-        <label for="state">State</label>
-        <input ng-model="model.job.state"
+        <label for="dept">Location</label>
+        <input ng-model="model.job.location"
                rows="4"
-               id="state"
+               id="location"
+               required
+               name="location"
                class="form-control"
-               placeholder="Description"/>
+               placeholder="Location"/>
+
+        <span ng-show="myForm.$submitted && myForm.location.$error.required" class="help-block">
+             Please enter a Location
+        </span>
     </div>
 
     <div class="form-group">
-        <label for="dept">city</label>
+        <label for="dept">City</label>
         <input ng-model="model.job.city"
-               rows="4"
                id="city"
                class="form-control"
-               placeholder="Description"/>
+               name="city"
+               required
+               placeholder="City"/>
+        <span ng-show="myForm.$submitted && myForm.city.$error.required" class="help-block">
+             Please enter a City
+        </span>
+    </div>
+
+    <!--<div class="form-group">-->
+        <!--<label for="state">State</label>-->
+        <!--<input ng-model="model.job.state"-->
+               <!--rows="4"-->
+               <!--id="state"-->
+               <!--class="form-control"-->
+               <!--placeholder="Description"/>-->
+    <!--</div>-->
+
+    <div class="form-group">
+        <label for="state">State</label>
+        <select id="state" class="form-control" name="state" required
+                ng-model="model.selectedState"
+                ng-options="state.name for state in model.states"
+        >
+        </select>
+        <span ng-show="myForm.$submitted && myForm.state.$error.required" class="help-block">
+             Please select a State
+        </span>
     </div>
 
     <div class="form-group">
-        <label for="dept">Dept</label>
+        <label for="dept">Industry</label>
         <input ng-model="model.job.dept"
-               rows="4"
                id="dept"
                class="form-control"
-               placeholder="Description"/>
+               placeholder="Industry/Department"/>
     </div>
 
-
-    <div class="col-md-12">
-        <h3><b>Skills</b></h3>
-    </div>
-    <div class="input-group col-md-12">
-        <div class="form-group">
-            <div class="form-group col-md-5" ng-repeat="choice in model.choices">
+    <div class="form-group">
+        <div class="row">
+            <label for="dept">Skills</label>
+            <a class="btn glyphicon glyphicon-plus"
+                 ng-click="model.addNewChoice()"></a>
+        </div>
+        <div class="row">
+            <div class="skill-input" ng-repeat="choice in model.choices">
                 <input type="text"
+                       name="choice"
                        class="form-control"
-                       ng-model="choice"
+                       ng-model="choice.name"
                        placeholder="">
                 <div class="col-md-1">
                     <a class="glyphicon glyphicon-minus" ng-show="$last"
@@ -73,15 +111,21 @@
                     ></a>
                 </div>
             </div>
-            <div class="glyphicon glyphicon-plus"
-                 ng-click="model.addNewChoice()"></div>
 
+            <!--<span ng-show="myForm.$submitted && myForm.name.$error.required" class="help-block">-->
+             <!--Please enter Skills-->
+            <!--</span>-->
         </div>
+
+    </div>
+    <div>
+        <button ng-click="myForm.$valid && model.updateJob(model.job)"
+                type="submit"
+                class="btn btn-success submit">Update</button>
+        <button ui-sref="jobs" class="btn btn-warning submit">Cancel</button>
+        <button ng-click="model.deleteJob(model.job)"
+                class="btn btn-danger submit">Remove</button>
     </div>
 
-    <button ng-click="model.updateJob(model.job)"
-       class="btn btn-success">Update</button>
-    <button ng-click="model.deleteJob(model.job)" class="btn btn-danger">Delete</button>
-
-
+    </form>
 </div>

@@ -1,9 +1,15 @@
-html,
-body {
-    /*background: #efefef;*/
-    /*padding: 10px;*/
-    font-family: 'Varela Round';
+body,html{
+    height: 100%;
+    font-family: monospace, inherit;
 }
+
+
+.login-container {
+    background: #efefef;
+    /*padding: 10px;*/
+    height: 100vh;
+}
+
 /*=== 2. Anchor Link ===*/
 a {
     color: #aaaaaa;
@@ -27,6 +33,7 @@ a:hover {
     border-radius: 5px;
     display: inline-block;
 }
+
 .main-login-form {
     position: relative;
 }
@@ -37,8 +44,9 @@ a:hover {
     background: transparent;
     color: #555555;
     padding: 7px 0;
-    font-weight: bold;
+    /*font-weight: bold;*/
     height:auto;
+    margin-left: 15px;
 }
 .login-form-1 .form-control::-webkit-input-placeholder {
     color: #999999;
@@ -50,7 +58,7 @@ a:hover {
 }
 .login-form-1 .form-group {
     margin-bottom: 0;
-    /*border-bottom: 2px solid #efefef;*/
+    border-bottom: 2px solid #efefef;
     padding-right: 20px;
     position: relative;
 }
@@ -62,7 +70,13 @@ a:hover {
     color: #999999;
     border-radius: 8px;
     padding: 10px 20px;
+
 }
+
+.form-group.login-group-checkbox>label{
+    font-weight: normal;
+}
+
 .login-group-checkbox {
     padding: 5px 0;
 }
@@ -77,10 +91,13 @@ a:hover {
     width: 50px;
     height: 50px;
     margin-top: -25px;
-    /*border: 5px solid #efefef;*/
+    border: 5px solid #efefef;
     border-radius: 50%;
     transition: all ease-in-out 500ms;
 }
+
+.login-form-1 .login-button:focus {outline:0;}
+
 .login-form-1 .login-button:hover {
     color: #555555;
     transform: rotate(450deg);
@@ -97,34 +114,7 @@ a:hover {
 .login-form-1 .login-button.clicked.error {
     color: #e74c3c;
 }
-/*=== 6. Form Invalid ===*/
-label.form-invalid {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 5;
-    display: block;
-    margin-top: -25px;
-    padding: 7px 9px;
-    background: #777777;
-    color: #ffffff;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 11px;
-}
-label.form-invalid:after {
-    top: 100%;
-    right: 10px;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-    border-color: transparent;
-    border-top-color: #777777;
-    border-width: 6px;
-}
+
 /*=== 7. Form - Main Message ===*/
 .login-form-main-message {
     background: #ffffff;
@@ -132,7 +122,7 @@ label.form-invalid:after {
     border-left: 3px solid transparent;
     border-radius: 3px;
     margin-bottom: 8px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     height: 0;
     padding: 0 20px 0 17px;
     opacity: 0;
@@ -262,29 +252,5 @@ label:hover:before {
     padding: 15px 0;
     font-size: 25px;
     color: #aaaaaa;
-    font-weight: bold;
-}
-
-
-.forgot-password:hover,
-.forgot-password:active,
-.forgot-password:focus{
-    color: rgb(12, 97, 33);
-}
-
-.useravatar img {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    border: 5px solid rgba(255, 255, 255, 0.5);
-}
-.padding-50{
-    padding : 50px;
-}
-.margin-left-15{
-    margin-left: 15px;
+    /*font-weight: bold;*/
 }

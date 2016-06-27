@@ -1,21 +1,87 @@
-<script>
-    $(document).ready(function () {
-        $('[data-toggle=offcanvas]').click(function () {
-            $('.row-offcanvas').toggleClass('active');
-        });
-    });
-</script>
-<div class="home col-md-12 menu">
-    <h1>Dashboard {{model.role}}</h1>
-    <div ng-if="model.role=='company'" class="col-md-12">
-        <a class="circle-text col-md-4 btn" ui-sref="database"><div>Applicant Database</div></a>
-        <a class="circle-text col-md-4 btn"ui-sref="jobs"><div>Manage Applications</div></a>
-        <div ng-if="model.donotshow">
-            <a class="circle-text col-md-4 btn" ui-sref="dashboard"><div>Short-listed Candidates</div></a>
+<div class="home row menu">
+    <div ng-if="model.role=='user'" class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="input-group col-md-5" id="company-search-input">
+                <input type="text" class="  search-query form-control" ng-model="model.searchText"
+                       placeholder="Search Jobs by Companies"/>
+                                <span class="input-group-btn">
+                                    <a ui-sref="jobsquery({ company : model.searchText })" class="btn btn-primary"
+                                       type="button">
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </a>
+                                </span>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="panel panel-default clearfix">
+                <div class="panel-heading">
+                    <h2 class="panel-title"><strong>Saved Jobs</strong></h2>
+                </div>
+
+                <div class="col-xs-12 toggle-header">
+                    <div class="col-xs-6">
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <span class="hidden-xs">Company</span>
+                        <span class="visible-xs"><i class="fa fa-building" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <span class="hidden-xs">Location</span>
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <span class="hidden-xs"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                        <span class="visible-xs"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+
+                <div id="feature-1" class="collapse in" ng-repeat="job in model.savedJobsLst">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <p>{{job.title}}</p>
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                <p>{{job.cname}}</p>
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                <span class="hidden-xs"><p>{{job.location}} {{job.state}}</p></span>
+                            </div>
+                            <div ui-sref="jobsSpecific({ jid : '{{job._id}}' })" class="col-xs-2 text-center">
+                                <i class="fa fa-lg fa-pie-chart" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--</div>-->
+
+
     </div>
-    <div ng-if="model.role == 'guest'" class="col-md-12">
-        For More access <a ui-sref="register">Register</a> and Join us!.
+    <div ng-if="model.role=='company'" class="col-md-12">
+
+    </div>
+
+
+    <div ng-if="model.role == 'guest'" class="row">
+        <div class="content text-center">
+            <div class="row alert alert-info hidden-xs hidden-sm">
+                <span class="glyphicon glyphicon-info-sign"></span> <strong> For more access and jobs
+                <i class="fa fa-lg fa-hand-o-right glyphicon" aria-hidden="true"></i><a ui-sref="register">
+                    Register</a>
+                and Join us!</strong>
+            </div>
+            <div class="row alert alert-info visible-xs visible-sm">
+                <span class="glyphicon glyphicon-info-sign"></span> <strong> For more access and jobs
+                <i class="fa fa-lg fa-hand-o-right glyphicon" aria-hidden="true"></i><a ui-sref="register">
+                    Register</a>
+                and Join us!</strong>
+            </div>
+        </div>
     </div>
 </div>
 

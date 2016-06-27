@@ -42,8 +42,8 @@
 
         vm.getProfile = function (userId) {
             console.log("ApplicantDbController getProfile of userId=", userId);
-            console.log('/dashboard/' + vm.user._id + '/userprofile/' + userId);
-            $location.path('/dashboard/' + vm.user._id + '/userprofile/' + userId);
+            console.log('/dbuser/' + userId);
+            $location.path('/dashboard/' + vm.user._id + '/dbuser/' + userId);
         }
 
     }

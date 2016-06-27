@@ -1,126 +1,70 @@
-module.exports = function (app) {
-    var unique_applications_id = 9999;
-    var applications = [
-        {
-            _id: 111,
-            jobId: 123,
-            cid: 999,
-            foreignUserId: [301, 302, 304, 305, 306, 307],
-            lstApplications: [
-                {
-                    userId: 301, username: "bob",
-                    "name": "bob",
-                    "degree": "Masters of Science",
-                    "university": "Boston University",
-                    "state": "Massachusetts",
-                    skills: ["Hadoop", "Java", "hdfs", "Networking"],
-                    "city": "Boston"
-                },
-                {
-                    userId: 302, username: "alice",
-                    name: "alice",
-                    university: "Northeastern University",
-                    state: "Massachusetts",
-                    city: "Boston",
-                    skills: ["Java", "Python"],
-                    degree: "Masters of Science"
-                },
-                {
-                    userId: 304, username: "ram",
-                    "name": "Ram",
-                    "degree": "Masters of Science",
-                    "university": "Boston University",
-                    skills: ["Java", "Python"],
-                    "state": "Massachusetts",
-                    "city": "Boston"
-                },
-                {
-                    userId: 305,
-                    "name": "Casey",
-                    "university": "Harvard University",
-                    "state": "Massachusetts",
-                    "city": "Cambridge",
-                    skills: ["Java", "Python"],
-                    "degree": "Masters of Science"
-                },
-                {
-                    userId: 306,
-                    "name": "Shang",
-                    "degree": "Masters of Science",
-                    "university": "University of Wisconsin Madison",
-                    "state": "Wisconsin",
-                    skills: ["Java", "Python"],
-                    "city": "Madison"
-                },
-                {
-                    userId: 307,
-                    "name": "Jun yan",
-                    "degree": "Master of science",
-                    skills: ["Java", "Python", "Ruby"],
-                    "university": "University of Wisconsin Madison",
-                    "state": "Wisconsin",
-                    "city": "Madison"
-                }
-            ]
-        },
-        {
-            _id: 112, jobId: 234, cid: 999,
-            lstApplications: [
-                {
-                    userId: 303, username: "builder",
-                    name: "builder",
-                    university: "Northeastern University",
-                    state: "Massachusetts",
-                    city: "Boston",
-                    degree: "Dual Major, Economics and English",
-                    skills: ["Management", "Litrature"],
-                }
-            ],
-            foreignUserId: [303]
-        },
-        {
-            _id: 113, jobId: 345, cid: 999, lstApplications: [], foreignUserId: []
-        },
-        {
-            _id: 114, jobId: 456, cid: 111, lstApplications: [], foreignUserId: []
-        }
-    ];
+module.exports = function (app, models) {
+    var applicationModel = models.applicationModel;
 
-
-    app.post('/api/application', addApplication);
-    app.post("/api/:jid/application", createApplication);
-    app.delete("/api/:jid/application", deleteApplication);
-
-    // app.get("/api/application/:appid", getApplicationById);
     app.get("/api/application", getApplications);
+    app.get("/api/application/tree/:jid", getApplicantsDyn);
+    app.get("/api/application/applicants/:jid", getApplicants);
+
     app.get("/api/application/degree/:jid", aggregateDegreesForJID);
     app.get("/api/application/skills/:jid", aggregateSkillsForJID);
     app.get("/api/application/map/:jid", findApplicantDataForMap);
-    app.get("/api/application/tree/:jid", getApplicantsDyn);
-    app.get("/api/application/applicants/:jid", getApplicants);
+
+    app.put("/api/application", updateApplication);
+
+    app.post('/api/application', addApplication);
+    app.post("/api/:jid/application", createApplication);
+
+    app.delete("/api/:jid/application", deleteApplication);
+
+
+    function updateApplication(req, res){
+        var jid =  req.params.jid;
+        var newApplication = req.body;
+        console.log("Application:Server updateApplication " + jid);
+
+        applicationModel
+            .updateJob(jid, newApplication)
+            .then(function(stats) {
+                console.log(stats);
+                res.send(200);
+            }, function(error) {
+                res.statusCode(404).send(error);
+            });
+    }
 
     function deleteApplication(req, res){
         var jid = req.params.jid;
         console.log("ApplicationService:Server deleteApplication for Job jid=", jid);
-        for(var i in applications){
-            if(applications[i].jobId == jid){
-                applications.splice(i, 1);
+
+        applicationModel
+            .deleteApplication(jid)
+            .then(function (stats){
+                console.log("ApplicationService:Server deleteApplication success! " + stats);
                 res.send(200);
-                return;
-            }
-        }
-        res.send(404);
+            }, function (err){
+                console.log("ApplicationService:Server deleteApplication error!");
+                res.statusCode(404).send(error);
+            });
     }
 
     function createApplication(req, res){
         var jid = req.params.jid;
-        var application = req.body;
-        unique_applications_id += 1;
-        application._id = unique_applications_id;
         console.log("ApplicationService:Server createApplication for NewJob jid=", jid);
+        var newApplication = req.body;
 
-        applications.push(application);
-        res.send(application);
+        applicationModel
+            .createApplication(jid, newApplication)
+            .then(function (application){
+                console.log("ApplicationService:Server createJob success ", application);
+                if(application){
+                    res.json(application);
+                }else{
+                    res.status(400);
+                }
+            }, function (err){
+                console.log("ApplicationService:Server createJob err");
+                res.status(400).send(err);
+            });
     }
 
     function findApplicantDataForMap(req, res) {
@@ -130,66 +74,68 @@ module.exports = function (app) {
         var skillsData = [];
         var currentApplication;
 
-        for (var i in applications) {
-            if (applications[i].jobId == jid) {
-                currentApplication = applications[i];
-                break;
-            }
-        }
+        applicationModel
+            .findApplicationByJId(jid)
+            .then(function (currentApplication){
+                var application;
+                console.log("ApplicationService:Server findApplicantDataForMap success");
+                if(currentApplication.lstApplications){
+                console.log("applications# " + currentApplication.lstApplications.length);
+                    for (var i in currentApplication.lstApplications) {
+                        application = currentApplication.lstApplications[i];
+                        var userState = application.state;
+                        var userDegree = application.degree;
+                        // console.log('userstate ' , userState);
+                        var flag = false;
+                        var flag2 = false;
+                        for (var j in applicantData) {
+                            if (applicantData[j].State == userState && applicantData[j].label == userDegree) {
+                                applicantData[j].value = applicantData[j].value + 1;
+                                flag = true;
+                                break;
+                            }
 
-        var application;
+                        }
+                        if (!flag)
+                            applicantData.push({State: userState, label: userDegree, value: 1});
 
-        // TODO : check for currentApplication is not valid
+                        var userSkills = application.skills;
+                        // console.log(userSkills);
+                        for (var z in userSkills) {
+                            flag2 = false;
+                            for (var zi in skillsData) {
+                                if (skillsData[zi].State == userState &&
+                                    skillsData[zi].label == userSkills[z]) {
 
-        // console.log("applications# " + currentApplication.length);
-        for (var i in currentApplication.lstApplications) {
-            application = currentApplication.lstApplications[i];
-            var userState = application.state;
-            var userDegree = application.degree;
-            // console.log('userstate ' , userState);
-            var flag = false;
-            var flag2 = false;
-            for (var j in applicantData) {
-                if (applicantData[j].State == userState && applicantData[j].label == userDegree) {
-                    applicantData[j].value = applicantData[j].value + 1;
-                    flag = true;
-                    break;
-                }
+                                    skillsData[zi].value = skillsData[zi].value + 1;
+                                    flag2 = true;
+                                    // console.log("adding skill " + userSkills[z]);
+                                    break;
+                                }
+                            }
+                            if (!flag2) {
+                                // console.log("adding skill " + userSkills[z]);
+                                skillsData.push({
+                                    State: userState, label: userSkills[z]
+                                    , value: 1
+                                });
+                            }
+                        }
 
-            }
-            if (!flag)
-                applicantData.push({State: userState, label: userDegree, value: 1});
-
-            var userSkills = application.skills;
-            // console.log(userSkills);
-            for (var z in userSkills) {
-                flag2 = false;
-                for (var zi in skillsData) {
-                    if (skillsData[zi].State == userState &&
-                        skillsData[zi].label == userSkills[z]) {
-
-                        skillsData[zi].value = skillsData[zi].value + 1;
-                        flag2 = true;
-                        // console.log("adding skill " + userSkills[z]);
-                        break;
                     }
+                    res.json({applicantData: applicantData, skillsData: skillsData});
+                }else{
+                    res.json({applicantData: [], skillsData: []});
                 }
-                if (!flag2) {
-                    // console.log("adding skill " + userSkills[z]);
-                    skillsData.push({
-                        State: userState, label: userSkills[z]
-                        , value: 1
-                    });
-                }
-            }
 
-        }
-        // console.log("JobService applicantDataFromFun " + applicantData.length);
-        // console.log(applicantData);
-        // console.log("JobService applicantDataFromFun skillsData# " + skillsData.length);
-        // console.log(skillsData);
-        console.log("ApplicationService:Server findApplicantDataForMap");
-        res.send({applicantData: applicantData, skillsData: skillsData});
+            }, function (err){
+                console.log("ApplicationService:Server findApplicantDataForMap err");
+                // res.send({applicantData: [], skillsData: []});
+                console.log("ApplicationService:Server findApplicantDataForMap err ");
+                res.status(400).send(err);
+            });
+
+
     }
 
     function aggregateSkillsForJID(req, res) {
@@ -197,37 +143,39 @@ module.exports = function (app) {
         console.log("ApplicationService:Server aggregateSkillsForJID " + jid);
         var currentApplication;
 
-        for (var i in applications) {
-            if (applications[i].jobId == jid) {
-                currentApplication = applications[i];
-                break;
-            }
-        }
+        applicationModel
+            .findApplicationByJId(jid)
+            .then(function (currentApplication) {
+                var aggData = [];
+                console.log("ApplicationService:Server findApplicationByJId success");
+                if (currentApplication && currentApplication.lstApplications) {
+                    for (var idx in currentApplication.lstApplications) {
+                        var application = currentApplication.lstApplications[idx];
 
-
-        var aggData = [];
-        if (currentApplication && currentApplication.lstApplications) {
-            for (var idx in currentApplication.lstApplications) {
-                var application = currentApplication.lstApplications[idx];
-
-                for (var kdx in application.skills) {
-                    var flag = false;
-                    for (var jdx in aggData) {
-                        if (aggData[jdx].label == application.skills[kdx]) {
-                            aggData[jdx].value = aggData[jdx].value + 1;
-                            flag = true;
-                            break;
+                        for (var kdx in application.skills) {
+                            var flag = false;
+                            for (var jdx in aggData) {
+                                if (aggData[jdx].label == application.skills[kdx]) {
+                                    aggData[jdx].value = aggData[jdx].value + 1;
+                                    flag = true;
+                                    break;
+                                }
+                            }
+                            if (!flag) {
+                                aggData.push({label: application.skills[kdx], value: 1});
+                            }
                         }
                     }
-                    if (!flag) {
-                        aggData.push({label: application.skills[kdx], value: 1});
-                    }
+
                 }
-            }
-        }
-        console.log("ApplicationService:Server aggregateSkillsForJID");
-        console.log(aggData);
-        res.send(aggData);
+                console.log("aggData ", aggData);
+                res.send(aggData);
+
+            }, function (err){
+                console.log("ApplicationService:Server findApplicationByJId error");
+                res.status(400).send(err);
+            });
+
     }
 
     function aggregateDegreesForJID(req, res) {
@@ -235,32 +183,34 @@ module.exports = function (app) {
         console.log("ApplicationService:Server aggregateDegreesForJID " + jid);
         var currentApplication;
 
-        for (var i in applications) {
-            if (applications[i].jobId == jid) {
-                currentApplication = applications[i];
-                break;
-            }
-        }
 
-        var aggData = [];
-        if (currentApplication && currentApplication.lstApplications) {
-            for (var idx in currentApplication.lstApplications) {
-                var application = currentApplication.lstApplications[idx];
-                var flag = false;
-                for (var jdx in aggData) {
-                    if (aggData[jdx].label == application.degree) {
-                        aggData[jdx].value = aggData[jdx].value + 1;
-                        flag = true;
+        applicationModel
+            .findApplicationByJId(jid)
+            .then(function (currentApplication) {
+                console.log("ApplicationService:Server findApplicationByJId success");
+                var aggData = [];
+                if (currentApplication && currentApplication.lstApplications) {
+                    for (var idx in currentApplication.lstApplications) {
+                        var application = currentApplication.lstApplications[idx];
+                        var flag = false;
+                        for (var jdx in aggData) {
+                            if (aggData[jdx].label == application.degree) {
+                                aggData[jdx].value = aggData[jdx].value + 1;
+                                flag = true;
+                            }
+                        }
+                        if (!flag) {
+                            aggData.push({label: application.degree, value: 1});
+                        }
                     }
                 }
-                if (!flag) {
-                    aggData.push({label: application.degree, value: 1});
-                }
-            }
-        }
-        console.log("ApplicationService:Server aggregateDegreesForJID");
-        console.log(aggData);
-        res.send(aggData);
+                console.log("ApplicationService:Server aggregateDegreesForJID");
+                console.log(aggData);
+                res.send(aggData);
+            }, function (err){
+                console.log("ApplicationService:Server aggregateDegreesForJID error");
+                res.status(400).send(err);
+            });
     }
 
     function getApplications(req, res) {
@@ -281,57 +231,36 @@ module.exports = function (app) {
 
     function findApplicationByJIDAndUID(jid, uid, res) {
         console.log("ApplicationService:Server findApplicationByJIDAndUID");
-        for (var i in applications) {
-            if (applications[i].jobId == jid && applications[i].foreignUserId) {
-                console.log(applications[i].foreignUserId);
-                // return applications[i].foreignUserId.includes(parseInt(uid));
-                res.send(applications[i]);
-                return;
-                // applications[i].lstApplications.push(applicationDetails);
-            }
-        }
-        // return false;
-        res.send({});
+
+        applicationModel
+            .findApplicationByJId(jid)
+            .then(function (application){
+                console.log("ApplicationService:Server findApplicationByJIDAndUID success", application);
+
+                res.json(application)
+            }, function (err){
+                console.log("ApplicationService:Server findApplicationByJIDAndUID err");
+            });
     }
 
 
     function findApplicationById(aid, res) {
         console.log("ApplicationService:Server findApplicationById id=", aid);
-        for (var i in applications) {
-            if (applications[i]._id == aid) {
-                res.send(applications[i]);
-                return;
-            }
-        }
-        res.send({});
+
+        applicationModel
+            .findApplicationById(aid)
+            .then(function (application){
+                console.log("ApplicationService:Server findApplicationById success ");
+                res.json(application);
+            }, function (err){
+                console.log("ApplicationService:Server findApplicationById err ");
+                res.send({});
+            });
     }
 
-    // function findJobByJId(jid, res){
-    //     console.log("JobService:Server findJobByJId " + jid);
-    //     for(var i in jobs) {
-    //         if(jobs[i].jid == jid) {
-    //             res.send(jobs[i]);
-    //             return;
-    //         }
-    //     }
-    //     res.send({});
-    // }
-    //
-    // function findJobByCId(cid, res){
-    //     var lst = [];
-    //
-    //     console.log("JobService:Server findJobByCId " + cid);
-    //     for(var i in jobs) {
-    //         if(jobs[i].cid == cid) {
-    //             lst.append(jobs[i]);
-    //         }
-    //     }
-    //     res.send(lst);
-    // }
-    //
+
     function addApplication(req, res) {
 
-        // var cid = req.query['cid'];
         var jid = req.query['jid'];
         var uid = req.query['uid'];
         console.log("ApplicationService:Server addApplication " + " "
@@ -339,34 +268,41 @@ module.exports = function (app) {
 
         var newApplication = req.body;
 
-        for (var i in applications) {
-            if (/*applications[i].cid == cid && */applications[i].jobId == jid) {
-                applications[i].lstApplications.push(newApplication);
-                applications[i].foreignUserId.push(parseInt(uid));
-                res.sendStatus(200);
-                return;
-            }
-        }
+        applicationModel
+            .addApplication(jid, newApplication)
+            .then(function (response){
+               return response;
+            }, function (err){
+                console.log("ApplicationServer:Service addApplication err");
+                res.status (400).send ("addApplication error", err.statusText);
+            }).then(function (response){
 
-        res.send(400);
+              applicationModel
+                .addForeignKeyInApplication(uid, jid)
+              .then(function (response){
+                  console.log("success in adding both application and foreignkey");
+                  res.json(200);
+              }, function (error){
+                  res.status(400).send("error in adding ForeignKey in Application");
+              })
+
+        });
     }
-
-    // function getApplicantTree(req, res) {
-    //     var jid = req.params.jid;
-    //     console.log("ApplicationService:Server getApplicantTree jid=" + jid);
-    //     res.send(tree);
-    // }
 
     function getApplicants(req, res) {
         var jid = req.params.jid;
         console.log("ApplicationService:Server getApplicants jid=" + jid);
-        for (var i in applications) {
-            if (applications[i].jobId == jid) {
-                res.send(applications[i].lstApplications);
-                return;
-            }
-        }
-        res.send(400);
+
+        applicationModel
+            .findApplicationByJId(jid)
+            .then(function (application){
+                console.log("ApplicationService:Server getApplicants success");
+                res.json(application.lstApplications);
+            }, function (err){
+                console.log("ApplicationService:Server getApplicants err");
+                res.send(404);
+            });
+
     }
 
     function getApplicantsDyn(req, res) {
@@ -375,77 +311,79 @@ module.exports = function (app) {
 
         var currentApplicationByJID;
         var ans = {name: "JID " + jid, children: []};
-        var inside = {};
 
-        for (var i in applications) {
-            if (applications[i].jobId == jid) {
-                currentApplicationByJID = applications[i].lstApplications;
-                break;
-            }
-        }
-        if(!currentApplicationByJID){
-            res.send(404);return;
-        }
-        function group(application, grouper) {
-            var targetVariable = [];
-            var groupedAlready = [];
-            application.forEach(function (e) {
-                if (groupedAlready.indexOf(e[grouper]) == -1) {
-                    // if(e[grouper] in targetVariable == false){
-                    targetVariable.push({
-                        "name": e[grouper],
-                        "children": groupCity(application, "city", "state", e[grouper])
-                    });
-                    groupedAlready.push(e[grouper]);
-                }
-            });
-            return targetVariable;
-        }
+        applicationModel
+            .findApplicationByJId(jid)
+            .then(function (application){
+                console.log("ApplicationService:Server getApplicants success");
+                currentApplicationByJID = application.lstApplications;
 
-        function groupCity(application, grouper, groupedState, containingState) {
-            var targetVariable = [];
-            var groupedAlready = [];
-            application.forEach(function (e) {
-                if (groupedAlready.indexOf(e[grouper]) == -1 && e[groupedState] == containingState) {
-                    targetVariable.push(
-                        {
-                            "name": e[grouper],
-                            "children": groupUniversity(application, "university", groupedState, containingState, "city", e[grouper])
-                        });
-                    groupedAlready.push(e[grouper]);
-                }
-            });
-            return targetVariable;
-        }
 
-        function groupUniversity(application, grouper, groupedState, containingState, groupedCity, containingCity) {
-            var targetVariable = [];
-            var groupedAlready = [];
-            application.forEach(function (e) {
-                if (groupedAlready.indexOf(e[grouper]) == -1 && e[groupedState] == containingState && e[groupedCity] == containingCity) {
-                    var realApplicants = [];
-                    application.forEach(function (ereal) {
-                        if (ereal[groupedState] == containingState && ereal[groupedCity] == containingCity && ereal[grouper] == e[grouper]) {
-                            // realApplicants.push(angular.copy(ereal));
-                            // realApplicants.push(ereal);
-                            realApplicants.push(
-                                {
-                                    "name": ereal.name, "degree": ereal.degree,
-                                    "university": ereal.university, "state": ereal.state,
-                                    "skills": ereal.skills, "city": ereal.city
-                                });
+                function group(application, grouper) {
+                    var targetVariable = [];
+                    var groupedAlready = [];
+                    application.forEach(function (e) {
+                        if (groupedAlready.indexOf(e[grouper]) == -1) {
+                            // if(e[grouper] in targetVariable == false){
+                            targetVariable.push({
+                                "name": e[grouper],
+                                "children": groupCity(application, "city", "state", e[grouper])
+                            });
+                            groupedAlready.push(e[grouper]);
                         }
                     });
-                    targetVariable.push({"name": e[grouper], "children": realApplicants});
-                    groupedAlready.push(e[grouper]);
+                    return targetVariable;
                 }
+
+                function groupCity(application, grouper, groupedState, containingState) {
+                    var targetVariable = [];
+                    var groupedAlready = [];
+                    application.forEach(function (e) {
+                        if (groupedAlready.indexOf(e[grouper]) == -1 && e[groupedState] == containingState) {
+                            targetVariable.push(
+                                {
+                                    "name": e[grouper],
+                                    "children": groupUniversity(application, "university", groupedState, containingState, "city", e[grouper])
+                                });
+                            groupedAlready.push(e[grouper]);
+                        }
+                    });
+                    return targetVariable;
+                }
+
+                function groupUniversity(application, grouper, groupedState, containingState, groupedCity, containingCity) {
+                    var targetVariable = [];
+                    var groupedAlready = [];
+                    application.forEach(function (e) {
+                        if (groupedAlready.indexOf(e[grouper]) == -1 && e[groupedState] == containingState && e[groupedCity] == containingCity) {
+                            var realApplicants = [];
+                            application.forEach(function (ereal) {
+                                if (ereal[groupedState] == containingState && ereal[groupedCity] == containingCity && ereal[grouper] == e[grouper]) {
+
+                                    realApplicants.push(
+                                        {
+                                            "name": ereal.name, "degree": ereal.degree,
+                                            "university": ereal.university, "state": ereal.state,
+                                            "skills": ereal.skills, "city": ereal.city
+                                        });
+                                }
+                            });
+                            targetVariable.push({"name": e[grouper], "children": realApplicants});
+                            groupedAlready.push(e[grouper]);
+                        }
+                    });
+                    return targetVariable;
+                }
+
+                var aggDegrees = group(currentApplicationByJID, "state");
+
+                res.send({name: jid, children: aggDegrees});
+
+            }, function (err){
+                console.log("ApplicationService:Server getApplicants err");
+                res.send(404);
             });
-            return targetVariable;
-        }
 
-        var aggDegrees = group(currentApplicationByJID, "state");
-
-        res.send({name: jid, children: aggDegrees});
     }
 
 

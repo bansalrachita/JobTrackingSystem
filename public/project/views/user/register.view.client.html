@@ -1,62 +1,111 @@
 <!-- REGISTRATION FORM -->
-<div class="text-center padding-50">
-    <div class="logo">Register</div>
-    <!-- Main Form -->
-    <div class="login-form-1">
-        <div ng-if="model.error" class="alert alert-danger alert-dismissible">
-            {{model.error}}
-        </div>
-        <form id="register-form" class="text-left">
-            <div class="login-form-main-message"></div>
-            <div class="main-login-form">
-                <div class="login-group">
-                    <div class="form-group">
-                        <label for="reg_username" class="sr-only">Email address</label>
-                        <input ng-model="username" type="text" class="form-control" id="reg_username"
-                               name="reg_username" placeholder="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="reg_password" class="sr-only">Password</label>
-                        <input ng-model="password" type="password" class="form-control" id="reg_password"
-                               name="reg_password" placeholder="password">
-                    </div>
-                    <div class="form-group">
-                        <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
-                        <input ng-model="verifyPassword" type="password" class="form-control" id="reg_password_confirm"
-                               name="reg_password_confirm" placeholder="confirm password">
-                    </div>
+<div class="login-container">
+    <div class="text-center padding-50">
+        <div class="logo">Register</div>
+        <!-- Main Form -->
+        <div class="login-form-1">
 
-                    <div class="form-group">
-                        <label for="reg_email" class="sr-only">Email</label>
-                        <input ng-model="reg_email" type="text" class="form-control" id="reg_email" name="reg_email"
-                               placeholder="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="reg_fullname" class="sr-only">Full Name</label>
-                        <input type="text" class="form-control" id="reg_fullname" name="reg_fullname"
-                               placeholder="full name">
-                    </div>
-                    <div class="form-group login-group-checkbox">
-                        <input type="radio" ng-model="radioValue" value="user" id="user">
-                        <label for="user">User</label>
+            <div ng-if="(myForm.$invalid && myForm.$submitted)" class="alert alert-danger alert-dismissible">
+                <label>There are errors in the form {{model.error}}</label>
+            </div>
 
-                        <input type="radio" ng-model="radioValue" value="company" id="company"/>
-                        <label for="company">Company</label>
-                    </div>
+            <div ng-if="model.error" class="alert alert-danger alert-dismissible">
+                <label>{{model.error}}</label>
+            </div>
 
-                    <div class="form-group login-group-checkbox">
-                        <input type="checkbox" class="" id="reg_agree" name="terms" required>
-                        <label for="reg_agree">I accept the <a href=""> Terms and Conditions</a></label>
+
+            <form id="register-form" class="text-left" name="myForm" novalidate ng-class="{'submitted': submitted}">
+                <div class="login-form-main-message"></div>
+                <div class="main-login-form">
+                    <div class="login-group">
+
+                        <div class="form-group form-group inner-addon left-addon">
+                            <label for="reg_username" class="sr-only">UserName</label>
+                            <i class="fa fa-user glyphicon" aria-hidden="true"></i>
+                            <input ng-model="username" type="text" class="form-control lowercase" id="reg_username"
+                                   name="reg_username" placeholder="username" required
+                                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+                            <span ng-show="myForm.$submitted && myForm.reg_username.$error.required" class="help-block">
+                             Please enter a username
+                            </span>
+                        </div>
+
+
+                        <div class="form-group inner-addon left-addon">
+                            <label for="reg_password" class="sr-only">Password</label>
+                            <i class="fa fa-key glyphicon" aria-hidden="true"></i>
+                            <input ng-model="password" type="password" class="form-control" id="reg_password"
+                                   name="reg_password" placeholder="password" required>
+
+                            <span class="help-block" ng-show="myForm.$submitted && myForm.reg_password.$error.required">
+                                Please enter a Password
+                            </span>
+
+                        </div>
+
+                        <div class="form-group inner-addon left-addon">
+                            <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
+                            <i class="fa fa-key glyphicon" aria-hidden="true"></i>
+                            <input ng-model="verifyPassword" type="password" class="form-control"
+                                   id="reg_password_confirm"
+                                   name="reg_password_confirm" placeholder="confirm password" required>
+
+                            <span class="help-block"
+                                  ng-show="myForm.$submitted && myForm.reg_password_confirm.$error.required">
+                                 Please enter a verify Password
+                            </span>
+
+
+                        </div>
+
+                        <div class="form-group inner-addon left-addon">
+                            <label for="reg_email" class="sr-only">Email</label>
+                            <i class="fa fa-envelope glyphicon" aria-hidden="true"></i>
+                            <input ng-model="reg_email" type="email" class="form-control lowercase" id="reg_email"
+                                   name="reg_email"
+                                   placeholder="email" required>
+
+                            <span class="help-block" ng-show="myForm.$submitted && myForm.reg_email.$error.required">
+                                Please enter a Email
+                            </span>
+                        </div>
+
+
+                        <div class="form-group  inner-addon left-addon">
+                            <label for="reg_fullname" class="sr-only">Full Name</label>
+                            <i class="fa fa-smile-o glyphicon" aria-hidden="true"></i>
+                            <input type="text" class="form-control" id="reg_fullname" name="reg_fullname"
+                                   placeholder="full name" required>
+                        </div>
+
+
+                        <div class="form-group login-group-checkbox" ng-init="radioValue='user'">
+                            <input type="radio" ng-model="radioValue" value="user" id="user">
+                            <label for="user">User</label>
+
+                            <input type="radio" ng-model="radioValue" value="company" id="company"/>
+                            <label for="company">Company</label>
+                        </div>
+
+                        <div class="form-group login-group-checkbox">
+                            <input type="checkbox" ng-model="regAgree" class="" id="reg_agree" name="reg_agree" required>
+                            <label for="reg_agree">I accept the <a href=""> Terms and Conditions</a></label>
+
+                            <span class="help-block" ng-show="myForm.$submitted && myForm.reg_agree.$error.required">
+                                Please tick the check box
+                            </span>
+                        </div>
                     </div>
+                    <button ng-click="myForm.$valid && model.createUser(username, password, verifyPassword, reg_email, radioValue, regAgree)"
+                            type="submit"
+                            class="login-button btn"><i class="fa fa-chevron-right"></i></button>
                 </div>
-                <button ng-click="model.createUser(username, password, verifyPassword, reg_email, radioValue)"
-                        type="submit"
-                        class="login-button"><><i class="fa fa-chevron-right"></i></button>
-            </div>
-            <div class="etc-login-form">
-                <p>already have an account? <a ui-sref="login">login here</a></p>
-            </div>
-        </form>
+                <div class="etc-login-form">
+                    <p>already have an account? <a ui-sref="login">login here</a></p>
+                </div>
+            </form>
+        </div>
+        <!-- end:Main Form -->
     </div>
-    <!-- end:Main Form -->
 </div>

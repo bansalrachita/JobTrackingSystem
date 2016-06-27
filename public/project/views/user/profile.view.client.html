@@ -1,203 +1,307 @@
-<div class="container profile">
-    <form action="/api/upload" method="post" enctype="multipart/form-data" class="form-group">
-        <input name="userId" value="{{model.userId}}" class="display-none"/>
-        <div class="col-md-12">
-            <h1>Profile</h1>
-            <div class="avatar" ng-if="model.user.imgurl==null">
-                <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="150" height="150" alt=""/>
-            </div>
-            <div class="avatar" ng-if="model.user.imgurl">
-                <img ng-src="{{model.user.imgurl}}" alt="" width="150" height="150"/>
-            </div>
-            <div class="col-md-6">
-                <label for="image">Upload Image</label>
-                <input id="image" type="file" name="myFile" id="file-upload" class="form-control"/>
-            </div>
-            <div class="col-md-7">
-                <button type="submit" class="btn btn-primary">Upload Image</button>
-            </div>
-        </div>
-    </form>
-    <div ng-if="model.error" class="alert alert-danger col-md-12">
-        {{model.error}}
+<div class="profile-container">
+    <!--<div class="card card-block">-->
+
+    <!--<h1 class="card-header">Profile</h1>-->
+    <div class="text-center">
+        <a ui-sref="home"> <span class="fa fa-chevron-left fa-lg pull-left blue"></span></a>
+        <strong>Profile</strong>
+        <button form="myForm" ng-click="myForm.$valid && model.updateUser(model.user)"
+                class="fa fa-check pull-right blue fa-lg mysubmit">
+        </button>
+    </div>
+    <!--model error-->
+    <div ng-if="(myForm.$invalid && myForm.$submitted)" class="alert alert-danger alert-dismissible">
+        <label>There are errors in the form </label>
     </div>
 
-    <div ng-if="model.profileSaved" class="alert alert-success alert-dismissible col-md-12">
+    <div ng-if="model.error" class="alert alert-danger alert-dismissible">
+        <label>{{model.error}}</label>
+    </div>
+    <!--model success-->
+    <div ng-if="model.profileSaved" class="alert alert-success alert-dismissible">
         <strong>{{model.profileSaved}}</strong> Your profile was saved.
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="username">Username</label>
-        <input ng-model="model.user.username" type="text"
-               class="form-control" id="username"
-               placeholder="username"/>
-    </div>
-
-    <div class="form-group col-md-6">
-        <label for="email">Email</label>
-        <input ng-model="model.user.email"
-               type="email" class="form-control" id="email"
-               placeholder="alice@wonderland.com">
-    </div>
-    <div class="form-group col-md-6">
-        <label for="first-name">First Name</label>
-        <input ng-model="model.user.firstName"
-               type="text" class="form-control" id="first-name"
-               placeholder="Alice">
-    </div>
-    <div class="form-group col-md-6">
-        <label for="last-name">Last Name</label>
-        <input ng-model="model.user.lastName"
-               type="text" class="form-control" id="last-name"
-               placeholder="Wonderland">
-    </div>
-    <div class="form-group col-md-6">
-        <label for="address">Address</label>
-        <input type="textarea" class="form-control" id="address"
-               placeholder="Address" ng-model="model.user.address">
-    </div>
-    <div class="form-group col-md-6">
-        <label for="address">Phone</label>
-        <input type="text" class="form-control" id="phone"
-               placeholder="Cellular/Home" ng-model="model.user.phone">
-    </div>
-    <div class="form-group col-md-6">
-        <label for="address1">State</label>
-        <select id="address1" class="form-control"
-                ng-model="model.selectedState"
-                ng-options="state.name for state in model.states"
-        >
-        </select>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="address2">City</label>
-        <input type="text" class="form-control" id="address2"
-               placeholder="city"
-               ng-model="model.user.city"
-        >
-    </div>
-    <div ng-if="model.user.role == 'user'">
-        <div class="col-md-12">
-            <h3><b>About</b></h3>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="role">Role Applying for</label>
-            <input type="text" class="form-control" id="role"
-                   placeholder="Position you are looking for" ng-model="model.user.about">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="summary">Summary</label>
-            <input type="text" class="form-control" id="summary"
-                   placeholder="Briefly describe yourself" ng-model="model.user.summary">
-        </div>
-
-        <div class="col-md-12">
-            <h3><b>Education</b></h3>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="degree">Enter Highest Degree</label>
-            <input type="text" class="form-control" id="degree"
-                   placeholder="Enter Degree" ng-model="model.user.degree">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="university">Enter University</label>
-            <input type="text" class="form-control" id="university"
-                   placeholder="University" ng-model="model.user.education[0].university"
-            >
-        </div>
-        <div class="form-group col-md-6">
-            <label for="state">State</label>
-            <select id="state" class="form-control"
-                    ng-model="model.selectedState1"
-                    ng-options="state.name for state in model.states"
-            >
-            </select>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="city">City</label>
-            <input type="text" class="form-control" id="city"
-                   placeholder="city" ng-model="model.user.education[0].city"
-            >
-        </div>
-        <div class="col-md-12">
-            <h3><b>Work Experience</b></h3>
-            <div class="input-group">
-                <div class="form-group col-md-5" ng-repeat="item in model.workItem">
-                    <div class="col-md-12">
-                        <label for="company {{item.id}}">Company</label>
-                        <input id="company {{item.id}}"
-                               type="text"
-                               class="form-control"
-                               ng-model="item.company"
-                               placeholder="company">
-                    </div>
-                    <div class="col-md-12">
-                        <label for="position {{item.id}}">Position</label>
-                        <input id="position {{item.id}}"
-                               type="text"
-                               class="form-control"
-                               ng-model="item.position"
-                               placeholder="Position">
-                    </div>
-                    <div class="col-md-12">
-                        <label for="duration {{item.id}}">Duration</label>
-                        <input id="duration {{item.id}}"
-                               type="text"
-                               class="form-control"
-                               ng-model="item.duration"
-                               placeholder="2005-2006">
-                    </div>
-                    <div class="col-md-12">
-                        <label for="description {{item.id}}">Description</label>
-                        <input id="description {{item.id}}"
-                               type="text"
-                               maxlength="4"
-                               class="form-control"
-                               ng-model="item.desc"
-                               placeholder="Description">
-                    </div>
-                </div>
-                <div class="glyphicon glyphicon-plus"
-                     ng-click="model.addWorkExperience()"
-                ></div>
+    <form name="form1" action="/api/upload" method="post" enctype="multipart/form-data" class="form-group">
+        <input name="userId" value="{{model.userId}}" class="display-none"/>
+        <div class="col-md-12 text-center">
+            <!--no image ng-if-->
+            <div class="avatar" ng-if="model.user.img==null">
+                <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="150" height="150" alt=""/>
             </div>
-        </div>
+            <!--img found ng-if-->
+            <div class="avatar" ng-if="model.user.img">
+                <img ng-src='{{model.user.img}}' alt="" width="150" height="150"/>
+            </div>
 
-        <div class="col-md-12">
-            <h3><b>Website</b></h3>
-        </div>
-        <div class="input-group col-md-5 margin-left-15">
-            <span class="input-group-addon" id="basic-addon3">GitHub</span>
-            <input type="email" ng-model="model.user.github"
-                   class="form-control"
-                   id="basic-url"
-            >
-        </div>
-        <div class="col-md-12">
-            <h3><b>Skills</b></h3>
-        </div>
-        <div class="input-group col-md-12">
             <div class="form-group">
-                <div class="form-group col-md-5" ng-repeat="choice in model.choices">
-                    <input type="text"
-                           class="form-control"
-                           ng-model="choice"
-                           placeholder="">
-                    <div class="col-md-1">
-                        <a class="glyphicon glyphicon-minus" ng-show="$last"
-                           ng-click="model.removeChoice()"
-                        ></a>
-                    </div>
+                <label for="file-upload">Change photo</label>
+                <div class="row">
+                    <input id="image" type="file" name="myFile" id="file-upload"/>
                 </div>
-                <div class="glyphicon glyphicon-plus"
-                     ng-click="model.addNewChoice()"
-                ></div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn btn-sm"><i class="fa fa-upload" aria-hidden="true"></i> Upload
+                </button>
             </div>
         </div>
-    </div>
-    <div class="col-md-12">
-        <a class="btn btn-primary"
-           ng-click="model.updateUser(model.user)">Save Profile</a>
-        <a ui-sref="home" class="btn btn-danger">Cancel</a>
-    </div>
+    </form>
+    <br/>
+    <form class="text-left" name="myForm" id="myForm" novalidate ng-class="{'submitted': submitted}">
+
+        <div ng-if="model.user.role == 'user'" class="row">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h3><b>Contact</b></h3>
+                </div>
+
+                <div class="col-md-12">
+                    <label for="firstname">First Name</label>
+                    <input ng-model="model.user.firstName"
+                           type="text" class="form-control" id="firstname"
+                           name="firstname"
+                           placeholder="Alice" required>
+
+                <span ng-show="myForm.$submitted && myForm.firstname.$error.required" class="help-block">
+                            Please enter a First Name
+                </span>
+                </div>
+
+
+                <div class="col-md-12">
+                    <label for="lastname">Last Name</label>
+                    <input ng-model="model.user.lastName"
+                           type="text" class="form-control" id="lastname" name="lastname"
+                           placeholder="Wonderland" required>
+
+                    <span ng-show="myForm.$submitted && myForm.lastname.$error.required" class="help-block">
+                            Please enter a Last Name
+                    </span>
+                </div>
+
+
+                <div class="col-md-12">
+                    <label class="" for="email">Email</label>
+                    <input ng-model="model.user.email"
+                           type="email" class="form-control" id="email" name="email" required
+                           placeholder="alice@wonderland.com">
+                    <span ng-show="myForm.$submitted && myForm.email.$error.required" class="help-block">
+                            Please enter a email
+                    </span>
+                </div>
+
+
+                <div class="col-md-12">
+                    <label class="" for="address">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required
+                           placeholder="Cellular/Home" ng-model="model.user.phone">
+                    <span ng-show="myForm.$submitted && myForm.phone.$error.required" class="help-block">
+                            Please enter a Phone Number
+                    </span>
+                </div>
+
+
+                <div class="col-md-12">
+                    <h3><b>About Me</b></h3>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="" for="role">Title</label>
+                    <input type="text" class="form-control" id="role" name="role" required
+                           placeholder="Position you are looking for" ng-model="model.user.about">
+                    <span ng-show="myForm.$submitted && myForm.role.$error.required" class="help-block">
+                            Please enter a Phone Number
+                    </span>
+
+                </div>
+
+
+                <div class="form-group col-md-12">
+                    <label class="" for="summary">Summary</label>
+                    <textarea type="text" class="form-control" id="summary" rows="5" cols="50"
+                              placeholder="Briefly describe yourself" ng-model="model.user.summary"></textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="" for="website"><i class="fa fa-github" aria-hidden="true">
+                    </i> <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                        Website</label>
+                    <input type="text" ng-model="model.user.github"
+                           class="form-control" id="website"
+                           id="basic-url"
+                    >
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" id="address" rows="4" cols="50"
+                              placeholder="Address" ng-model="model.user.address"></textarea>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="address1">State</label>
+                    <select id="address1" class="form-control"
+                            ng-model="model.selectedState"
+                            ng-options="state.name for state in model.states">
+                    </select>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="address2">City</label>
+                    <input type="text" class="form-control" id="address2"
+                           placeholder="city"
+                           ng-model="model.user.city">
+                </div>
+                <div>
+                    <div class="col-md-12">
+                        <h3 class=""><b>Education</b></h3>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="degree">Enter Highest Degree</label>
+                        <input type="text" class="form-control" id="degree"
+                               placeholder="Enter Degree" ng-model="model.user.degree">
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="university">Enter University</label>
+                        <input type="text" class="form-control" id="university"
+                               placeholder="University" ng-model="model.user.education[0].university"
+                        >
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="state">State</label>
+                        <select id="state" class="form-control"
+                                ng-model="model.selectedState1"
+                                ng-options="state.name for state in model.states"
+                        >
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city"
+                               placeholder="city" ng-model="model.user.education[0].city"
+                        >
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="city">GPA</label>
+                        <input type="text" class="form-control" id="gpa" name="gpa" required
+                               placeholder="4" ng-model="model.user.education[0].gpa" maxlength="3"
+                        >
+                        <span ng-show="myForm.$submitted && myForm.gpa.$error.required" class="help-block">
+                            Please enter a GPA
+                    </span>
+                    </div>
+
+                    <div class="row">
+                        <h3><span class="glyphicon glyphicon-asterisk red"></span><b>Work Experience</b></h3>
+                        <div class="form-group col-md-12">
+                            <label for="exp">Total years of Experience</label>
+                            <input type="text" class="form-control" id="exp" required name="exp"
+                                   placeholder="city" ng-model="model.user.experience"
+                            >
+                            <span ng-show="myForm.$submitted && myForm.exp.$error.required" class="help-block">
+                            Please enter Total years of Experience
+                    </span>
+                        </div>
+                        <div class="glyphicon glyphicon-plus blue"
+                             ng-click="model.addWorkExperience()"
+                        ></div>
+                        <div class="row">
+                            <div class="form-group col-md-6" ng-repeat="item in model.workItem">
+                                <hr/>
+                                <div class="row">
+                                    <label for="company {{item.id}}">Company</label>
+                                    <input id="company {{item.id}}"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="item.company"
+                                           placeholder="company">
+                                </div>
+                                <div class="row">
+                                    <label for="position {{item.id}}">Position</label>
+                                    <input id="position {{item.id}}"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="item.position"
+                                           placeholder="Position">
+                                </div>
+                                <div class="row">
+                                    <label for="duration {{item.id}}">Duration</label>
+                                    <input id="duration {{item.id}}"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="item.duration"
+                                           placeholder="2005-2006">
+                                </div>
+                                <div class="row">
+                                    <label for="description {{item.id}}">Description</label>
+                                        <textarea id="description {{item.id}}"
+                                                  type="text"
+                                                  class="form-control"
+                                                  ng-model="item.desc"
+                                                  placeholder="Description" rows="4" cols="50"></textarea>
+                                </div>
+                                <hr/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h3><span class="glyphicon glyphicon-asterisk red"></span><b>Skills</b></h3>
+                        <span class="glyphicon glyphicon-plus blue"
+                              ng-click="model.addNewChoice()"
+                        ></span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6" ng-repeat="choice in model.choices">
+                            <input type="text"
+                                   class="form-control"
+                                   ng-model="choice.name"
+                                   placeholder="skill">
+                            <div class="col-md-1">
+                                <a class="glyphicon glyphicon-minus" ng-show="$last"
+                                   ng-click="model.removeChoice()"
+                                ></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="model.user.role == 'company'" class="row">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h3><b>About Me</b></h3>
+                </div>
+                <div class="col-md-12">
+                    <label class="" for="cname">Company name</label>
+                    <input type="text" class="form-control" id="cname" name="cname" required
+                           placeholder="Name" ng-model="model.user.cname">
+                     <span ng-show="myForm.$submitted && myForm.cname.$error.required" class="help-block">
+                            Please enter a Company Name
+                    </span>
+                </div>
+                <div class="col-md-12">
+                    <label class="" for="clocation">Company location</label>
+                    <input type="text" class="form-control" id="clocation" name="clocation" required
+                           placeholder="Area, city, State" ng-model="model.user.location">
+                    <span ng-show="myForm.$submitted && myForm.clocation.$error.required" class="help-block">
+                            Please enter a Company Name
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary submit"
+                    ng-click="myForm.$valid && model.updateUser(model.user)">Save Profile
+            </button>
+            <a ui-sref="home" class="btn btn-danger submit">Cancel</a>
+        </div>
+
+    </form>
+
+    <!--</div>-->
 </div>

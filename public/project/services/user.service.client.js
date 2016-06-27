@@ -13,10 +13,44 @@
             getUsers: getUsers,
             findUserByCredentials: findUserByCredentials,
             findUserByRole: findUserByRole,
+            saveJob: saveJob,
+            unsaveJob: unsaveJob,
             follow: follow,
-            unfollow: unfollow
+            unfollow: unfollow,
+            login: login,
+            logout: logout,
+            register: register,
+            checkLoggedin: checkLoggedin
         };
         return api;
+
+        function saveJob(userId, jobId){
+            console.log("UserService:Client ", userId, " saveJob ", jobId);
+            return $http.put("/api/user/" + userId +"/savejob/" + jobId);
+        }
+
+        function unsaveJob(userId, jobId){
+            console.log("UserService:Client ", userId, " unsaveJob ", jobId);
+            return $http.delete("/api/user/" + userId +"/unsavejob/" + jobId);
+        }
+
+        function checkLoggedin() {
+            console.log("UserService:Client check loggedin");
+            return $http.get("/api/loggedin");
+        }
+
+        function logout(user){
+            console.log("UserService:Client logout(user)");
+            return $http.post("/api/logout");
+        }
+        function login(username, password){
+            console.log("UserService:Client login(user) ", username, password);
+            return $http.post("/api/login", {username: username, password: password});
+        }
+
+        function register(user){
+            return $http.post("/api/register", user);
+        }
 
         function follow(currentUserId, userId){
             console.log("UserService:Client currentUser=" + currentUserId + " follow userId=", userId);
@@ -66,17 +100,6 @@
             return $http.put(url, user);
         }
 
-        // // TODO: Pass a user here too
-        // function registerUser(username, password, verifyPassword) {
-        //     console.log("in UserService, register User with id" + id);
-        //     var user = {
-        //         username: username,
-        //         password: password
-        //     }
-        //     var url = "/api/register/";
-        //     return $http.put(url, user);
-        // }
-
         function findUserByCredentials(username, password) {
             console.log("UserService:Client finding user by findUserByCredentials (", username,
                 password, ")");
@@ -94,7 +117,7 @@
                 role: newUser.role
             };
 
-            console.log("in UserService, createUser");
+            console.log("UserService:Client createUser calling http post");
             return $http.post("/api/user", user);
 
 

@@ -5,13 +5,14 @@
         .factory("chartService", ['$http', ChartService]);
 
     function ChartService($http) {
-        return {
+        var api = {
             setChart: setChart,
             setChart1: setChart1,
             getAggregate: getAggregate,
             getAggregate1: getAggregate1,
             broadCastScope: broadCastScope
         };
+        return api;
 
         function setChart(value, $rootScope) {
             if ($rootScope) {
