@@ -74,7 +74,7 @@
                         angular.forEach(legend_labels, function (value, key) {
                             legendData.push(value.value);
                         });
-
+                        return true;
                     }, function (err) {
                         console.log("MapDirective Service ApplicationService error", scope.jobid);
                     });
@@ -172,96 +172,98 @@
 
 
             scope.$watch('land', function (geo) {
-                validState();
-                if (!geo) return;
+                if (validState()) {
+                    if (!geo) return;
 
-                validState();
+                    validState();
 
-                land.data(geo)
-                    .attr("id", "states")
-                    .attr('class', 'land')
-                    .enter().append("path")
-                    .attr('d', path)
-                    .attr("id", function (d) {
-                        state_ids.push(+d.id);
-                        id_state_map[d.id] = scope.idnamemap[d.id];
-                        id_topo_map[d.id] = d;
-                        return "map-" + d.id;
-                    })
-                    .attr("fill", function (d) {
-                        if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
-                            return c10(numberOfApplicants[scope.idnamemap[d.id].name]);
-                            // return d3.rgb("#" + (numberOfApplicants[scope.idnamemap[d.id].name] + 700));
-                        }
-                    })
-                    .on("click", function (d) {
-                        return clicked(d, id_state_map[d.id].name)
-                    })
-                    .on('mousemove', function (d) {
-                        var mouse = d3.mouse(g.node()).map(function (d) {
-                            return parseInt(d);
+                    land.data(geo)
+                        .attr("id", "states")
+                        .attr('class', 'land')
+                        .enter().append("path")
+                        .attr('d', path)
+                        .attr("id", function (d) {
+                            state_ids.push(+d.id);
+                            id_state_map[d.id] = scope.idnamemap[d.id];
+                            id_topo_map[d.id] = d;
+                            return "map-" + d.id;
+                        })
+                        .attr("fill", function (d) {
+                            if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
+                                return c10(numberOfApplicants[scope.idnamemap[d.id].name]);
+                                // return d3.rgb("#" + (numberOfApplicants[scope.idnamemap[d.id].name] + 700));
+                            }
+                        })
+                        .on("click", function (d) {
+                            return clicked(d, id_state_map[d.id].name)
+                        })
+                        .on('mousemove', function (d) {
+                            var mouse = d3.mouse(g.node()).map(function (d) {
+                                return parseInt(d);
+                            });
+                            tooltip.classed('hidden', false)
+                                .attr('style', 'left:' + (mouse[0] + 15) +
+                                    'px; top:' + (mouse[1] - 35) + 'px')
+                                .html(scope.idnamemap[d.id].name)
+                            ;
+                        })
+                        .on('mouseout', function () {
+                            tooltip.classed('hidden', true);
                         });
-                        tooltip.classed('hidden', false)
-                            .attr('style', 'left:' + (mouse[0] + 15) +
-                                'px; top:' + (mouse[1] - 35) + 'px')
-                            .html(scope.idnamemap[d.id].name)
-                        ;
-                    })
-                    .on('mouseout', function () {
-                        tooltip.classed('hidden', true);
-                    });
 
-                text.data(geo)
-                    .enter()
-                    .append("svg:text")
-                    .text(function (d) {
-                        if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
-                            // console.log("valid states : ", validStates, id_state_map[d.id]);
-                            return id_state_map[d.id].code;
-                        }
-                        // else {
-                        //     return id_state_map[d.id].code;
-                        // }
-                    })
-                    .attr("x", function (d) {
-                        return !isNaN(path.centroid(d)[0]) ? path.centroid(d)[0] : 0;
-                    })
-                    .attr("y", function (d) {
-                        return !isNaN(path.centroid(d)[1]) ? path.centroid(d)[1] : 0;
-                    })
-                    .attr("text-anchor", "middle")
-                    .attr('font-size', '6pt')
-                    .attr('fill', 'white');
+                    text.data(geo)
+                        .enter()
+                        .append("svg:text")
+                        .text(function (d) {
+                            if (validStates && validStates.indexOf(id_state_map[d.id].name) !== -1) {
+                                // console.log("valid states : ", validStates, id_state_map[d.id]);
+                                return id_state_map[d.id].code;
+                            }
+                            // else {
+                            //     return id_state_map[d.id].code;
+                            // }
+                        })
+                        .attr("x", function (d) {
+                            return !isNaN(path.centroid(d)[0]) ? path.centroid(d)[0] : 0;
+                        })
+                        .attr("y", function (d) {
+                            return !isNaN(path.centroid(d)[1]) ? path.centroid(d)[1] : 0;
+                        })
+                        .attr("text-anchor", "middle")
+                        .attr('font-size', '6pt')
+                        .attr('fill', 'white');
 
 
-                var ls_w = 30, ls_h = 30;
+                    var ls_w = 30, ls_h = 30;
 
-                var legend = svg.selectAll("g.legend")
-                    .data(legendData)
-                    .enter().append("g")
-                    .attr("class", "legend");
+                    var legend = svg.selectAll("g.legend")
+                        .data(legendData)
+                        .enter().append("g")
+                        .attr("class", "legend");
 
-                legend.append("rect")
-                    .attr("x", 30)
-                    .attr("y", function (d, i) {
-                        return height - (i * ls_h) - 2 * ls_h;
-                    })
-                    .attr("width", ls_w)
-                    .attr("height", ls_h)
-                    .style("fill", function (d, i) {
-                        return c10(legend_labels[i].value);
-                        // return d3.rgb("#" + (legend_labels[i].value + 700));
-                    })
-                    .style("opacity", 0.8);
+                    legend.append("rect")
+                        .attr("x", 30)
+                        .attr("y", function (d, i) {
+                            return height - (i * ls_h) - 2 * ls_h;
+                        })
+                        .attr("width", ls_w)
+                        .attr("height", ls_h)
+                        .style("fill", function (d, i) {
+                            return c10(legend_labels[i].value);
+                            // return d3.rgb("#" + (legend_labels[i].value + 700));
+                        })
+                        .style("opacity", 0.8);
 
-                legend.append("text")
-                    .attr("x", 70)
-                    .attr("y", function (d, i) {
-                        return height - (i * ls_h) - ls_h - 4;
-                    })
-                    .text(function (d, i) {
-                        return legend_labels[i].value + " Applications";
-                    });
+                    legend.append("text")
+                        .attr("x", 70)
+                        .attr("y", function (d, i) {
+                            return height - (i * ls_h) - ls_h - 4;
+                        })
+                        .text(function (d, i) {
+                            return legend_labels[i].value + " Applications";
+                        });
+                }
+
 
             });
 
