@@ -43,44 +43,48 @@
             var legend_labels = [];
             var legendData = [];
 
-            function validState() {
-                ApplicationService
-                    .findApplicantDataForMap(scope.jobid)
-                    .then(function (response) {
-                        validStates = [];
-                        numberOfApplicants = [];
-                        legend_labels = [];
-                        legendData = [];
+            // function validState() {
+            //     ApplicationService
+            //         .findApplicantDataForMap(scope.jobid)
+            //         .then(function (response) {
+            //             validStates = [];
+            //             numberOfApplicants = [];
+            //             legend_labels = [];
+            //             legendData = [];
+            //
+            //             // console.log("MapDirective ApplicationService", scope.jobid);
+            //             var applicantDataFromService = response.data;
+            //
+            //             applicantData = applicantDataFromService["applicantData"];
+            //             skillsData = applicantDataFromService["skillsData"];
+            //
+            //             console.log(applicantData);
+            //
+            //             angular.forEach(applicantData, function (value, key) {
+            //
+            //                 if (value.State && validStates.indexOf(value.State) == -1) {
+            //                     validStates.push(value.State);
+            //                     numberOfApplicants[value.State] = value.value;
+            //                 }
+            //                 else if (value.State in numberOfApplicants) {
+            //                     numberOfApplicants[value.State] += value.value;
+            //                 }
+            //             });
+            //
+            //             for (var i in numberOfApplicants) {
+            //                 legend_labels.push({state: i, value: numberOfApplicants[i]});
+            //             }
+            //
+            //             angular.forEach(legend_labels, function (value, key) {
+            //                 legendData.push(value.value);
+            //             });
+            //             return true;
+            //         }, function (err) {
+            //             console.log("MapDirective Service ApplicationService error", scope.jobid);
+            //         });
+            // }
 
-                        console.log("MapDirective ApplicationService", scope.jobid);
-                        var applicantDataFromService = response.data;
-                        applicantData = applicantDataFromService["applicantData"];
-                        skillsData = applicantDataFromService["skillsData"];
-                        angular.forEach(applicantData, function (value, key) {
-
-                            if (value.State && validStates.indexOf(value.State) == -1) {
-                                validStates.push(value.State);
-                                numberOfApplicants[value.State] = value.value;
-                            }
-                            else if (value.State in numberOfApplicants) {
-                                numberOfApplicants[value.State] += value.value;
-                            }
-                        });
-
-                        for (var i in numberOfApplicants) {
-                            legend_labels.push({state: i, value: numberOfApplicants[i]});
-                        }
-
-                        angular.forEach(legend_labels, function (value, key) {
-                            legendData.push(value.value);
-                        });
-                        return true;
-                    }, function (err) {
-                        console.log("MapDirective Service ApplicationService error", scope.jobid);
-                    });
-            }
-
-            validState();
+            // validState();
 
             function clicked(d, state) {
                 var x, y, k;
@@ -172,10 +176,48 @@
 
 
             scope.$watch('land', function (geo) {
-                if (validState()) {
-                    if (!geo) return;
 
-                    validState();
+                ApplicationService
+                    .findApplicantDataForMap(scope.jobid)
+                    .then(function (response) {
+                        validStates = [];
+                        numberOfApplicants = [];
+                        legend_labels = [];
+                        legendData = [];
+
+                        // console.log("MapDirective ApplicationService", scope.jobid);
+                        var applicantDataFromService = response.data;
+
+                        applicantData = applicantDataFromService["applicantData"];
+                        skillsData = applicantDataFromService["skillsData"];
+
+                        console.log(applicantData);
+
+                        angular.forEach(applicantData, function (value, key) {
+
+                            if (value.State && validStates.indexOf(value.State) == -1) {
+                                validStates.push(value.State);
+                                numberOfApplicants[value.State] = value.value;
+                            }
+                            else if (value.State in numberOfApplicants) {
+                                numberOfApplicants[value.State] += value.value;
+                            }
+                        });
+
+                        for (var i in numberOfApplicants) {
+                            legend_labels.push({state: i, value: numberOfApplicants[i]});
+                        }
+
+                        angular.forEach(legend_labels, function (value, key) {
+                            legendData.push(value.value);
+                        });
+                        return validStates;
+                    }, function (err) {
+                        console.log("MapDirective Service ApplicationService error", scope.jobid);
+                    }).then(function (validStates) {
+
+
+                    if (!geo) return;
 
                     land.data(geo)
                         .attr("id", "states")
@@ -262,10 +304,12 @@
                         .text(function (d, i) {
                             return legend_labels[i].value + " Applications";
                         });
-                }
 
+                });
+                
 
             });
+
 
             scope.$watch('boundary', function (geo) {
                 if (!geo) return;
