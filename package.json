@@ -10,7 +10,6 @@
     "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
-    "iconv-lite": "^0.4.13",
     "less": "^2.7.1",
     "mongoose": "^4.4.15",
     "mongoose-text-search": "0.0.2",
