@@ -74,12 +74,12 @@
 
             <div class="col-xs-5 content col-sm-5" ng-if="user.role == 'user'">
                 <div class="row mar-user-top hidden-xs hidden-sm">
-                    <p class="lead">{{user.firstName}} {{user.lastName}}</p>
+                    <p class="lead">{{user.username}}</p>
                     <p>Followers: <strong>{{user.followersNumber}}</strong>, Following:
                         <strong>{{user.followingNumber}}</strong></p>
                 </div>
                 <div class="row mar-user-top visible-xs visible-sm">
-                    <p>{{user.firstName}} {{user.lastName}}</p>
+                    <p>{{user.username}}</p>
                     <p>Following: {{user.followingNumber}}, Followers:
                         {{user.followersNumber}}</p>
                 </div>
