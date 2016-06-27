@@ -25,8 +25,8 @@
                         console.log("role " + vm.role + " " + vm.userId);
                         $rootScope.currentUser = user;
                         if (user.role === "company") {
-                            console.log('route to ' + '/dashboard/' + user._id + '/home');
-                            $location.path('/dashboard/' + user._id + '/home');
+                            console.log('route to ' + '/dashboard/' + user._id + '/profile');
+                            $location.path('/dashboard/' + user._id + '/profile');
                         } else if (user.role === "user") {
                             console.log('route to ' + '/dashboard/' + user._id + '/home');
                             $location.path('/dashboard/' + user._id + '/home');
