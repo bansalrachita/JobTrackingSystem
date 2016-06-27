@@ -1,7 +1,7 @@
 {
-  "name": "web-dev",
+  "name": "jobtrackingsys",
   "version": "1.0.0",
-  "description": "Web Dev at Northeastern University",
+  "description": "Northeastern University",
   "main": "server.js",
   "dependencies": {
     "angular-ui-router": "^0.3.1",
@@ -10,6 +10,7 @@
     "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
+    "iconv-lite": "^0.4.13",
     "less": "^2.7.1",
     "mongoose": "^4.4.15",
     "mongoose-text-search": "0.0.2",
@@ -27,6 +28,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Dixit Keshavbhai Patel",
+  "author": "Rachita Bansal",
   "license": "ISC"
 }
