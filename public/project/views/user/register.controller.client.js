@@ -26,6 +26,7 @@
                 vm.error = "Passwords Same?";
                 console.log("error in registering, Same Passwords!");
             } else {
+                username = username.toLowerCase();
                 UserService
                     // .register(user)
                     .createUser(user)

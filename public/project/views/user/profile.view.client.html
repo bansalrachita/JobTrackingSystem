@@ -298,7 +298,8 @@
             <button class="btn btn-primary submit"
                     ng-click="myForm.$valid && model.updateUser(model.user)">Save Profile
             </button>
-            <a ui-sref="home" class="btn btn-danger submit">Cancel</a>
+            <a ui-sref="home" class="btn btn-warning submit">Cancel</a>
+            <a ng-click="model.deleteUser()" class="btn btn-danger submit">Delete</a>
         </div>
 
     </form>

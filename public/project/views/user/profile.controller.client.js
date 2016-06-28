@@ -109,9 +109,36 @@
             vm.disable = true;
         }
 
-        function unregisterUser(newUser) {
-
+        vm.deleteUser = function(){
             console.log("ProfileController:Client unregister User userId=" + id);
+
+            var vartoremoveFollowings = vm.user.following;
+            var vartoremoveFollowers = vm.user.followers;
+            console.log("ProfileController:Client unregister User toremoveFollowers ", vartoremoveFollowings);
+            if(vartoremoveFollowings){
+                for(var i in vartoremoveFollowings){
+                    UserService
+                        .unfollow(vm.userId, vartoremoveFollowings[i])
+                        .then(function (success){
+                            console.log("ProfileController:Client unregister:", vm.userId , " unfollow ", vartoremoveFollowings[i]);
+                        }, function (err){
+                            console.log("ProfileController:Client unregister : unfollow before delete error");
+                        });
+                }
+            }
+
+            if(vartoremoveFollowers){
+                for(var i in vartoremoveFollowers){
+                    UserService
+                        .unfollow(vartoremoveFollowers[i], vm.userId)
+                        .then(function (success){
+                            console.log("ProfileController:Client unregister:", vartoremoveFollowers[i], " unfollow ", vm.userId);
+                        }, function (err){
+                            console.log("ProfileController:Client unregister : unfollow before delete error");
+                        });
+                }
+            }
+
 
             UserService
                 .deleteUser(id)
@@ -122,7 +149,8 @@
                     console.log("unable to delete user!");
                     vm.error = "unable to delete user!";
                 });
-        }
+
+        };
 
         vm.addNewChoice = function () {
             vm.choices.push({name: null});
