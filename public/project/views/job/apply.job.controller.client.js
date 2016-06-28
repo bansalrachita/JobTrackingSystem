@@ -53,6 +53,7 @@
             vm.userApplication.username = vm.user.username;
             vm.userApplication.name = vm.user.firstName + " " + vm.user.lastName;
             vm.userApplication.degree = vm.userApplication.degree.toLowerCase();
+            console.log(vm.userApplication.degree);
             vm.userApplication.skills = [];
             angular.forEach(vm.choices, function (key, value) {
                 if(key.name && key.name != null && key.name.length > 1){
