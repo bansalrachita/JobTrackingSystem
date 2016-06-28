@@ -11,14 +11,6 @@
             console.log("RegisterController registerUser with",
                 username, password, verifyPassword, email, role, regAgree);
 
-            var user = {
-                username: username,
-                password: password,
-                verifyPassword: verifyPassword,
-                email: email,
-                role: role
-            };
-
             if (!username || !password || !verifyPassword || !email || !role || !regAgree) {
                 vm.error = "Error in Registering! Fields Empty.";
                 console.log("error in registering!");
@@ -27,6 +19,15 @@
                 console.log("error in registering, Same Passwords!");
             } else {
                 username = username.toLowerCase();
+
+                var user = {
+                    username: username,
+                    password: password,
+                    verifyPassword: verifyPassword,
+                    email: email,
+                    role: role
+                };
+
                 UserService
                     // .register(user)
                     .createUser(user)
