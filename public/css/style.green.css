@@ -14,6 +14,12 @@ GENERAL
 
 */
 
+
+nav.navbar.navbar-inverse.navbar-fixed-top{
+
+  bottom: 700px;
+}
+
 ul.socialNetwork{
   display: inline-flex;
   list-style: none;
