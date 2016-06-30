@@ -83,6 +83,8 @@ section.background-gray-lightest {
 }
 .img-responsive {
   margin: 0 auto;
+  padding: 5px;
+
 }
 .no-space .box {
   margin: 0 -15px;
