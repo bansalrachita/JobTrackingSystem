@@ -6,7 +6,7 @@
     function ProfileController($window, $document, $location, $stateParams, UserService, $http, ExternalDataService) {
         var vm = this;
         vm.updateUser = updateUser;
-        // vm.unregisterUser = deleteUser;
+        // vm.unregisterUser = unregisterUser;
         var id = $stateParams.uid;
 
         console.log("ProfileController:Client login id=", id);
