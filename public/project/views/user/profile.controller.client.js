@@ -17,10 +17,20 @@
         vm.selectedState = '';
         vm.selectedState1 = '';
         vm.choices = [];
+        vm.disable = false;
+        vm.selectedField = '';
+
+        vm.fields = [{name: "UI/UX"},
+            {name: "Java Programming"},
+            {name: "Back-end Developer"},
+            {name: "JavaScript Developer"},
+            {name: "Big Data Engineer"},
+            {name: "Software Engineer"}];
 
         vm.disabled = function () {
-            vm.disable = false;
+            vm.disable = true;
         };
+
 
         function init() {
 
@@ -45,6 +55,14 @@
                             for (var i in vm.user.skills) {
                                 vm.choices.push({name: vm.user.skills[i]});
                             }
+                            
+                            vm.selectedField = user.spl;
+
+                            angular.forEach(vm.fields, function (key, value) {
+                               if(key.name == vm.selectedField){
+                                   vm.selectedField = vm.fields[value];
+                               }
+                            });
 
                             ExternalDataService
                                 .getStates()
@@ -88,13 +106,14 @@
                     vm.user.education[0].state = vm.selectedState1.name;
                 }
                 vm.user.state = vm.selectedState.name;
-
+                vm.user.spl = vm.selectedField.name;
                 vm.user.skills = [];
                 angular.forEach(vm.choices, function (key, value) {
                     vm.user.skills.push(key.name);
                 });
             }
 
+            console.log("selectedField newUser", newUser);
 
             UserService
                 .updateUser(id, newUser)

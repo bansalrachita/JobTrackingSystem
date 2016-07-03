@@ -6,9 +6,16 @@
 
     function ApplicantDbController($location, $stateParams, UserService) {
         var vm = this;
-        console.log("inside ApplicantDbController login");
+        console.log("inside ApplicantDbController");
 
         var id = $stateParams.uid;
+        console.log("$stateParams.applicant", $stateParams.applicant);
+
+        if($stateParams.applicant){
+            vm.searchText = $stateParams.applicant;
+        }
+
+        console.log("ApplicantDbController applicant", vm.searchText);
 
         function init() {
             // TODO: based on role

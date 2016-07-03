@@ -60,12 +60,24 @@
         </div>
         <!--</div>-->
 
-
     </div>
     <div ng-if="model.role=='company'" class="col-md-12">
+        <div class="form-group col-md-12">
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+                <!--<label for="address1">Select Type</label>-->
+                <select id="address1" class="form-control"
+                        ng-model="model.field"
+                        ng-options="field.name for field in model.fields">
+                </select>
+            </div>
 
+            <div class="col-md-4">
+                <a ui-sref="database({ applicant : model.field.name})" class="btn btn-primary"
+                   type="button">Search Applicant</a>
+            </div>
+        </div>
     </div>
-
 
     <div ng-if="model.role == 'guest'" class="row">
         <div class="content text-center">

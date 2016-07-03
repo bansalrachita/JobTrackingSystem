@@ -96,7 +96,7 @@
                     <input type="text" class="form-control" id="phone" name="phone" required
                            placeholder="Cellular/Home" ng-model="model.user.phone">
                     <span ng-show="myForm.$submitted && myForm.phone.$error.required" class="help-block">
-                            Please enter a Phone Number
+                            Please enter a address
                     </span>
                 </div>
 
@@ -112,7 +112,6 @@
                     <span ng-show="myForm.$submitted && myForm.role.$error.required" class="help-block">
                             Please enter a Phone Number
                     </span>
-
                 </div>
 
 
@@ -121,6 +120,16 @@
                     <textarea type="text" class="form-control" id="summary" rows="5" cols="50"
                               placeholder="Briefly describe yourself" ng-model="model.user.summary"></textarea>
                 </div>
+
+                <div class="form-group col-md-12">
+                    <label for="check">Choose Specialization</label>
+                    <select id="check" class="form-control"
+                            ng-model="model.selectedField"
+                            ng-options="field.name for field in model.fields">
+                    </select>
+                </div>
+                {{model.selectedField.name}}
+                {{model.selectedField}}
 
                 <div class="col-md-12">
                     <label class="" for="website"><i class="fa fa-github" aria-hidden="true">

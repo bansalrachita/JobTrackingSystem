@@ -25,8 +25,8 @@
                         console.log("role " + vm.role + " " + vm.userId);
                         $rootScope.currentUser = user;
                         if (user.role === "company") {
-                            console.log('route to ' + '/dashboard/' + user._id + '/profile');
-                            $location.path('/dashboard/' + user._id + '/profile');
+                            console.log('route to ' + '/dashboard/' + user._id + '/home');
+                            $location.path('/dashboard/' + user._id + '/home');
                         } else if (user.role === "user") {
                             console.log('route to ' + '/dashboard/' + user._id + '/home');
                             $location.path('/dashboard/' + user._id + '/home');
@@ -46,18 +46,18 @@
 
         vm.loginAsGuest = function () {
             $location.path('/dashboard/guest/home');
-        }
+        };
 
         vm.register = function (username) {
             console.log("inside register function, calling $location.url");
             // TODO : should use angular's routing or href?
             $location.url("/register");
-        }
+        };
 
 
         vm.loginAsGuest = function () {
             $location.path('/dashboard/guest/home');
-        }
+        };
     }
 
 })();

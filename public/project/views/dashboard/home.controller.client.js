@@ -1,7 +1,7 @@
 (function () {
     angular
         .module("JobTracker")
-        .controller("HomeController",HomeController);
+        .controller("HomeController", HomeController);
 
     function HomeController($rootScope, $location, $stateParams, UserService, JobService) {
         var vm = this;
@@ -12,12 +12,19 @@
         console.log("HomeController login uid=" + id);
         console.log("HomeController from rootScope ", vm.userId);
         vm.savedJobsLst = [];
-        function init(){
+        function init() {
+            vm.fields = [{name: "UI/UX"},
+                {name: "Java Programming"},
+                {name: "Back-end Developer"},
+                {name: "JavaScript Developer"},
+                {name: "Big Data Engineer"},
+                {name: "Software Engineer"},
+                {name: "All"}];
 
-            if(id == 'guest'){
+            if (id == 'guest') {
                 console.log("HomeController GUEST");
                 vm.role = id;
-            }else {
+            } else {
                 UserService.findUserById(id)
                     .then(function (response) {
                         console.log("UserService findUserById success");
@@ -28,19 +35,19 @@
                         return user.role;
                     }, function (err) {
                         console.log("UserService findUserById error");
-                    }).then(function (role){
+                    }).then(function (role) {
 
-                    if(role == "user"){
+                    if (role == "user") {
                         var lstSavedJobs = vm.user.savedjobs;
 
-                        for(var i in lstSavedJobs){
+                        for (var i in lstSavedJobs) {
                             JobService
                                 .findJobByJId(lstSavedJobs[i])
-                                .then(function (job){
+                                .then(function (job) {
                                     console.log("foundjob ", job.data);
                                     vm.savedJobsLst.push(job.data);
 
-                                }, function (err){
+                                }, function (err) {
                                     console.log("err in findJobById");
                                 });
                         }
@@ -50,6 +57,7 @@
                 });
             }
         }
+
         init();
 
     }

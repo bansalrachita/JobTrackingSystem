@@ -113,7 +113,8 @@ module.exports = function() {
                     followers: user.followers,
                     cname: user.cname,
                     location: user.location,
-                    gpa: user.gpa
+                    gpa: user.gpa,
+                    spl:user.spl
                     // linkedin: user.linkedin
                 }
             });

@@ -50,7 +50,7 @@
                 controllerAs: 'model'
             })
             .state('database',{
-                url: '/db',
+                url: '/db?applicant',
                 templateUrl: 'views/dashboard/db.view.client.html',
                 parent: 'dashboard',
                 controller: 'ApplicantDbController',

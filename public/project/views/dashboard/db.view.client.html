@@ -5,7 +5,7 @@
         </h1>
     </div>
     <div class="row">
-        <div class="col-xs-12 col-sm-12" ng-repeat="user in model.userList">
+        <div class="col-xs-12 col-sm-12" ng-repeat="user in model.userList | searchApplicant:model.searchText" >
             <hr/>
             <div class="col-xs-3 img-center col-sm-2 text-center">
                 <img ng-if="user.img == null || user.img ==''" ng-src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"

@@ -31,7 +31,8 @@ module.exports = function() {
         },
         gpa: String,
         cname: String,
-        location: String
+        location: String,
+        spl: String
     }, {collection: "project.user"});
 
     return UserSchema;
