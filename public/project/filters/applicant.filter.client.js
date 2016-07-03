@@ -6,7 +6,7 @@
     function searchApplicant() {
         return function(applicants, searchString){
             console.log("filter", applicants, searchString);
-            if (!searchString) {
+            if (!searchString || searchString === "All") {
                 return applicants;
             }
             var result = [];
