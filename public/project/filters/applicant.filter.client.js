@@ -12,14 +12,13 @@
             var result = [];
             searchString = searchString.toLowerCase();
             angular.forEach(applicants, function (applicant) {
-                if (applicant.spl.toLowerCase().indexOf(searchString) !== -1) {
+                if (applicant.spl && applicant.spl.toLowerCase().indexOf(searchString) !== -1) {
                     result.push(applicant);
                 }
             });
 
             return result;
         };
-
     }
 
 })();
